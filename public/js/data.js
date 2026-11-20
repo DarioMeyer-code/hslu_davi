@@ -29,7 +29,22 @@ export async function loadData() {
   // Länder, die irgendwann als Aufnahmeland vorkommen (sonst: «keine Daten»)
   const asylumCountries = new Set(flows.map(d => d.aufnahme));
 
-  return { flows, populationByKey, iso3ByNum, iso2ByIso3, borders, world, asylumCountries };
+  // Länder, aus denen irgendwann jemand geflohen ist (wählbar als Herkunftsland)
+  const originCountries = [...new Set(flows.map(d => d.herkunft))];
+
+  // Nachbarn pro Land: ISO-3 -> Set der angrenzenden Länder (in beide Richtungen)
+  const neighboursOf = new Map();
+  for (const { iso3_a, iso3_b } of borders) {
+    if (!neighboursOf.has(iso3_a)) neighboursOf.set(iso3_a, new Set());
+    if (!neighboursOf.has(iso3_b)) neighboursOf.set(iso3_b, new Set());
+    neighboursOf.get(iso3_a).add(iso3_b);
+    neighboursOf.get(iso3_b).add(iso3_a);
+  }
+
+  return {
+    flows, populationByKey, iso3ByNum, iso2ByIso3, world,
+    asylumCountries, originCountries, neighboursOf
+  };
 }
 
 // Durchschnittliche Bevölkerung eines Landes im Zeitraum [von, bis].

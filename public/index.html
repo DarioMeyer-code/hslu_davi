@@ -57,7 +57,7 @@
       <!-- Ansicht 1: Weltkarte (gezeichnet von js/map.js) -->
       <figure class="view">
         <figcaption class="view-title" id="map-title">Neuankünfte aus Nachbarländern pro 1000 Einwohner</figcaption>
-        <p class="view-subtitle">Summe der Neuankünfte im gewählten Zeitraum ÷ durchschnittliche Bevölkerung des Aufnahmelands × 1000</p>
+        <p class="view-subtitle">Summe der Neuankünfte im gewählten Zeitraum ÷ durchschnittliche Bevölkerung des Aufnahmelands × 1000. Klick auf ein Land wählt es als Herkunftsland.</p>
         <div id="map" class="chart chart-map">
           <p class="loading">Daten werden geladen …</p>
         </div>
@@ -66,7 +66,7 @@
 
       <!-- Ansicht 2: Zeitachse mit Brush (gezeichnet von js/timeline.js) -->
       <figure class="view">
-        <figcaption class="view-title">Anteil der Neuankünfte in Nachbarländern pro Jahr</figcaption>
+        <figcaption class="view-title" id="timeline-title">Anteil der Neuankünfte in Nachbarländern pro Jahr</figcaption>
         <p class="view-subtitle">Mit der Maus einen Zeitraum aufziehen, um die Karte darauf zu filtern. Klick ausserhalb der Auswahl = ganzer Zeitraum.</p>
         <div id="timeline" class="chart chart-timeline"></div>
         <div id="timeline-legend" class="legend" aria-label="Legende der Zeitachse"></div>

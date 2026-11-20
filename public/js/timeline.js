@@ -90,10 +90,11 @@ export function createTimeline(container, legendContainer, onYearsChange) {
     .on("end", brushEnded);
   const brushGroup = root.append("g").attr("class", "brush").call(brush);
 
-  // Pixel-Auswahl -> ganze Jahre
+  // Pixel-Auswahl -> ganze Jahre: ein Jahr zählt, wenn die Auswahl
+  // mindestens bis zur Mitte seines Balkens reicht
   function selectionToYears([x0, x1]) {
-    const from = Math.max(FIRST_YEAR, Math.round(x.invert(x0) + 0.5));
-    const to = Math.min(LAST_YEAR, Math.round(x.invert(x1) - 0.5));
+    const from = Math.max(FIRST_YEAR, Math.round(x.invert(x0)));
+    const to = Math.min(LAST_YEAR, Math.round(x.invert(x1)));
     return [from, Math.max(from, to)];
   }
 

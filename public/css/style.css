@@ -254,6 +254,25 @@ main {
   cursor: default;
 }
 
+.country.clickable {
+  cursor: pointer;
+}
+
+/* Auswahl: Nachbarländer dick umrandet, Herkunftsland schraffiert */
+.neighbour-outline {
+  fill: none;
+  stroke: #1f2933;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.origin-hatch {
+  stroke: #1f2933;
+  stroke-width: 1px;
+  pointer-events: none;   /* Hover und Klick gehen an das Land darunter */
+}
+
 .country.hover {
   stroke: var(--text);
   stroke-width: 1.5px;
@@ -352,6 +371,20 @@ main {
 
 .legend-swatch-outline {
   border: 1px solid var(--border);
+}
+
+.legend-swatch-hatch {
+  border: 1px solid #1f2933;
+  background: repeating-linear-gradient(45deg, #1f2933 0 2px, #ffffff 2px 4px);
+}
+
+.legend-swatch-neighbour {
+  border: 2px solid #1f2933;
+}
+
+.controls button:disabled,
+.controls select:disabled {
+  cursor: default;
 }
 
 .chart-timeline {

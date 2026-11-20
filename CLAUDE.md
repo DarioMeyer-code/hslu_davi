@@ -166,6 +166,7 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 - Brush auf der Zeitachse → Karte zeigt nur diesen Zeitraum.
 - Klick auf ein Land in der Karte (oder Dropdown) → Zeitachse filtert auf dieses Herkunftsland.
 - Button «Zurücksetzen» stellt den Startzustand wieder her.
+- **Umgesetzt (Schritt 5):** Klick auf ein Land oder Dropdown (212 Herkunftsländer, alphabetisch deutsch) wählt das Herkunftsland; erneuter Klick hebt die Auswahl auf. Herkunftsland schwarz-weiss schraffiert (Textur statt weiterer Farbe), Nachbarländer mit dicker dunkler Umrandung, beides in der Legende nur bei aktiver Auswahl. Tooltip zeigt «Nachbarland von … ja/nein». Titel von Karte und Zeitachse nennen das gewählte Land. «Zurücksetzen» setzt Zeitraum, Herkunftsland und Brush zurück.
 
 **Weitere Elemente**
 - Farblegende mit Log-Abstufungen und Symbol für die Nachbar-Umrandung
@@ -243,6 +244,8 @@ python3 scripts/prepare_data.py
 - [ ] Klären, ob die Nutzung von KI-Tools im Projekt deklariert werden muss
 
 ## Mögliche Reihenfolge (Vorschlag, nur nach Absprache abarbeiten)
+
+Stand 20.11.2026: Schritte 1–5 erledigt (Prototyp mit Karte, Zeitachse, Brushing & Linking, Auswahl Herkunftsland).
 
 1. Skript für die Datenaufbereitung schreiben, Kontrollbericht gemeinsam prüfen, Befunde nachrechnen
 2. `public/index.html` mit allen Abschnitten und Anker-Navigation anlegen
