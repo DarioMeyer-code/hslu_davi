@@ -5,6 +5,7 @@ import { loadData, computeMapValues, computeTimeline } from "./data.js";
 import { createMap } from "./map.js";
 import { createTimeline } from "./timeline.js";
 import { countryName } from "./format.js";
+import { renderCrisesTable } from "./crises.js";
 
 // Gemeinsamer Zustand aller Ansichten (Brushing & Linking):
 // Zeitraum und gewähltes Herkunftsland (null = keins gewählt).
@@ -79,6 +80,13 @@ async function init() {
   resetButton.addEventListener("click", () => setState({ ...INITIAL_STATE }));
   originSelect.disabled = false;
   resetButton.disabled = false;
+
+  // Kontext-Tabelle: «anzeigen» stellt Herkunftsland und Zeitraum ein
+  // und springt zurück zur Bedienleiste über der Karte
+  renderCrisesTable(document.getElementById("crises-body"), data, crisis => {
+    setState({ origin: crisis.origin, years: crisis.years });
+    document.querySelector(".controls").scrollIntoView({ behavior: "smooth" });
+  });
 
   render();
 }

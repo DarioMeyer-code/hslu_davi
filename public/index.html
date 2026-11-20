@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nachbarländer als Hauptaufnahmeländer?</title>
+  <meta name="description" content="Interaktive Visualisierung: Nehmen Nachbarländer im Verhältnis zu ihrer Bevölkerung mehr Geflüchtete auf als weiter entfernte Länder? Neuankünfte 1962–2025.">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -35,14 +36,24 @@
         Bevölkerung mehr Geflüchtete auf als weiter entfernte Länder, und wie hat
         sich das seit 1962 verändert?
       </p>
-      <p class="platzhalter">[Platzhalter: zwei bis drei Sätze Einstieg]</p>
+      <p>
+        Wer vor Krieg oder Verfolgung flieht, kommt oft zuerst im Nachbarland an.
+        Diese Visualisierung zeigt mit Daten des UNHCR, wo Menschen seit 1962 neu
+        angekommen sind, gemessen an der Bevölkerung des Aufnahmelands, und wie sich
+        der Anteil der Nachbarländer über die Jahrzehnte entwickelt hat.
+      </p>
       <a class="button" href="#visualisierung">Zur Visualisierung</a>
     </section>
 
     <!-- 2. Visualisierung -->
     <section id="visualisierung" class="section">
       <h2>Visualisierung</h2>
-      <p class="platzhalter">[Platzhalter: kurze Leseanleitung, ein Satz pro Interaktion]</p>
+      <ul class="howto">
+        <li><strong>Überblick:</strong> Die Karte zeigt, wie viele Menschen jedes Land aus seinen Nachbarländern aufgenommen hat, pro 1000 Einwohner.</li>
+        <li><strong>Zeitraum wählen:</strong> Auf der Zeitachse mit der Maus einen Bereich aufziehen. Die Karte zeigt dann nur diese Jahre.</li>
+        <li><strong>Herkunftsland wählen:</strong> Auf ein Land in der Karte klicken oder es im Menü auswählen. Karte und Zeitachse zeigen dann nur Menschen aus diesem Land.</li>
+        <li><strong>Details:</strong> Mit der Maus über ein Land oder ein Jahr fahren. «Zurücksetzen» stellt den Start wieder her.</li>
+      </ul>
 
       <!-- Bedienleiste: gilt für Karte und Zeitachse -->
       <div class="controls">
@@ -74,17 +85,43 @@
 
       <p class="source">
         Quellen: UNHCR Forced Displacement Flows (Stand 11.6.2026), Weltbank «Population, total»,
-        GeoDataSource Country Borders; eigene Berechnungen.
+        GeoDataSource Country Borders, world-atlas (Natural Earth); eigene Berechnungen.
+        Details im Abschnitt <a href="#daten">Daten</a>.
       </p>
 
       <h3>Kontext zu grossen Fluchtbewegungen</h3>
-      <p class="platzhalter">[Platzhalter: kleine Tabelle mit 5–10 Krisen, z. B. «Ruanda 1994: Genozid»]</p>
+      <p>
+        Die zehn Herkunftsländer mit den meisten Neuankünften in einem einzelnen Jahr.
+        «anzeigen» stellt Land und Zeitraum in Karte und Zeitachse ein.
+      </p>
+      <div class="table-wrap">
+        <table class="crises">
+          <thead>
+            <tr>
+              <th>Herkunftsland</th>
+              <th>Zeitraum</th>
+              <th>Kontext</th>
+              <th class="number">Neuankünfte</th>
+              <th class="number">davon in Nachbarländern</th>
+              <th><span class="visually-hidden">Aktion</span></th>
+            </tr>
+          </thead>
+          <tbody id="crises-body"></tbody>
+        </table>
+      </div>
     </section>
 
     <!-- 3. Hintergrund -->
     <section id="hintergrund" class="section">
       <h2>Hintergrund</h2>
-      <p class="platzhalter">[Platzhalter: Motivation und Fragestellung]</p>
+      <p>
+        In den Nachrichten wird über Flucht oft aus europäischer Sicht berichtet. Laut
+        UNHCR leben aber rund zwei Drittel aller Geflüchteten in einem Nachbarland ihres
+        Herkunftslands. Umfragen zeigen zudem, dass viele Menschen falsch einschätzen, welche
+        Länder die meisten Geflüchteten aufnehmen. Uns interessiert deshalb, wo Geflüchtete
+        tatsächlich ankommen, wie stark diese Länder im Verhältnis zu ihrer Bevölkerung
+        betroffen sind und ob sich das seit 1962 verändert hat.
+      </p>
 
       <h3>Hypothese</h3>
       <p>
@@ -94,7 +131,25 @@
       </p>
 
       <h3>Begriffe</h3>
-      <p class="platzhalter">[Platzhalter: Neuankünfte vs. Bestand, Nachbarland, pro 1000 Einwohner]</p>
+      <dl class="terms">
+        <dt>Neuankünfte</dt>
+        <dd>
+          Menschen, die in einem Jahr neu in einem Land ankommen (Flow). Nicht gemeint sind
+          alle Geflüchteten, die dort leben (Bestand). Die Aussage «zwei Drittel leben in
+          einem Nachbarland» bezieht sich auf den Bestand, unsere Zahlen auf die Neuankünfte.
+        </dd>
+        <dt>Nachbarland</dt>
+        <dd>
+          Ein Aufnahmeland mit einer gemeinsamen Landgrenze zum Herkunftsland. Nahe Länder
+          ohne gemeinsame Grenze zählen nicht, zum Beispiel Nepal für Menschen aus Bhutan.
+          Diese strenge Definition ist eindeutig und lässt sich mit Daten prüfen.
+        </dd>
+        <dt>Pro 1000 Einwohner</dt>
+        <dd>
+          Neuankünfte geteilt durch die Bevölkerung des Aufnahmelands, mal 1000. Absolute
+          Zahlen würden grosse Länder immer stärker betroffen aussehen lassen.
+        </dd>
+      </dl>
 
       <h3>Erste Skizze</h3>
       <figure class="sketch">
@@ -103,7 +158,25 @@
       </figure>
 
       <h3>Änderungen nach dem Feedback zum Proposal</h3>
-      <p class="platzhalter">[Platzhalter: Startzustand mit Nachbarländern, Top-10-Liste entfernt]</p>
+      <ul>
+        <li>
+          <strong>Startzustand:</strong> Ohne Auswahl zeigt die Karte jetzt, wie viele Menschen
+          jedes Land aus seinen Nachbarländern aufnimmt.
+        </li>
+        <li>
+          <strong>Top-10-Liste entfernt:</strong> Dadurch haben Karte und Zeitachse die volle
+          Breite und stehen untereinander statt nebeneinander.
+        </li>
+        <li>
+          <strong>Vergleich der Herkunftsländer:</strong> Herkunftsländer lassen sich einzeln
+          auswählen und über die Kontext-Tabelle direkt vergleichen. Auf eine zusätzliche
+          Vergleichsgrafik haben wir zugunsten einer einfachen Bedienung vorerst verzichtet.
+        </li>
+        <li>
+          <strong>Absolute Zahlen:</strong> Statt Balken hinter der Linie (mit zweiter y-Achse)
+          gibt es ein eigenes Panel unter der Linie.
+        </li>
+      </ul>
     </section>
 
     <!-- 4. Daten -->
@@ -112,85 +185,228 @@
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Datensatz</th><th>Herausgeber</th><th>Inhalt</th><th>Lizenz</th></tr>
+            <tr><th>Datensatz</th><th>Herausgeber</th><th>Inhalt und Stand</th><th>Lizenz</th></tr>
           </thead>
           <tbody>
             <tr>
-              <td>Forced Displacement Flows</td>
-              <td>UNHCR</td>
-              <td>Neuankünfte pro Jahr, Herkunfts- und Aufnahmeland, 1962–2025</td>
+              <td><a href="https://www.unhcr.org/refugee-statistics/">Forced Displacement Flows</a></td>
+              <td>UNHCR, Flüchtlingshilfswerk der UNO (Genf)</td>
+              <td>Neuankünfte pro Jahr, Herkunfts- und Aufnahmeland und Kategorie, 1962–2025; 108'879 Zeilen; Stand 11.6.2026</td>
               <td>CC BY 4.0</td>
             </tr>
             <tr>
-              <td>Population, total (SP.POP.TOTL)</td>
-              <td>Weltbank</td>
-              <td>Bevölkerung pro Land und Jahr</td>
+              <td><a href="https://data.worldbank.org/indicator/SP.POP.TOTL">Population, total (SP.POP.TOTL)</a></td>
+              <td>Weltbank (Washington)</td>
+              <td>Bevölkerung pro Land und Jahr, 1960–2025</td>
               <td>CC BY 4.0</td>
             </tr>
             <tr>
-              <td>Country Borders</td>
-              <td>GeoDataSource</td>
+              <td><a href="https://github.com/geodatasource/country-borders">Country Borders</a></td>
+              <td>GeoDataSource (privater Anbieter von Geodaten)</td>
               <td>Länderpaare mit gemeinsamer Landgrenze</td>
               <td>CC BY-SA 4.0</td>
             </tr>
             <tr>
-              <td>world-atlas (Natural Earth)</td>
-              <td>Mike Bostock</td>
-              <td>Länderformen für die Weltkarte</td>
+              <td><a href="https://github.com/topojson/world-atlas">world-atlas</a> 2.0.2</td>
+              <td>Mike Bostock, auf Basis von Natural Earth</td>
+              <td>Länderformen für die Weltkarte, Massstab 1:110 Mio.</td>
               <td>ISC / Public Domain</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <h3>Wer die Daten erhebt</h3>
+      <p>
+        Die UNHCR-Zahlen stammen bis 1999 aus dem historischen Archiv des UNHCR, ab 2000 aus
+        der jährlichen offiziellen Statistik. Geliefert werden sie meist von Regierungen
+        (Asylbehörden) oder aus Registrierungen des UNHCR vor Ort. Die Weltbank zählt nicht
+        selbst, sondern stellt Zahlen der UN Population Division und nationaler
+        Statistikämter zusammen. GeoDataSource gibt nicht an, woher die Grenzdaten stammen;
+        Landgrenzen ändern sich aber selten und lassen sich leicht überprüfen.
+      </p>
+
       <h3>Aufbereitung</h3>
-      <p class="platzhalter">[Platzhalter: Bereinigung, entfernte Codes, Zuordnung Ländercodes]</p>
+      <p>
+        Ein Python-Skript (<code>scripts/prepare_data.py</code>) bereitet die Rohdaten auf.
+        Es zählt die sieben UNHCR-Kategorien (anerkannte Flüchtlinge, Gruppenanerkennung,
+        vorübergehender Schutz, flüchtlingsähnliche Situation, neue Asylgesuche, von UNHCR
+        registrierte Asylsuchende, andere Schutzbedürftige) pro Jahr, Herkunfts- und
+        Aufnahmeland zusammen. Danach rechnet es die Ländercodes der drei Quellen ineinander
+        um und markiert jede Strecke als Nachbarland ja oder nein. Entfernt wurden Einträge
+        ohne bestimmbares Land: unbekannte Herkunft, Staatenlose und Tibet, zusammen rund
+        2,5 Millionen Personen oder 2,1 % aller Neuankünfte. Übrig bleiben 103'502 Zeilen mit
+        113,6 Millionen Neuankünften. Die Website rechnet daraus im Browser alle Werte für den
+        gewählten Zeitraum und das gewählte Herkunftsland.
+      </p>
 
       <h3>Einschränkungen</h3>
-      <p class="platzhalter">[Platzhalter: Erfassungsbruch 2000, Inseln ohne Nachbarn, Kosovo, Weiterwanderung nicht erfasst]</p>
+      <ul>
+        <li>
+          <strong>Erfassungsbruch um 2000:</strong> Neue Asylgesuche sind 1970–1999 nur für
+          37 Industrieländer erfasst, ab 2000 für fast alle Länder. Da diese Länder selten an
+          die Herkunftsländer grenzen, sinkt der Anteil der Nachbarländer ab 2000 teilweise
+          allein wegen der genaueren Erfassung. Die Zeitachse markiert das mit einer Linie.
+        </li>
+        <li>
+          <strong>Inseln:</strong> 51 Länder in den Daten haben keine Landgrenze, zum Beispiel
+          Japan oder Australien. Sie können nie Nachbarland sein.
+        </li>
+        <li>
+          <strong>Kosovo</strong> ist bei UNHCR Serbien zugeordnet und erscheint auf der Karte
+          grau. Kleine Länder wie Malta oder Singapur fehlen auf der Weltkarte (zusammen 0,24 %
+          der Neuankünfte), sind in den Berechnungen aber enthalten.
+        </li>
+        <li>
+          Die Daten zeigen, wo Menschen ankommen, aber nicht, ob sie später weiterziehen
+          oder zurückkehren. Fluchtursachen sind nicht enthalten.
+        </li>
+      </ul>
     </section>
 
     <!-- 5. Designentscheidungen (2500–3500 Zeichen inkl. Leerzeichen) -->
     <section id="design" class="section">
       <h2>Designentscheidungen</h2>
       <h3>Foundations Visual Design</h3>
-      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <p>
+        Die Seite hat eine klare Hierarchie: Fragestellung, Leseanleitung, Bedienleiste, dann
+        Karte und Zeitachse untereinander über die volle Breite. So bleibt die Karte gross
+        genug für kleine Länder und die Zeitachse lang genug für 64 Jahre. Blau steht überall
+        für «Nachbarländer», Grau für «andere Länder» oder «keine Daten». Schrift, Abstände
+        und Ausrichtung sind auf der ganzen Seite einheitlich. Zusammengehöriges steht nahe
+        beieinander: Titel, Legende und Quelle direkt bei der jeweiligen Grafik.
+      </p>
       <h3>Fundamental Principles of Analytical Design (Tufte)</h3>
-      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <p>
+        Vergleiche: Die Karte stellt Aufnahmeländer nebeneinander, die Zeitachse zeigt pro
+        Jahr Nachbarländer gegenüber anderen Ländern. Multivariat: Ort, Zeit, Herkunft und
+        Bevölkerung werden kombiniert. Wort, Zahl und Bild sind integriert: Titel passen sich
+        der Auswahl an, eine Hinweislinie erklärt den Erfassungsbruch direkt in der Grafik.
+        Die Quellen stehen unter der Visualisierung, die Aufbereitung ist dokumentiert.
+        Die Kontext-Tabelle ergänzt mögliche Ursachen wie Kriege oder Vertreibungen.
+      </p>
       <h3>Data-Ink Ratio (Tufte)</h3>
-      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <p>
+        Wir verzichten auf Rahmen, Hintergrundflächen, Schatten und 3D. Ländergrenzen sind
+        dünne weisse Linien, Küsten feine graue Linien. Die Gitterlinien der Zeitachse sind
+        hell und auf wenige Werte beschränkt. Die Antarktis fehlt, weil sie keine Daten
+        trägt. Exakte Zahlen stehen nicht dauerhaft auf der Grafik, sondern im Tooltip.
+        Statt einer zweiten y-Achse gibt es ein eigenes Panel. Die Legenden sind kurz
+        und stehen direkt unter der Grafik, damit das Auge nicht weit springen muss.
+      </p>
       <h3>Human Perception</h3>
-      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <p>
+        Die Werte reichen von unter 0.01 bis über 300 pro 1000 Einwohner. Deshalb nutzt die
+        Karte eine Log-Skala mit sechs festen Klassen aus ColorBrewer «Blues»: ein Farbton
+        von hell bis dunkel, den wir als Menge lesen. Feste Klassen bedeuten in jedem Zeitraum
+        dasselbe. Natural Earth 2 verzerrt Flächen weniger als Mercator. Das Herkunftsland
+        ist schraffiert statt eingefärbt und fällt so präattentiv auf. Den Anteil zeigt eine
+        Linie, weil Position am genauesten gelesen wird.
+      </p>
       <h3>Tasks in Data Visualization</h3>
-      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <p>
+        Wir unterstützen vier Aufgaben: Überblick (wo kommen viele Menschen aus
+        Nachbarländern an?), Vergleich (Nachbarländer gegenüber weiter entfernten Ländern),
+        Entwicklung (Veränderung seit 1962) und Nachschlagen (ein Land oder eine Krise per
+        Klick, Menü oder Kontext-Tabelle). Weil die Daten räumlich und zeitlich sind,
+        kombinieren wir eine Karte mit einer Zeitreihe. Die Zielgruppe sind interessierte
+        Laien, darum erklärt eine kurze Leseanleitung jede Interaktion in einem Satz.
+      </p>
       <h3>Interaction Concept</h3>
-      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <p>
+        Das Konzept folgt Shneidermans Mantra. Overview: Beim Laden zeigen Karte und
+        Zeitachse alle Länder und Jahre. Zoom and filter: Ein Brush auf der Zeitachse wählt
+        den Zeitraum, ein Klick auf ein Land filtert beide Ansichten. Details on demand:
+        Tooltips zeigen genaue Werte. Brushing &amp; Linking verbindet die Ansichten über einen
+        gemeinsamen Zustand. «Zurücksetzen» führt jederzeit zum Start zurück. Auf
+        Animation verzichten wir wegen Change Blindness.
+      </p>
     </section>
 
     <!-- 6. Referenzen -->
     <section id="referenzen" class="section">
       <h2>Referenzen</h2>
-      <h3>Quellen und Erkenntnisse zum Thema</h3>
-      <p class="platzhalter">[Platzhalter: UNHCR Global Trends, Ipsos 2022, Gapminder 2023 …]</p>
-      <h3>Verwendeter Code</h3>
+
+      <h3>Erkenntnisse aus unseren Daten</h3>
       <ul>
-        <li>D3.js v7.9.0 (Mike Bostock), Bibliothek für die Visualisierungen.</li>
-        <li>d3-geo-projection v4.0.0, für die Projektion Natural Earth 2.</li>
-        <li>topojson-client v3.1.0, wandelt die Kartendatei in Länderformen um.</li>
-        <li>D3 Graph Gallery, «Choropleth map» (Yan Holtz): Grundaufbau Projektion, geoPath und TopoJSON für die Weltkarte übernommen und angepasst.</li>
-        <li>D3-Dokumentation d3-brush und Observable «Brush snapping» (Mike Bostock): Aufbau des Brush und Einrasten auf ganze Jahre für die Zeitachse übernommen und angepasst.</li>
+        <li>Über alle Jahre kamen 59 % der Neuankünfte in Nachbarländern an.</li>
+        <li>
+          Der Anteil sank von 84 % (1970er) auf 46 % (2020er). Ohne neue Asylgesuche lag er
+          von den 1970er- bis in die 2010er-Jahre aber bei 88–93 %. Der Rückgang hängt also
+          stark mit dem wachsenden Gewicht der Asylgesuche zusammen, auch wegen des
+          Erfassungsbruchs um 2000. Erst in den 2020er-Jahren sinkt der Anteil auch ohne
+          Asylgesuche deutlich (63 %).
+        </li>
+        <li>
+          Nachbarländer tragen pro Kopf oft eine sehr grosse Last: Libanon nahm 2013
+          129 Menschen pro 1000 Einwohner neu auf, Nordmazedonien 1999 sogar 176. Zum Vergleich
+          2013: Schweiz 2,4, Deutschland 1,3.
+        </li>
+        <li>
+          Aus Syrien kamen 2013 in den Nachbarländern 15,4 Menschen pro 1000 Einwohner an,
+          im Rest der Welt 0,03.
+        </li>
+        <li>
+          Ukraine und Venezuela sind Ausnahmen: Nur 44 % der Neuankünfte gingen in
+          Nachbarländer.
+        </li>
       </ul>
-      <p class="platzhalter">[Platzhalter: Beispiele, aus denen Code übernommen wurde, je mit Halbsatz]</p>
+      <p>Unsere Hypothese bestätigt sich damit nur teilweise: Nachbarländer tragen pro Kopf die grösste Last, der sinkende Anteil ist aber zu einem guten Teil eine Folge der Datenerfassung.</p>
+
+      <h3>Quellen zum Thema</h3>
+      <ul class="references">
+        <li>
+          UNHCR (2025): <a href="https://www.unhcr.org/global-trends">Global Trends: Forced Displacement in 2024</a>.
+          67 % der Geflüchteten leben in einem Nachbarland ihres Herkunftslands (Bestand).
+        </li>
+        <li>
+          UNHCR: <a href="https://www.unhcr.org/refugee-statistics/">Refugee Data Finder</a>.
+          Quelle unserer Daten zu den Neuankünften, mit Erläuterungen zur Methodik.
+        </li>
+        <li>
+          Ipsos (2022): Umfrage zum Weltflüchtlingstag in 28 Ländern, <a href="https://www.ipsos.com/">ipsos.com</a>.
+          Etwa ein Drittel glaubt, das eigene Land gehöre zu den drei grössten Aufnahmeländern weltweit.
+        </li>
+        <li>
+          Gapminder (2023): Refugee Misconception Study, <a href="https://www.gapminder.org/">gapminder.org</a>.
+          Im Schnitt wurden nur 2,1 von 9 Faktenfragen zu Geflüchteten richtig beantwortet.
+        </li>
+      </ul>
+
+      <h3>Inspiration</h3>
+      <ul class="references">
+        <li><a href="http://www.therefugeeproject.org/">The Refugee Project</a> (Hyperakt, Ekene Ijeoma): Weltkarte der Flüchtlingsbewegungen über die Zeit.</li>
+        <li><a href="https://www.lucify.com/the-flow-towards-europe/">The flow towards Europe</a> (Lucify): animierte Darstellung; Beispiel dafür, warum wir bewusst auf Animation verzichten.</li>
+        <li><a href="https://vizhub.com/curran">VizHub</a> «Choropleth with histogram brushing» (Curran Kelleher): Idee, eine Karte mit einem Brush auf einer Zeitreihe zu verbinden.</li>
+        <li><a href="http://johnguerra.co/viz/d3BrushAndLinking/">D3 Brushing &amp; Linking</a> (John Alexis Guerra Gómez), aus den Vorlesungsfolien.</li>
+      </ul>
+
+      <h3>Verwendeter Code</h3>
+      <ul class="references">
+        <li><a href="https://d3js.org/">D3.js</a> v7.9.0 (Mike Bostock): Bibliothek für alle Visualisierungen.</li>
+        <li><a href="https://github.com/d3/d3-geo-projection">d3-geo-projection</a> v4.0.0: liefert die Projektion Natural Earth 2.</li>
+        <li><a href="https://github.com/topojson/topojson-client">topojson-client</a> v3.1.0: wandelt die Kartendatei in Länderformen um.</li>
+        <li><a href="https://d3-graph-gallery.com/choropleth">D3 Graph Gallery, «Choropleth map»</a> (Yan Holtz): Grundaufbau Projektion, geoPath und TopoJSON für die Weltkarte übernommen und angepasst.</li>
+        <li><a href="https://d3js.org/d3-brush">D3-Dokumentation d3-brush</a> und <a href="https://observablehq.com/@d3/brush-snapping">Observable «Brush snapping»</a> (Mike Bostock): Aufbau des Brush und Einrasten auf ganze Jahre für die Zeitachse übernommen und angepasst.</li>
+        <li><a href="https://colorbrewer2.org/">ColorBrewer</a> (Cynthia Brewer): Farbskala «Blues» für die Karte, über <code>d3.schemeBlues</code>.</li>
+      </ul>
+      <p>
+        Bei der Umsetzung haben wir den KI-Assistenten Claude (Anthropic) für Datenaufbereitung,
+        Code und Textentwürfe eingesetzt. Konzept, Fragestellung und die Handskizze stammen von uns.
+      </p>
     </section>
 
     <!-- 7. Kontakt -->
     <section id="kontakt" class="section">
       <h2>Kontakt</h2>
       <ul class="contact">
-        <li><strong>Dario Meyer</strong> <span class="platzhalter">[Platzhalter: Studiengang, Kontakt]</span></li>
-        <li><strong>Martina Gander</strong> <span class="platzhalter">[Platzhalter: Studiengang, Kontakt]</span></li>
+        <li><strong>Dario Meyer</strong>, Bachelor Wirtschaftsinformatik, Hochschule Luzern</li>
+        <li><strong>Martina Gander</strong>, Bachelor Wirtschaftsinformatik, Hochschule Luzern</li>
       </ul>
-      <p>Modul I.DAVI, Hochschule Luzern – Informatik, Herbstsemester 2026.</p>
+      <p>
+        Entstanden im Modul I.DAVI (Data Visualization) bei Prof. Dr. Halldór Janetzko,
+        Hochschule Luzern – Informatik, Herbstsemester 2026.
+      </p>
     </section>
 
   </main>

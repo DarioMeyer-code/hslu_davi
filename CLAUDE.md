@@ -24,7 +24,8 @@ claude.ai-Projekt «DAVI», ergänzt um das Proposal-Feedback und den Abgleich m
 | `Projekt/Data/` | Rohdaten: UNHCR-Excel, Weltbank-ZIP, GeoDataSource-Grenzen |
 | `Slides_Dozent/` | Vorlesungsfolien 00–04 und Tufte-Kapitel (Scan aus «Beautiful Evidence») |
 | `module-I.BA_DAVI.18-de.pdf` | Modulbeschreibung (Projektarbeit = 100 % der Note) |
-| `public/` | Website (wird deployt): Gerüst mit allen Abschnitten, Daten in `public/data/` |
+| `public/` | Website (wird deployt): alle Abschnitte mit Texten, Visualisierung, Daten in `public/data/` |
+| `Projekt/Praesentation/Ablauf_Praesentation.md` | Ablauf der 5-Minuten-Präsentation (Entwurf) |
 | `CLAUDE.md` | Dieses Dokument |
 
 ## Modul und Aufgabe
@@ -171,7 +172,7 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 **Weitere Elemente**
 - Farblegende mit Log-Abstufungen und Symbol für die Nachbar-Umrandung
 - Quellenangabe direkt unter der Visualisierung (Tufte)
-- Kontext für die 5–10 grössten Krisen als kleine, von Hand erstellte Tabelle (z. B. «Rwanda 1994: Genozid»)
+- **Kontext-Tabelle (umgesetzt):** die 10 Herkunftsländer mit den meisten Neuankünften in einem Jahr (AFG, IRQ, RWA, SRB/Kosovo, SYR, SSD, VEN, MMR, UKR, SDN). Fest in `js/crises.js` stehen nur Land, Zeitraum und Kontext; Neuankünfte und Nachbar-Anteil rechnet der Browser aus den Daten. Button «anzeigen» setzt Herkunftsland und Zeitraum (inkl. Brush).
 - Bewusst **keine Animation**
 - Top-10-Liste entfällt (Feedback 2)
 
@@ -185,7 +186,7 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 - **Nur eine HTML-Seite** (`public/index.html`), nicht auf mehrere Seiten verteilen. Alle Pflichtinhalte sind Abschnitte dieser Seite; die Navigation oben springt per Anker (`#daten` usw.) zu den Abschnitten.
 - **Reihenfolge der Abschnitte:** Start · Visualisierung · Hintergrund (inkl. Skizze) · Daten · Designentscheidungen · Referenzen · Kontakt. Visualisierung bewusst an zweiter Stelle (Besucher wollen zuerst das Ergebnis sehen, UX).
 - **D3 lokal** in `public/lib/` (nicht über CDN), damit das abgegebene ZIP auch offline läuft.
-- **Website-Ordner ist `public/`.** Gerüst mit allen Abschnitten steht (Schritt 2); Texte sind als gelbe `.platzhalter` markiert. Bibliotheken über npm geladen (jsDelivr ist aus der Arbeitsumgebung gesperrt).
+- **Website-Ordner ist `public/`.** Alle Abschnitte haben Texte (Entwürfe vom 20.11.2026, von Dario und Martina zu prüfen); keine Platzhalter mehr. Designtext: 2862 Zeichen Fliesstext (ohne Überschriften). Bibliotheken über npm geladen (jsDelivr ist aus der Arbeitsumgebung gesperrt).
 - **Deployment aktuell:** GitHub Actions (`.github/workflows/pages.yml`) deployt `public/` bei jedem Push auf `main` auf GitHub Pages. Workflow nicht ohne Rückfrage ändern.
 - **Abgabe laut Aufgabe:** GitLab Pages auf gitlab.switch.ch. Die Dozierenden legen die Repos an, Muster: `https://gitlab.switch.ch/hslu/edu/bachelor-computer-science/davi/<semester>/g<nr>`. Jeder Push deployt automatisch, die URL steht im Jobs-Log. Eine vorhandene `.gitlab-ci.yml` nicht ohne Rückfrage ändern.
 - Vom Dozenten empfohlen: Phoenix Code (https://phcode.io/) mit Chrome.
@@ -204,6 +205,7 @@ public/
     map.js                Weltkarte: Projektion, Farbskala, Legende, Tooltip, Klick
     format.js             Zahlenformat (Schweiz) und deutsche Ländernamen
     timeline.js           Zeitachse: Linie, Balken, Brush, Hinweislinie 2000
+    crises.js             Kontext-Tabelle zu den 10 grössten Fluchtbewegungen
   lib/
     d3.v7.min.js          D3 v7.9.0
     d3-geo-projection.min.js   für Natural Earth 2 (v4.0.0)
@@ -241,11 +243,12 @@ python3 scripts/prepare_data.py
 - [x] Jährliche Weltbank-Bevölkerungsdaten heruntergeladen
 - [x] Entschieden (20.11.2026): Visualisierung an 2. Stelle · Namen deutsch · kein Kategorie-Filter, Hinweislinie 2000 · Kosovo zu Serbien, grau mit Hinweis · D3 lokal · UKN/STA/TIB entfernen
 - [ ] Noch bestätigen: Nachbarland = gemeinsame Grenze (bisher ja), Start 1962 (bisher ja), wie viel Kontext pro Krise
-- [ ] Klären, ob die Nutzung von KI-Tools im Projekt deklariert werden muss
+- [ ] Klären, ob die Nutzung von KI-Tools im Projekt deklariert werden muss. **Vorläufig:** ein Satz zur KI-Nutzung steht in den Referenzen (unter «Verwendeter Code»); bei Bedarf anpassen oder entfernen.
+- [ ] Texte auf der Website gegenlesen und in eigene Worte bringen, besonders den Designtext (muss mündlich verteidigt werden)
 
 ## Mögliche Reihenfolge (Vorschlag, nur nach Absprache abarbeiten)
 
-Stand 20.11.2026: Schritte 1–5 erledigt (Prototyp mit Karte, Zeitachse, Brushing & Linking, Auswahl Herkunftsland).
+Stand 20.11.2026: Schritte 1–7 erledigt (Prototyp, Kontext-Tabelle, alle Texte als Entwurf, Ablauf der Präsentation). Offen: Texte gegenlesen, Präsentationsfolien erstellen, Feinschliff, Abgabe.
 
 1. Skript für die Datenaufbereitung schreiben, Kontrollbericht gemeinsam prüfen, Befunde nachrechnen
 2. `public/index.html` mit allen Abschnitten und Anker-Navigation anlegen

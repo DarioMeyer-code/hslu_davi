@@ -86,8 +86,10 @@ export function createTimeline(container, legendContainer, onYearsChange) {
   // --- Brush über beide Panels ---
   const brush = d3.brushX()
     .extent([[0, 0], [innerWidth, LINE_HEIGHT + GAP + BAR_HEIGHT]])
+    .on("start", event => { if (event.sourceEvent) isBrushing = true; })
     .on("brush", brushed)
     .on("end", brushEnded);
+  let isBrushing = false;   // true, solange der Nutzer mit der Maus zieht
   const brushGroup = root.append("g").attr("class", "brush").call(brush);
 
   // Pixel-Auswahl -> ganze Jahre: ein Jahr zählt, wenn die Auswahl
@@ -105,6 +107,7 @@ export function createTimeline(container, legendContainer, onYearsChange) {
 
   function brushEnded(event) {
     if (!event.sourceEvent) return;   // eigener Aufruf von brush.move, nicht reagieren
+    isBrushing = false;
     if (!event.selection) {
       onYearsChange([FIRST_YEAR, LAST_YEAR]);   // Klick ohne Ziehen = ganzer Zeitraum
       return;
@@ -189,11 +192,20 @@ export function createTimeline(container, legendContainer, onYearsChange) {
       .y(d => yShare(d.share));
     linePath.attr("d", line(series));
 
-    // Brush nachführen, wenn der Zeitraum von aussen geändert wurde (z. B. Zurücksetzen)
+    // Brush nachführen, wenn der Zeitraum von aussen geändert wurde
+    // (Zurücksetzen oder Kontext-Tabelle). Nicht während der Nutzer selbst zieht.
+    if (isBrushing) return;
     const [from, to] = state.years;
     const isFull = from === FIRST_YEAR && to === LAST_YEAR;
     const current = d3.brushSelection(brushGroup.node());
-    if (isFull && current) brushGroup.call(brush.move, null);
+    if (isFull) {
+      if (current) brushGroup.call(brush.move, null);
+      return;
+    }
+    const target = [x(from - 0.5), x(to + 0.5)];
+    if (!current || Math.abs(current[0] - target[0]) > 1 || Math.abs(current[1] - target[1]) > 1) {
+      brushGroup.call(brush.move, target);
+    }
   }
 
   return { update };

@@ -484,6 +484,7 @@ main {
 }
 
 .table-wrap {
+  position: relative; /* hält unsichtbare Screenreader-Texte innerhalb des Rahmens */
   overflow-x: auto;   /* Tabelle auf dem Handy seitlich scrollbar */
 }
 
@@ -534,4 +535,66 @@ th {
   .controls button {
     margin-left: 0;
   }
+}
+
+/* ==========================================================================
+   Texte und Kontext-Tabelle
+   ========================================================================== */
+.howto {
+  max-width: 70ch;
+  padding-left: 1.2em;
+}
+
+.howto li {
+  margin-bottom: 0.25rem;
+}
+
+.terms dt {
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+.terms dd {
+  margin: 0.25rem 0 0;
+  max-width: 70ch;
+}
+
+td.number,
+th.number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;   /* Ziffern gleich breit, Zahlen untereinander lesbar */
+  white-space: nowrap;
+}
+
+.crises td:last-child {
+  text-align: right;
+}
+
+.link-button {
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  color: var(--accent-dark);
+}
+
+.references li {
+  margin-bottom: 0.4rem;
+}
+
+/* Nur für Screenreader sichtbar */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
