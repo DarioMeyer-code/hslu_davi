@@ -54,13 +54,14 @@
         <button id="reset-button" type="button" disabled>Zurücksetzen</button>
       </div>
 
-      <!-- Ansicht 1: Weltkarte (wird in Schritt 3 mit js/map.js gezeichnet) -->
+      <!-- Ansicht 1: Weltkarte (gezeichnet von js/map.js) -->
       <figure class="view">
-        <figcaption class="view-title">Neuankünfte pro 1000 Einwohner</figcaption>
+        <figcaption class="view-title" id="map-title">Neuankünfte aus Nachbarländern pro 1000 Einwohner</figcaption>
+        <p class="view-subtitle">Summe der Neuankünfte im gewählten Zeitraum ÷ durchschnittliche Bevölkerung des Aufnahmelands × 1000</p>
         <div id="map" class="chart chart-map">
-          <p class="platzhalter">[Weltkarte folgt in Schritt 3]</p>
+          <p class="loading">Daten werden geladen …</p>
         </div>
-        <div id="map-legend" class="legend"></div>
+        <div id="map-legend" class="legend" aria-label="Legende der Weltkarte"></div>
       </figure>
 
       <!-- Ansicht 2: Zeitachse (wird in Schritt 4 mit js/timeline.js gezeichnet) -->
@@ -176,6 +177,7 @@
         <li>D3.js v7.9.0 (Mike Bostock), Bibliothek für die Visualisierungen.</li>
         <li>d3-geo-projection v4.0.0, für die Projektion Natural Earth 2.</li>
         <li>topojson-client v3.1.0, wandelt die Kartendatei in Länderformen um.</li>
+        <li>D3 Graph Gallery, «Choropleth map» (Yan Holtz): Grundaufbau Projektion, geoPath und TopoJSON für die Weltkarte übernommen und angepasst.</li>
       </ul>
       <p class="platzhalter">[Platzhalter: Beispiele, aus denen Code übernommen wurde, je mit Halbsatz]</p>
     </section>
@@ -196,9 +198,10 @@
     <p>Dario Meyer · Martina Gander · HSLU 2026</p>
   </footer>
 
-  <!-- Bibliotheken lokal (siehe Referenzen), danach unser eigener Code (ab Schritt 3) -->
+  <!-- Bibliotheken lokal (siehe Referenzen), danach unser eigener Code -->
   <script src="lib/d3.v7.min.js"></script>
   <script src="lib/d3-geo-projection.min.js"></script>
   <script src="lib/topojson-client.min.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

@@ -148,7 +148,7 @@ Umsetzung: Punkt 1 und 2 werden umgesetzt (Karte startet mit «Neuankünfte aus 
 Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** und **Herkunftsland** (keins oder eins). Ändert sich der Zustand, zeichnen sich beide Ansichten neu.
 
 **Ansicht 1 – Weltkarte (Overview)**
-- Choropleth, Natural Earth 2, ein Farbton von hell nach dunkel (ColorBrewer Blues), Log-Skala (`d3.scaleSequentialLog`), Länder ohne Daten grau.
+- Choropleth, Natural Earth 2, ein Farbton von hell nach dunkel (ColorBrewer Blues). **Umgesetzt (Schritt 3):** feste logarithmische Klassen in Zehnerschritten (< 0.01 · 0.01–0.1 · 0.1–1 · 1–10 · 10–100 · ≥ 100, `d3.scaleThreshold`), damit eine Farbe bei jedem Zeitraum dasselbe bedeutet. Wert 0 = sehr helles Grau, keine Daten = mittleres Grau. Antarktis weggelassen. Küstenlinien fein grau, Ländergrenzen weiss.
 - **Startzustand (nichts ausgewählt, Feedback 1):** pro Aufnahmeland die Neuankünfte **aus Nachbarländern** pro 1000 Einwohner, summiert über den gewählten Zeitraum.
 - **Herkunftsland gewählt:** Neuankünfte aus diesem Land pro 1000 Einwohner. Herkunftsland eigene Markierung (z. B. Schraffur), Nachbarländer dick umrandet.
 - Klick auf ein Land: als Herkunftsland wählen bzw. abwählen. Zusätzlich Auswahl per Dropdown.
@@ -200,6 +200,7 @@ public/
     main.js               Daten laden, gemeinsamer Zustand, Dropdown, Zurücksetzen
     data.js               Rechenfunktionen (filtern, summieren, pro 1000 EW, Nachbar-Anteil)
     map.js                Weltkarte: Projektion, Farbskala, Legende, Tooltip, Klick
+    format.js             Zahlenformat (Schweiz) und deutsche Ländernamen
     timeline.js           Zeitachse: Linie, Balken, Brush, Hinweislinie 2000
   lib/
     d3.v7.min.js          D3 v7.9.0

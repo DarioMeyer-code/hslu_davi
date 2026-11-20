@@ -228,7 +228,130 @@ main {
 
 /* Feste Mindesthöhen, damit die Seite beim Laden nicht springt */
 .chart-map {
-  min-height: 420px;
+  position: relative;   /* Bezugspunkt für den Tooltip */
+  min-height: 200px;
+}
+
+.chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.view-subtitle {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.loading {
+  color: var(--text-muted);
+}
+
+/* Länder: Füllfarbe kommt aus map.js, Grenzen als eigene dünne Linie */
+.country {
+  stroke: none;
+  cursor: default;
+}
+
+.country.hover {
+  stroke: var(--text);
+  stroke-width: 1.5px;
+}
+
+.coastlines {
+  fill: none;
+  stroke: #aeb6be;
+  stroke-width: 0.4px;
+  pointer-events: none;
+}
+
+.country-borders {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 0.5px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* Tooltip (Details on Demand) */
+.tooltip {
+  position: absolute;
+  max-width: 280px;
+  padding: 8px 10px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  pointer-events: none;   /* Maus «fällt durch» den Tooltip auf die Karte */
+}
+
+.tooltip[hidden] {
+  display: none;
+}
+
+.tooltip-title {
+  font-weight: 600;
+}
+
+.tooltip-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tooltip-muted {
+  color: var(--text-muted);
+}
+
+/* Legende: Farbklassen nebeneinander, darunter die Grenzwerte */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px 32px;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.legend-classes,
+.legend-extra {
+  display: flex;
+  gap: 2px;
+}
+
+.legend-extra {
+  gap: 16px;
+}
+
+.legend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 56px;
+}
+
+.legend-item-inline {
+  flex-direction: row;
+  gap: 6px;
+  min-width: 0;
+}
+
+.legend-swatch {
+  display: block;
+  width: 100%;
+  height: 12px;
+}
+
+.legend-item-inline .legend-swatch {
+  width: 16px;
+}
+
+.legend-swatch-outline {
+  border: 1px solid var(--border);
 }
 
 .chart-timeline {
