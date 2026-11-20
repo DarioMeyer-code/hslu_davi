@@ -64,12 +64,12 @@
         <div id="map-legend" class="legend" aria-label="Legende der Weltkarte"></div>
       </figure>
 
-      <!-- Ansicht 2: Zeitachse (wird in Schritt 4 mit js/timeline.js gezeichnet) -->
+      <!-- Ansicht 2: Zeitachse mit Brush (gezeichnet von js/timeline.js) -->
       <figure class="view">
         <figcaption class="view-title">Anteil der Neuankünfte in Nachbarländern pro Jahr</figcaption>
-        <div id="timeline" class="chart chart-timeline">
-          <p class="platzhalter">[Zeitachse folgt in Schritt 4]</p>
-        </div>
+        <p class="view-subtitle">Mit der Maus einen Zeitraum aufziehen, um die Karte darauf zu filtern. Klick ausserhalb der Auswahl = ganzer Zeitraum.</p>
+        <div id="timeline" class="chart chart-timeline"></div>
+        <div id="timeline-legend" class="legend" aria-label="Legende der Zeitachse"></div>
       </figure>
 
       <p class="source">
@@ -178,6 +178,7 @@
         <li>d3-geo-projection v4.0.0, für die Projektion Natural Earth 2.</li>
         <li>topojson-client v3.1.0, wandelt die Kartendatei in Länderformen um.</li>
         <li>D3 Graph Gallery, «Choropleth map» (Yan Holtz): Grundaufbau Projektion, geoPath und TopoJSON für die Weltkarte übernommen und angepasst.</li>
+        <li>D3-Dokumentation d3-brush und Observable «Brush snapping» (Mike Bostock): Aufbau des Brush und Einrasten auf ganze Jahre für die Zeitachse übernommen und angepasst.</li>
       </ul>
       <p class="platzhalter">[Platzhalter: Beispiele, aus denen Code übernommen wurde, je mit Halbsatz]</p>
     </section>

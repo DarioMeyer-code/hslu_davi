@@ -355,7 +355,76 @@ main {
 }
 
 .chart-timeline {
-  min-height: 220px;
+  position: relative;   /* Bezugspunkt für den Tooltip */
+  min-height: 150px;
+}
+
+/* Achsen zurückhaltend: Gitterlinien hell, Beschriftung grau */
+.axis text {
+  fill: var(--text-muted);
+  font-size: 12px;
+}
+
+.axis .tick line {
+  stroke: #e6e9ec;
+}
+
+.axis-x .domain,
+.axis-x .tick line {
+  stroke: var(--border);
+}
+
+.share-line {
+  fill: none;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+}
+
+/* Hinweislinie Erfassungsbruch */
+.note line {
+  stroke: var(--text-muted);
+  stroke-dasharray: 3 3;
+}
+
+.panel-label {
+  fill: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.note text {
+  fill: var(--text-muted);
+  font-size: 12px;
+}
+
+.crosshair {
+  stroke: var(--text-muted);
+  stroke-width: 1px;
+  pointer-events: none;
+}
+
+.crosshair-dot {
+  stroke: #ffffff;
+  stroke-width: 2px;
+  pointer-events: none;
+}
+
+.crosshair[hidden],
+.crosshair-dot[hidden] {
+  display: none;
+}
+
+/* Brush-Auswahl: halbtransparent, damit die Daten sichtbar bleiben */
+.brush .selection {
+  fill: var(--accent);
+  fill-opacity: 0.12;
+  stroke: var(--accent);
+}
+
+.legend-line {
+  display: block;
+  width: 16px;
+  height: 2px;
 }
 
 .source {

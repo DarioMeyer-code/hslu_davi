@@ -84,3 +84,23 @@ export function computeMapValues(data, state) {
   }
   return result;
 }
+
+// Werte für die Zeitachse, pro Jahr über den ganzen Zeitraum 1962–2025.
+// Ohne Auswahl: alle Herkunftsländer. Mit Auswahl: nur das gewählte Land.
+// Rückgabe: Array von { year, total, neighbours, share } (share = null ohne Neuankünfte)
+export function computeTimeline(data, state, [from, to] = [1962, 2025]) {
+  const total = new Map();
+  const neighbours = new Map();
+  for (const row of data.flows) {
+    if (state.origin && row.herkunft !== state.origin) continue;
+    total.set(row.jahr, (total.get(row.jahr) || 0) + row.anzahl);
+    if (row.nachbar) neighbours.set(row.jahr, (neighbours.get(row.jahr) || 0) + row.anzahl);
+  }
+  const result = [];
+  for (let year = from; year <= to; year++) {
+    const t = total.get(year) || 0;
+    const n = neighbours.get(year) || 0;
+    result.push({ year, total: t, neighbours: n, share: t > 0 ? n / t : null });
+  }
+  return result;
+}

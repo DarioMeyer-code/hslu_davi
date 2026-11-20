@@ -157,7 +157,8 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 
 **Ansicht 2 – Zeitachse (Zoom & Filter)**
 - Linie: Anteil der Neuankünfte in Nachbarländern pro Jahr, y-Achse 0–100 %. Ist ein Herkunftsland gewählt, zeigt die Linie nur dieses Land.
-- Optional im Hintergrund schwache Balken mit den absoluten Neuankünften, damit die Krisen-Peaks sichtbar sind.
+- **Umgesetzt (Schritt 4):** Absolute Neuankünfte nicht als Balken hinter der Linie (das bräuchte eine zweite y-Achse), sondern als **eigenes Panel darunter mit gemeinsamer x-Achse**: gestapelte Balken «in Nachbarländern» (Blau) und «in anderen Ländern» (Grau). Begründung: keine doppelte y-Achse (zwei Skalen in einer Grafik sind schwer vergleichbar).
+- Hover mit Fadenkreuz und Tooltip (Jahr, Anteil, Anzahl). Brush rastet auf ganze Jahre ein, die Karte folgt schon während dem Ziehen; Klick ausserhalb der Auswahl = ganzer Zeitraum.
 - Dünne senkrechte Hinweislinie bei 2000: «ab 2000: Asylgesuche weltweit erfasst» (Erfassungsbruch, Tufte: Wort und Daten integrieren).
 - `d3.brushX` zur Wahl eines Zeitraums → gilt für die Karte.
 
