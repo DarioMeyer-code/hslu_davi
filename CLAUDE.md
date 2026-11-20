@@ -10,6 +10,7 @@ claude.ai-Projekt «DAVI», ergänzt um das Proposal-Feedback und den Abgleich m
 - **Einfach halten, kein Over-Engineering.** Ziel ist ein solides, gut begründbares Projekt, nicht ein möglichst grosses.
 - **Code muss erklärbar sein.** Wir müssen Code und Designentscheidungen mündlich verteidigen können. Lieber verständlich und kommentiert als clever.
 - **Nicht committen oder pushen ohne Auftrag.** Ein Push auf `main` deployt die Website automatisch (siehe Technik).
+- **Keine Branches.** Wir arbeiten direkt auf `main`: vor der Arbeit `git pull`, nach Auftrag committen und auf `main` pushen. Keine Feature-Branches und keine Pull Requests anlegen.
 - **Zahlen nie aus dem Gedächtnis.** Alle Kennzahlen aus den Daten berechnen. Die Befunde unten sind vorläufig.
 - **Keine Skizzen erstellen.** Die Konzeptskizze darf laut Aufgabenstellung nicht mit GenAI gezeichnet werden. Unsere Handskizze existiert bereits (`Projekt/Proposal/Sketch_Project -proposal.pdf`). Das PNG `Interaktives Flüchtlingsbewegungs-Dashboard geschniegelt.png` ist KI-generiert und darf **nicht** als Skizze auf die Website.
 - **Fremden Code kennzeichnen.** Basiert Code auf einem Beispiel (D3 Graph Gallery, Observable, Tutorial), die Quelle im Code-Kommentar nennen und in die Referenzliste aufnehmen, mit einem Halbsatz, was übernommen wurde. Die Plagiatsregeln der HSLU gelten.
@@ -24,6 +25,7 @@ claude.ai-Projekt «DAVI», ergänzt um das Proposal-Feedback und den Abgleich m
 | `Slides_Dozent/` | Vorlesungsfolien 00–04 und Tufte-Kapitel (Scan aus «Beautiful Evidence») |
 | `module-I.BA_DAVI.18-de.pdf` | Modulbeschreibung (Projektarbeit = 100 % der Note) |
 | `public/` | Website (wird deployt), aktuell nur Platzhalter |
+| `CLAUDE.md` | Dieses Dokument |
 
 ## Modul und Aufgabe
 
@@ -83,7 +85,7 @@ Ausserdem: (Farb-)Legenden nicht vergessen.
 
 **Zielgruppe:** interessierte Laien, die Nachrichten über Flucht verfolgen. Nebenzielgruppe: Studierende, Lehrpersonen, Journalisten, eventuell Politik und Hilfswerke.
 
-**User-Tasks:** Überblick (wo liegt die Last?) · Vergleichen (Nachbarland vs. weiter entfernt, Herkunftsländer untereinander) · Entwicklung (seit 1962) · Nachschlagen (ein Land, eine Krise).
+**User-Tasks:** Überblick (wo liegt die Last?) · Vergleichen (Nachbarland vs. weiter entfernt) · Entwicklung (seit 1962) · Nachschlagen (ein Land, eine Krise).
 
 ## Feedback des Dozenten zum Proposal (16. Okt. 2026)
 
@@ -91,7 +93,7 @@ Ausserdem: (Farb-)Legenden nicht vergessen.
 2. **Top-10-Liste wegnehmen.**
 3. **Verhalten der Herkunftsländer miteinander vergleichbar machen.**
 
-Umsetzung siehe Visualisierungskonzept: Karte startet mit «Neuankünfte aus Nachbarländern», Top 10 entfällt, neu ein Streudiagramm der Herkunftsländer.
+Umsetzung: Punkt 1 und 2 werden umgesetzt (Karte startet mit «Neuankünfte aus Nachbarländern», Top 10 entfällt). **Punkt 3 lassen wir vorerst weg** und prüfen ihn allenfalls später nochmals (Idee dafür siehe «Zurückgestellt» im Visualisierungskonzept).
 
 ## Daten
 
@@ -139,35 +141,23 @@ Umsetzung siehe Visualisierungskonzept: Karte startet mit «Neuankünfte aus Nac
 
 ## Visualisierungskonzept (Skizze + Proposal-Feedback)
 
-Drei Ansichten mit einem gemeinsamen Zustand: **Zeitraum** und **ausgewählte Herkunftsländer** (keins, eins oder mehrere). Ändert sich der Zustand, zeichnen sich alle Ansichten neu.
+Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** und **Herkunftsland** (keins oder eins). Ändert sich der Zustand, zeichnen sich beide Ansichten neu.
 
 **Ansicht 1 – Weltkarte (Overview)**
 - Choropleth, Natural Earth 2, ein Farbton von hell nach dunkel (ColorBrewer Blues), Log-Skala (`d3.scaleSequentialLog`), Länder ohne Daten grau.
 - **Startzustand (nichts ausgewählt, Feedback 1):** pro Aufnahmeland die Neuankünfte **aus Nachbarländern** pro 1000 Einwohner, summiert über den gewählten Zeitraum.
-- **Herkunftsland gewählt:** Neuankünfte aus diesem Land (bzw. diesen Ländern) pro 1000 Einwohner. Herkunftsland eigene Markierung (z. B. Schraffur), Nachbarländer dick umrandet.
-- Klick auf ein Land: als Herkunftsland wählen bzw. abwählen.
+- **Herkunftsland gewählt:** Neuankünfte aus diesem Land pro 1000 Einwohner. Herkunftsland eigene Markierung (z. B. Schraffur), Nachbarländer dick umrandet.
+- Klick auf ein Land: als Herkunftsland wählen bzw. abwählen. Zusätzlich Auswahl per Dropdown.
 - Tooltip (Details on Demand): Ländername, Neuankünfte absolut und pro 1000 Einwohner, Nachbar ja/nein, wichtigste Herkunftsländer, eventuell ein Satz Kontext zur Krise.
 
-**Ansicht 2 – Vergleich der Herkunftsländer (ersetzt Top 10, Feedback 2 + 3)**
-- Streudiagramm, ein Punkt pro Herkunftsland im gewählten Zeitraum.
-- x: alle Neuankünfte aus diesem Land (Log-Skala) = Grösse der Fluchtbewegung.
-- y: Anteil davon in Nachbarländern (0–100 %).
-- Begründung: beantwortet direkt «bei grossen Fluchtbewegungen» (x) und «Nachbarländer» (y). Position ist die genaueste visuelle Variable. Ein 2D-Brush (`d3.brush`) wählt ganze Gruppen aus.
-- Nur Herkunftsländer ab einer Mindestzahl Neuankünfte zeigen (sonst zufällige 0 %/100 %). Schwelle aus den Daten bestimmen und dokumentieren.
-- Klick oder Rechteck-Brush wählt Herkunftsländer aus → Karte und Zeitachse filtern.
-- Optional: Farbe nach UNHCR-Region (wenige kategoriale Farben). Nur falls Zeit bleibt.
-
-**Ansicht 3 – Zeitachse (Zoom & Filter)**
-- Linie: Anteil der Neuankünfte in Nachbarländern pro Jahr, y-Achse 0–100 %.
-- Mehrere Herkunftsländer gewählt: je eine Linie (max. ca. 5) mit Legende → Entwicklung vergleichbar.
+**Ansicht 2 – Zeitachse (Zoom & Filter)**
+- Linie: Anteil der Neuankünfte in Nachbarländern pro Jahr, y-Achse 0–100 %. Ist ein Herkunftsland gewählt, zeigt die Linie nur dieses Land.
 - Optional im Hintergrund schwache Balken mit den absoluten Neuankünften, damit die Krisen-Peaks sichtbar sind.
-- `d3.brushX` zur Wahl eines Zeitraums → gilt für Karte und Streudiagramm.
+- `d3.brushX` zur Wahl eines Zeitraums → gilt für die Karte.
 
 **Brushing & Linking**
-- Brush auf der Zeitachse → Karte und Streudiagramm zeigen nur diesen Zeitraum.
-- Auswahl im Streudiagramm → Karte und Zeitachse filtern auf diese Herkunftsländer.
-- Klick auf ein Land in der Karte → Herkunftsland wird gewählt und im Streudiagramm hervorgehoben.
-- Hover über einen Punkt → Land auf der Karte hervorheben.
+- Brush auf der Zeitachse → Karte zeigt nur diesen Zeitraum.
+- Klick auf ein Land in der Karte (oder Dropdown) → Zeitachse filtert auf dieses Herkunftsland.
 - Button «Zurücksetzen» stellt den Startzustand wieder her.
 
 **Weitere Elemente**
@@ -175,10 +165,16 @@ Drei Ansichten mit einem gemeinsamen Zustand: **Zeitraum** und **ausgewählte He
 - Quellenangabe direkt unter der Visualisierung (Tufte)
 - Kontext für die 5–10 grössten Krisen als kleine, von Hand erstellte Tabelle (z. B. «Rwanda 1994: Genozid»)
 - Bewusst **keine Animation**
+- Top-10-Liste entfällt (Feedback 2)
+
+**Zurückgestellt (Feedback 3, allenfalls später prüfen)**
+- Idee: Streudiagramm, ein Punkt pro Herkunftsland. x = alle Neuankünfte aus diesem Land (Log-Skala), y = Anteil davon in Nachbarländern. Auswahl per Klick oder 2D-Brush, verknüpft mit Karte und Zeitachse; nur Herkunftsländer ab einer Mindestzahl Neuankünfte.
+- Wird erst umgesetzt, wenn wir das gemeinsam entscheiden.
 
 ## Technik
 
 - Statische Website mit HTML, CSS und JavaScript plus **D3.js v7**. Kein Framework und kein Build-Schritt, weil wir den Code erklären können müssen.
+- **Nur eine HTML-Seite** (`public/index.html`), nicht auf mehrere Seiten verteilen. Alle Pflichtinhalte sind Abschnitte dieser Seite; die Navigation oben springt per Anker (`#daten` usw.) zu den Abschnitten.
 - **Website-Ordner ist `public/`.** Aktuell enthält er nur eine Platzhalter-Seite (GitLab-Pages-Beispiel).
 - **Deployment aktuell:** GitHub Actions (`.github/workflows/pages.yml`) deployt `public/` bei jedem Push auf `main` auf GitHub Pages. Workflow nicht ohne Rückfrage ändern.
 - **Abgabe laut Aufgabe:** GitLab Pages auf gitlab.switch.ch. Die Dozierenden legen die Repos an, Muster: `https://gitlab.switch.ch/hslu/edu/bachelor-computer-science/davi/<semester>/g<nr>`. Jeder Push deployt automatisch, die URL steht im Jobs-Log. Eine vorhandene `.gitlab-ci.yml` nicht ohne Rückfrage ändern.
@@ -190,15 +186,11 @@ Drei Ansichten mit einem gemeinsamen Zustand: **Zeitraum** und **ausgewählte He
 
 ```
 public/
-  index.html            Startseite mit Navigation
-  hintergrund.html      Projekt, Fragestellung, Skizze
-  daten.html            Quellen und Metadaten
-  visualisierung.html   interaktive Visualisierung
-  design.html           Designentscheidungen (2500–3500 Zeichen)
-  referenzen.html       Quellen, Erkenntnisse, Code-Quellen
-  kontakt.html          Gruppenmitglieder
+  index.html            einzige Seite, Abschnitte mit Anker-Navigation:
+                          Start · Hintergrund (inkl. Skizze) · Daten · Visualisierung ·
+                          Designentscheidungen (2500–3500 Zeichen) · Referenzen · Kontakt
   css/style.css
-  js/                   z. B. main.js, map.js, scatter.js, timeline.js
+  js/                   z. B. main.js, map.js, timeline.js
   data/                 aufbereitete Dateien für D3
   img/                  Scan der Handskizze
 scripts/                Datenaufbereitung
@@ -210,16 +202,16 @@ Projekt/Data/           Originaldaten, unverändert
 - [ ] Gruppennummer, GitLab-Repo-URL und URL der Website (Switch)
 - [ ] Klären: bleibt GitHub Pages nur zum Testen, Abgabe über GitLab Switch?
 - [ ] Jährliche Weltbank-Bevölkerungsdaten herunterladen (oder interpolieren)
-- [ ] Entscheidungen bestätigen: Nachbarland = gemeinsame Grenze (bisher ja), Start 1962 (bisher ja), wie viel Kontext pro Krise, Umgang mit Kosovo, Bevölkerung für 2025, Mindestzahl im Streudiagramm, Umgang mit Erfassungsbrüchen (Filter Kategorien?)
+- [ ] Entscheidungen bestätigen: Nachbarland = gemeinsame Grenze (bisher ja), Start 1962 (bisher ja), wie viel Kontext pro Krise, Umgang mit Kosovo, Bevölkerung für 2025, Umgang mit Erfassungsbrüchen (Filter Kategorien?)
 - [ ] Klären, ob die Nutzung von KI-Tools im Projekt deklariert werden muss
 
 ## Mögliche Reihenfolge (Vorschlag, nur nach Absprache abarbeiten)
 
-1. Seitenstruktur und Navigation in `public/` anlegen
+1. `public/index.html` mit allen Abschnitten und Anker-Navigation anlegen
 2. Skript für die Datenaufbereitung schreiben, Befunde nachrechnen
 3. Weltkarte mit Legende und Tooltip (Startzustand: aus Nachbarländern)
 4. Zeitachse mit Brush, verknüpft mit der Karte
-5. Streudiagramm der Herkunftsländer, verknüpft mit Karte und Zeitachse; Button «Zurücksetzen»
+5. Herkunftsland per Klick/Dropdown, Button «Zurücksetzen»
 6. Bis 11. Dezember: lauffähiger Prototyp für die Präsentation
-7. Texte (Hintergrund, Daten, Design, Referenzen, Kontakt)
+7. Texte (Hintergrund, Daten, Design, Referenzen, Kontakt); allenfalls Feedback 3 nochmals prüfen
 8. Bis 17. Januar: Feinschliff, ZIP und Link in ILIAS hochladen
