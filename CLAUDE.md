@@ -24,7 +24,7 @@ claude.ai-Projekt «DAVI», ergänzt um das Proposal-Feedback und den Abgleich m
 | `Projekt/Data/` | Rohdaten: UNHCR-Excel, Weltbank-ZIP, GeoDataSource-Grenzen |
 | `Slides_Dozent/` | Vorlesungsfolien 00–04 und Tufte-Kapitel (Scan aus «Beautiful Evidence») |
 | `module-I.BA_DAVI.18-de.pdf` | Modulbeschreibung (Projektarbeit = 100 % der Note) |
-| `public/` | Website (wird deployt), aktuell nur Platzhalter |
+| `public/` | Website (wird deployt): Gerüst mit allen Abschnitten, Daten in `public/data/` |
 | `CLAUDE.md` | Dieses Dokument |
 
 ## Modul und Aufgabe
@@ -183,7 +183,7 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 - **Nur eine HTML-Seite** (`public/index.html`), nicht auf mehrere Seiten verteilen. Alle Pflichtinhalte sind Abschnitte dieser Seite; die Navigation oben springt per Anker (`#daten` usw.) zu den Abschnitten.
 - **Reihenfolge der Abschnitte:** Start · Visualisierung · Hintergrund (inkl. Skizze) · Daten · Designentscheidungen · Referenzen · Kontakt. Visualisierung bewusst an zweiter Stelle (Besucher wollen zuerst das Ergebnis sehen, UX).
 - **D3 lokal** in `public/lib/` (nicht über CDN), damit das abgegebene ZIP auch offline läuft.
-- **Website-Ordner ist `public/`.** Aktuell enthält er nur eine Platzhalter-Seite (GitLab-Pages-Beispiel).
+- **Website-Ordner ist `public/`.** Gerüst mit allen Abschnitten steht (Schritt 2); Texte sind als gelbe `.platzhalter` markiert. Bibliotheken über npm geladen (jsDelivr ist aus der Arbeitsumgebung gesperrt).
 - **Deployment aktuell:** GitHub Actions (`.github/workflows/pages.yml`) deployt `public/` bei jedem Push auf `main` auf GitHub Pages. Workflow nicht ohne Rückfrage ändern.
 - **Abgabe laut Aufgabe:** GitLab Pages auf gitlab.switch.ch. Die Dozierenden legen die Repos an, Muster: `https://gitlab.switch.ch/hslu/edu/bachelor-computer-science/davi/<semester>/g<nr>`. Jeder Push deployt automatisch, die URL steht im Jobs-Log. Eine vorhandene `.gitlab-ci.yml` nicht ohne Rückfrage ändern.
 - Vom Dozenten empfohlen: Phoenix Code (https://phcode.io/) mit Chrome.
@@ -202,8 +202,9 @@ public/
     map.js                Weltkarte: Projektion, Farbskala, Legende, Tooltip, Klick
     timeline.js           Zeitachse: Linie, Balken, Brush, Hinweislinie 2000
   lib/
-    d3.v7.min.js
-    d3-geo-projection.min.js   für Natural Earth 2
+    d3.v7.min.js          D3 v7.9.0
+    d3-geo-projection.min.js   für Natural Earth 2 (v4.0.0)
+    topojson-client.min.js     wandelt die TopoJSON-Karte in Länderformen um (v3.1.0)
   data/                   von scripts/prepare_data.py erzeugt, nicht von Hand ändern
     flows.csv             jahr, herkunft, aufnahme, anzahl, nachbar (0/1)
     population.csv        iso3, jahr, einwohner

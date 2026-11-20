@@ -1,0 +1,312 @@
+/* ==========================================================================
+   Grundeinstellungen
+   Farben als Variablen, damit sie an einer Stelle angepasst werden können.
+   Die Akzentfarbe stammt aus der ColorBrewer-Skala «Blues», die auch die
+   Karte verwendet.
+   ========================================================================== */
+:root {
+  --text: #1f2933;
+  --text-muted: #5f6b76;
+  --background: #ffffff;
+  --surface: #f5f7f9;      /* leicht abgesetzte Flächen, z. B. Bedienleiste */
+  --border: #d9dee3;
+  --accent: #2171b5;       /* ColorBrewer Blues, Stufe 7 von 9 */
+  --accent-dark: #08519c;
+  --content-width: 1100px;
+  --header-height: 56px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Damit Abschnitte beim Anspringen nicht unter der festen Navigation liegen */
+  scroll-padding-top: calc(var(--header-height) + 16px);
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--background);
+}
+
+h1, h2, h3 {
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: 1.75rem;
+  margin: 0 0 1rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+  margin: 2rem 0 0.5rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 16px;
+  min-height: var(--header-height);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+}
+
+.nav-title {
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   Abschnitte
+   ========================================================================== */
+main {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.section {
+  padding: 56px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+/* Fliesstext nicht über die ganze Breite: kürzere Zeilen lesen sich besser */
+.section > p,
+.section > ul {
+  max-width: 70ch;
+}
+
+.section-start {
+  padding: 80px 0 64px;
+}
+
+.section-start h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0.25rem 0;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.subtitle {
+  margin: 0 0 1.5rem;
+  font-size: 1.25rem;
+  color: var(--text-muted);
+}
+
+.lead {
+  font-size: 1.2rem;
+}
+
+.button {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: #ffffff;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: var(--accent-dark);
+}
+
+/* Platzhalter sichtbar markieren, damit nichts vergessen geht */
+.platzhalter {
+  color: #9a6700;
+  background: #fff8e1;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* ==========================================================================
+   Visualisierung
+   ========================================================================== */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  padding: 12px 16px;
+  margin: 1.5rem 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.controls label {
+  font-weight: 600;
+}
+
+.controls select,
+.controls button {
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--background);
+}
+
+.controls button {
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.period {
+  color: var(--text-muted);
+}
+
+.view {
+  margin: 0 0 2rem;
+}
+
+.view-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.chart {
+  width: 100%;
+}
+
+/* Feste Mindesthöhen, damit die Seite beim Laden nicht springt */
+.chart-map {
+  min-height: 420px;
+}
+
+.chart-timeline {
+  min-height: 220px;
+}
+
+.source {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Hintergrund, Daten, Kontakt
+   ========================================================================== */
+.sketch {
+  margin: 1rem 0;
+}
+
+.sketch img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+}
+
+.sketch figcaption {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.table-wrap {
+  overflow-x: auto;   /* Tabelle auf dem Handy seitlich scrollbar */
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+th {
+  font-weight: 600;
+}
+
+.contact {
+  list-style: none;
+  padding: 0;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 16px;
+}
+
+/* ==========================================================================
+   Kleine Bildschirme (Handy)
+   Die Navigation braucht hier mehrere Zeilen. Damit sie nicht zu viel Platz
+   wegnimmt, scrollt sie normal mit statt oben fixiert zu bleiben.
+   ========================================================================== */
+@media (max-width: 700px) {
+  .site-header {
+    position: static;
+  }
+
+  html {
+    scroll-padding-top: 16px;
+  }
+
+  .controls button {
+    margin-left: 0;
+  }
+}

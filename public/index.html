@@ -1,23 +1,204 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="generator" content="GitLab Pages">
-    <title>Plain HTML site using GitLab Pages</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="navbar">
-      <a href="https://pages.gitlab.io/plain-html/">Plain HTML Example</a>
-      <a href="https://gitlab.com/pages/plain-html/">Repository</a>
-      <a href="https://gitlab.com/pages/">Other Examples</a>
-    </div>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nachbarländer als Hauptaufnahmeländer?</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-    <h1>Hello World!</h1>
+  <!-- Navigation: bleibt oben sichtbar, springt per Anker zu den Abschnitten -->
+  <header class="site-header">
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a class="nav-title" href="#start">Nachbarländer als Hauptaufnahmeländer?</a>
+      <ul class="nav-links">
+        <li><a href="#visualisierung">Visualisierung</a></li>
+        <li><a href="#hintergrund">Hintergrund</a></li>
+        <li><a href="#daten">Daten</a></li>
+        <li><a href="#design">Design</a></li>
+        <li><a href="#referenzen">Referenzen</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <p>
-      This is a simple plain-HTML website on GitLab Pages, without any fancy static site generator.
-    </p>
-  </body>
+  <main>
+
+    <!-- 1. Start -->
+    <section id="start" class="section section-start">
+      <p class="eyebrow">Projekt I.DAVI · HSLU · 2026</p>
+      <h1>Nachbarländer als Hauptaufnahmeländer?</h1>
+      <p class="subtitle">Neuankünfte von Geflüchteten 1962–2025</p>
+      <p class="lead">
+        Nehmen Nachbarländer bei grossen Fluchtbewegungen im Verhältnis zu ihrer
+        Bevölkerung mehr Geflüchtete auf als weiter entfernte Länder, und wie hat
+        sich das seit 1962 verändert?
+      </p>
+      <p class="platzhalter">[Platzhalter: zwei bis drei Sätze Einstieg]</p>
+      <a class="button" href="#visualisierung">Zur Visualisierung</a>
+    </section>
+
+    <!-- 2. Visualisierung -->
+    <section id="visualisierung" class="section">
+      <h2>Visualisierung</h2>
+      <p class="platzhalter">[Platzhalter: kurze Leseanleitung, ein Satz pro Interaktion]</p>
+
+      <!-- Bedienleiste: gilt für Karte und Zeitachse -->
+      <div class="controls">
+        <label for="origin-select">Herkunftsland</label>
+        <select id="origin-select" disabled>
+          <option value="">Alle (Neuankünfte aus Nachbarländern)</option>
+        </select>
+        <span class="period">Zeitraum: <strong id="period-label">1962–2025</strong></span>
+        <button id="reset-button" type="button" disabled>Zurücksetzen</button>
+      </div>
+
+      <!-- Ansicht 1: Weltkarte (wird in Schritt 3 mit js/map.js gezeichnet) -->
+      <figure class="view">
+        <figcaption class="view-title">Neuankünfte pro 1000 Einwohner</figcaption>
+        <div id="map" class="chart chart-map">
+          <p class="platzhalter">[Weltkarte folgt in Schritt 3]</p>
+        </div>
+        <div id="map-legend" class="legend"></div>
+      </figure>
+
+      <!-- Ansicht 2: Zeitachse (wird in Schritt 4 mit js/timeline.js gezeichnet) -->
+      <figure class="view">
+        <figcaption class="view-title">Anteil der Neuankünfte in Nachbarländern pro Jahr</figcaption>
+        <div id="timeline" class="chart chart-timeline">
+          <p class="platzhalter">[Zeitachse folgt in Schritt 4]</p>
+        </div>
+      </figure>
+
+      <p class="source">
+        Quellen: UNHCR Forced Displacement Flows (Stand 11.6.2026), Weltbank «Population, total»,
+        GeoDataSource Country Borders; eigene Berechnungen.
+      </p>
+
+      <h3>Kontext zu grossen Fluchtbewegungen</h3>
+      <p class="platzhalter">[Platzhalter: kleine Tabelle mit 5–10 Krisen, z. B. «Ruanda 1994: Genozid»]</p>
+    </section>
+
+    <!-- 3. Hintergrund -->
+    <section id="hintergrund" class="section">
+      <h2>Hintergrund</h2>
+      <p class="platzhalter">[Platzhalter: Motivation und Fragestellung]</p>
+
+      <h3>Hypothese</h3>
+      <p>
+        Nachbarländer nehmen pro Einwohner am meisten auf. Ihr Anteil an den
+        Neuankünften nimmt über die Jahrzehnte aber ab, es fliehen also mehr
+        Menschen weiter weg.
+      </p>
+
+      <h3>Begriffe</h3>
+      <p class="platzhalter">[Platzhalter: Neuankünfte vs. Bestand, Nachbarland, pro 1000 Einwohner]</p>
+
+      <h3>Erste Skizze</h3>
+      <figure class="sketch">
+        <img src="img/skizze.png" alt="Handgezeichnete Konzeptskizze: Titel mit Auswahl Herkunftsland und Zeitraum, Weltkarte mit Legende links, Zeitachse und Top-10-Liste rechts" loading="lazy">
+        <figcaption>Handskizze aus dem Projekt-Proposal vom 16. Oktober 2026.</figcaption>
+      </figure>
+
+      <h3>Änderungen nach dem Feedback zum Proposal</h3>
+      <p class="platzhalter">[Platzhalter: Startzustand mit Nachbarländern, Top-10-Liste entfernt]</p>
+    </section>
+
+    <!-- 4. Daten -->
+    <section id="daten" class="section">
+      <h2>Daten</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Datensatz</th><th>Herausgeber</th><th>Inhalt</th><th>Lizenz</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Forced Displacement Flows</td>
+              <td>UNHCR</td>
+              <td>Neuankünfte pro Jahr, Herkunfts- und Aufnahmeland, 1962–2025</td>
+              <td>CC BY 4.0</td>
+            </tr>
+            <tr>
+              <td>Population, total (SP.POP.TOTL)</td>
+              <td>Weltbank</td>
+              <td>Bevölkerung pro Land und Jahr</td>
+              <td>CC BY 4.0</td>
+            </tr>
+            <tr>
+              <td>Country Borders</td>
+              <td>GeoDataSource</td>
+              <td>Länderpaare mit gemeinsamer Landgrenze</td>
+              <td>CC BY-SA 4.0</td>
+            </tr>
+            <tr>
+              <td>world-atlas (Natural Earth)</td>
+              <td>Mike Bostock</td>
+              <td>Länderformen für die Weltkarte</td>
+              <td>ISC / Public Domain</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Aufbereitung</h3>
+      <p class="platzhalter">[Platzhalter: Bereinigung, entfernte Codes, Zuordnung Ländercodes]</p>
+
+      <h3>Einschränkungen</h3>
+      <p class="platzhalter">[Platzhalter: Erfassungsbruch 2000, Inseln ohne Nachbarn, Kosovo, Weiterwanderung nicht erfasst]</p>
+    </section>
+
+    <!-- 5. Designentscheidungen (2500–3500 Zeichen inkl. Leerzeichen) -->
+    <section id="design" class="section">
+      <h2>Designentscheidungen</h2>
+      <h3>Foundations Visual Design</h3>
+      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <h3>Fundamental Principles of Analytical Design (Tufte)</h3>
+      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <h3>Data-Ink Ratio (Tufte)</h3>
+      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <h3>Human Perception</h3>
+      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <h3>Tasks in Data Visualization</h3>
+      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+      <h3>Interaction Concept</h3>
+      <p class="platzhalter">[Platzhalter: ca. 500 Zeichen]</p>
+    </section>
+
+    <!-- 6. Referenzen -->
+    <section id="referenzen" class="section">
+      <h2>Referenzen</h2>
+      <h3>Quellen und Erkenntnisse zum Thema</h3>
+      <p class="platzhalter">[Platzhalter: UNHCR Global Trends, Ipsos 2022, Gapminder 2023 …]</p>
+      <h3>Verwendeter Code</h3>
+      <ul>
+        <li>D3.js v7.9.0 (Mike Bostock), Bibliothek für die Visualisierungen.</li>
+        <li>d3-geo-projection v4.0.0, für die Projektion Natural Earth 2.</li>
+        <li>topojson-client v3.1.0, wandelt die Kartendatei in Länderformen um.</li>
+      </ul>
+      <p class="platzhalter">[Platzhalter: Beispiele, aus denen Code übernommen wurde, je mit Halbsatz]</p>
+    </section>
+
+    <!-- 7. Kontakt -->
+    <section id="kontakt" class="section">
+      <h2>Kontakt</h2>
+      <ul class="contact">
+        <li><strong>Dario Meyer</strong> <span class="platzhalter">[Platzhalter: Studiengang, Kontakt]</span></li>
+        <li><strong>Martina Gander</strong> <span class="platzhalter">[Platzhalter: Studiengang, Kontakt]</span></li>
+      </ul>
+      <p>Modul I.DAVI, Hochschule Luzern – Informatik, Herbstsemester 2026.</p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Dario Meyer · Martina Gander · HSLU 2026</p>
+  </footer>
+
+  <!-- Bibliotheken lokal (siehe Referenzen), danach unser eigener Code (ab Schritt 3) -->
+  <script src="lib/d3.v7.min.js"></script>
+  <script src="lib/d3-geo-projection.min.js"></script>
+  <script src="lib/topojson-client.min.js"></script>
+</body>
 </html>
-
