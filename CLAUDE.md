@@ -100,9 +100,9 @@ Umsetzung: Punkt 1 und 2 werden umgesetzt (Karte startet mit «Neuankünfte aus 
 | Datensatz | Inhalt | Fundort | Lizenz |
 |---|---|---|---|
 | UNHCR Forced Displacement Flows | Neuankünfte pro Jahr × Herkunftsland × Aufnahmeland × Kategorie, 1962–2025. Im Repo: `Projekt/Data/UNHCR_Flow_Data.xlsx`, Blatt `DATA`, 108'879 Zeilen, Stand 11.6.2026 | UNHCR Refugee Data Finder; auch R-Paket `refugees`: https://github.com/PopulationStatistics/refugees | CC BY 4.0 |
-| World Bank «Population, total» (`SP.POP.TOTL`) | Bevölkerung pro Land und Jahr | https://data.worldbank.org/indicator/SP.POP.TOTL | CC BY 4.0 |
+| World Bank «Population, total» (`SP.POP.TOTL`) | Bevölkerung pro Land und Jahr, 1960–2025. Im Repo: `Projekt/Data/WorldBank_Population_SP.POP.TOTL.csv` | https://data.worldbank.org/indicator/SP.POP.TOTL. Heruntergeladen über die Kopie https://github.com/datasets/population (Weltbank-Website war aus der Arbeitsumgebung nicht erreichbar); mit der Weltbank-Datei im Repo abgeglichen: 770 Werte, keine Abweichung über 1 %. Auf der Website die Weltbank zitieren. | CC BY 4.0 |
 | GeoDataSource Country Borders | Länderpaare mit gemeinsamer Grenze (ISO-2), im Repo `Projekt/Data/GEODATASOURCE-COUNTRY-BORDERS.CSV` | https://github.com/geodatasource/country-borders | CC BY-SA 4.0 |
-| Weltkarte (noch zu beschaffen) | Länderpolygone als TopoJSON | z. B. `world-atlas` (Natural Earth) | Public Domain |
+| Weltkarte | Länderpolygone als TopoJSON (177 Länder, Massstab 1:110 Mio.). Im Repo: `Projekt/Data/countries-110m.json` | npm-Paket `world-atlas` 2.0.2 (Mike Bostock), basiert auf Natural Earth | ISC / Public Domain |
 
 **Wer die Daten erhebt (für die Datenseite)**
 - UNHCR: bis 1999 aus dem UNHCR-Archiv, ab 2000 aus der jährlichen offiziellen Statistik. Die Zahlen liefern meist Regierungen (Asylbehörden) oder sie stammen aus UNHCR-Registrierungen vor Ort.
@@ -112,24 +112,28 @@ Umsetzung: Punkt 1 und 2 werden umgesetzt (Karte startet mit «Neuankünfte aus 
 **Einschränkungen:** Die Daten zeigen, wo Menschen ankommen, aber nicht, ob sie später weiterziehen. Fluchtursachen sind nicht enthalten.
 
 ### Stolpersteine bei der Aufbereitung
-- **Bevölkerungsdatei im Repo unbrauchbar für Jahreswerte:** `P_Population.zip` enthält nur die Jahre 1960, 1970 … 2020 (danach Prognosen 2030–2050) und 176 Indikatoren. Die Jahresreihe `SP.POP.TOTL` muss neu bei der Weltbank geladen werden (Alternative: zwischen den Jahrzehnten interpolieren, dann auf der Datenseite erwähnen).
+- **Bevölkerung:** `P_Population.zip` enthält nur die Jahre 1960, 1970 … 2020 und ist für Jahreswerte unbrauchbar. **Gelöst:** Jahresreihe 1960–2025 als `Projekt/Data/WorldBank_Population_SP.POP.TOTL.csv` (siehe Datentabelle).
 - **Kategorien (laut Blatt `Metadata` der UNHCR-Excel):** REF = Flüchtlinge · GRP = Gruppenanerkennung · TMP = vorübergehender Schutz · ROC = flüchtlingsähnliche Situation · **ASY = neue Asylgesuche** · ASR = von UNHCR registrierte Asylsuchende · OIP = andere Schutzbedürftige. Für «Neuankünfte» werden sie summiert.
-- **Erfassungsbrüche:** Asylgesuche (ASY) gibt es 1970–1999 nur für **37 Industrieländer**, ab 2000 für 192 Länder. GRP/TMP ab 2000, OIP ab 2018, ASR ab 2021. Weil diese Industrieländer selten Nachbarn der Herkunftsländer sind, kann der Nachbar-Anteil allein wegen der Erfassung schwanken. Auf der Datenseite erklären. Eventuell einen Filter für Flüchtlinge vs. Asylgesuche anbieten.
+- **Erfassungsbrüche:** Asylgesuche (ASY) gibt es 1970–1999 nur für **37 Industrieländer**, ab 2000 für 192 Länder. GRP/TMP ab 2000, OIP ab 2018, ASR ab 2021. Weil diese Industrieländer selten Nachbarn der Herkunftsländer sind, kann der Nachbar-Anteil allein wegen der Erfassung schwanken. **Entscheid:** kein Filter nach Kategorie (alle Kategorien zählen Personen, unsere Frage ist *wo* Menschen ankommen, nicht über welches Verfahren). Stattdessen Hinweislinie bei 2000 auf der Zeitachse und Erklärung auf der Datenseite.
+- Nachgerechnete Werte zu den Erfassungsbrüchen: siehe «Nachgerechnete Befunde» unten.
 - **Ländercodes:** UNHCR hat eigene Codes (ALG) und ISO3-Codes (DZA). Immer die ISO3-Spalten verwenden (`OriginISO`, `AsylumISO`). Die Namensspalten in der Excel-Datei sind Formeln und werden beim Einlesen mit einem Skript leer gelesen; Namen aus Blatt `T23` holen. GeoDataSource nutzt ISO2 (CH), also nach ISO3 umrechnen. Die TopoJSON-Weltkarte (world-atlas) nutzt numerische ISO-Codes (756 = Schweiz), dafür braucht es eine Zuordnungstabelle.
-- **Sonderfälle:** Kosovo ist bei UNHCR mit Serbien zusammengeführt. Dafür eine Regel festlegen und dokumentieren. Tibet (TIB) hat keinen ISO-Code. Historische Staaten wie Jugoslawien oder die Sowjetunion prüfen.
-- **Weltbank:** Die Datei enthält Aggregate (World, Regionen, Einkommensgruppen), die herausgefiltert werden müssen. Das Jahr 2025 fehlt. Regel festlegen (z. B. 2024 weiterverwenden) und auf der Datenseite erwähnen.
+- **Sonderfälle:** Kosovo ist bei UNHCR mit Serbien zusammengeführt. **Entscheid:** so übernehmen, Kosovo auf der Karte grau mit Hinweis. UNHCR-Codes ohne Land: `UKN` (unbekannte Herkunft), `STA` (staatenlos), `TIB` (Tibet), zusammen ca. 2 % der Neuankünfte. **Entscheid:** aus der Auswertung entfernen (kein Nachbarland bestimmbar), Anzahl auf der Datenseite nennen.
+- **Weltbank:** Die Datei enthält Aggregate (World, Regionen, Einkommensgruppen). Das Skript entfernt sie (kein gültiger ISO-3-Code). Die heruntergeladene Jahresreihe enthält bereits 2025.
 - **Zahlenformat:** In der Excel-Ansicht stehen Schweizer Tausendertrennzeichen (20’000). Beim Einlesen per Skript kommen echte Zahlen an.
-- **Datenmenge:** Rund 100'000 Zeilen sind zu viel für den Browser. Deshalb einmal vorab zu kleinen Dateien aggregieren, etwa nach Jahr × Aufnahmeland oder Jahr × Herkunftsland × Nachbar ja/nein. D3 liest danach nur noch die aufbereiteten Dateien.
+- **Datenmenge:** Nach dem Zusammenzählen der Kategorien bleiben 103'502 Zeilen (Jahr × Herkunft × Aufnahme), als `flows.csv` ca. 2 MB. Das ist für den Browser in Ordnung (GitHub Pages liefert komprimiert aus). **Entscheid:** eine einzige Datei, Filtern und Summieren im Browser (`data.js`), statt vieler vorgerechneter Teildateien – einfacher zu erklären.
 - **Neu aufbauen:** Die ersten Auswertungen liefen in einer claude.ai-Sandbox. Diese CSV-Dateien existieren nicht mehr. Die Aufbereitung muss als Skript im Repo neu gebaut werden. Laut Aufgabe wäre auch Tableau Prep erlaubt.
 
-### Vorläufige Befunde (aus der ersten Auswertung mit einer älteren Datenversion, mit eigenem Skript nachprüfen!)
-- Über alle Jahre landen ca. 58 % der Neuankünfte in Nachbarländern.
-- Anteil Nachbarländer nach Jahrzehnt: 1960er ca. 63 %, 1970er ca. 80 %, 2000er ca. 50 %, 2020er (2020–2025) ca. 45 %. Achtung Erfassungsbrüche (siehe oben).
-- Syrien 2013: in den Nachbarländern ca. 16 Neuankünfte pro 1000 Einwohner, im Rest der Welt ca. 0,05.
-- Libanon 2013: ca. 740'000 Neuankünfte bei knapp 6 Mio. Einwohnern, also ca. 129 pro 1000. Zum Vergleich 2013: Schweiz ca. 2, Deutschland ca. 1.
-- Nordmazedonien 1999: ca. 176 pro 1000.
-- Ukraine und Venezuela: Mehr als die Hälfte der Neuankünfte ging in nicht angrenzende Länder.
-- Der Wertebereich pro 1000 Einwohner ist riesig (unter 0,01 bis über 100). Deshalb eine Log-Skala, Grenzen aus den Daten bestimmen.
+### Nachgerechnete Befunde (`scripts/prepare_data.py`, 20.11.2026, Details in `scripts/kontrollbericht.txt`)
+- Bereinigt: 103'502 Zeilen, 113,6 Mio. Neuankünfte, 211 Herkunfts- und 189 Aufnahmeländer. Entfernt 2,5 Mio. (2,1 %): UKN 2,26 Mio., STA 0,20 Mio., TIB 11'000.
+- Über alle Jahre landen **59 %** der Neuankünfte in Nachbarländern.
+- Anteil Nachbarländer nach Jahrzehnt, alle Kategorien / ohne Asylgesuche (Anteil Asylgesuche): 1960er 64 %/64 % (0 %) · 1970er 84 %/88 % (5 %) · 1980er 81 %/91 % (12 %) · 1990er 67 %/93 % (29 %) · 2000er 50 %/91 % (62 %) · 2010er 60 %/89 % (42 %) · 2020er 46 %/63 % (44 %). **Der sinkende Anteil hängt stark mit dem wachsenden Gewicht der Asylgesuche zusammen** (Erfassungsbruch, siehe oben). Wichtig für die Interpretation der Hypothese.
+- Libanon 2013: 740'865 Neuankünfte, **129 pro 1000** Einwohner. Zum Vergleich 2013: Schweiz 2,4, Deutschland 1,3.
+- Nordmazedonien 1999: 355'000 Neuankünfte, **176 pro 1000**.
+- Syrien 2013: in den Nachbarländern (IRQ, ISR, JOR, LBN, TUR) **15,4 pro 1000**, im Rest der Welt 0,03.
+- Ukraine und Venezuela: nur **44 %** in Nachbarländern (alle Jahre), die Mehrheit ging in nicht angrenzende Länder.
+- Datenlücken für die Karte: 28 kleine Aufnahmeländer fehlen im Massstab 1:110 Mio. (0,24 % der Neuankünfte, v. a. Hongkong, Malta, Singapur). Bevölkerung fehlt nur für Französisch-Guayana und Anguilla (2'127 Personen). Auf der Karte ohne Code: Nordzypern, Somaliland, Kosovo (grau).
+- 51 Länder in den Daten haben keine Landgrenze (Inseln wie Japan, Australien, Kuba): Sie können nie «Nachbarland» sein. Auf der Datenseite erwähnen.
+- Der Wertebereich pro 1000 Einwohner ist riesig. Deshalb eine Log-Skala, Grenzen aus den Daten bestimmen.
 
 ### Kontext und Referenzen
 - UNHCR Global Trends 2024: 67 % der Geflüchteten leben in einem Nachbarland (Bestand). UNHCR Figures at a Glance, Mitte 2025: 66 %.
@@ -148,11 +152,13 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 - **Startzustand (nichts ausgewählt, Feedback 1):** pro Aufnahmeland die Neuankünfte **aus Nachbarländern** pro 1000 Einwohner, summiert über den gewählten Zeitraum.
 - **Herkunftsland gewählt:** Neuankünfte aus diesem Land pro 1000 Einwohner. Herkunftsland eigene Markierung (z. B. Schraffur), Nachbarländer dick umrandet.
 - Klick auf ein Land: als Herkunftsland wählen bzw. abwählen. Zusätzlich Auswahl per Dropdown.
+- Ländernamen auf **Deutsch** (Browser-Funktion `Intl.DisplayNames` mit ISO-2-Code, keine zusätzlichen Daten nötig).
 - Tooltip (Details on Demand): Ländername, Neuankünfte absolut und pro 1000 Einwohner, Nachbar ja/nein, wichtigste Herkunftsländer, eventuell ein Satz Kontext zur Krise.
 
 **Ansicht 2 – Zeitachse (Zoom & Filter)**
 - Linie: Anteil der Neuankünfte in Nachbarländern pro Jahr, y-Achse 0–100 %. Ist ein Herkunftsland gewählt, zeigt die Linie nur dieses Land.
 - Optional im Hintergrund schwache Balken mit den absoluten Neuankünften, damit die Krisen-Peaks sichtbar sind.
+- Dünne senkrechte Hinweislinie bei 2000: «ab 2000: Asylgesuche weltweit erfasst» (Erfassungsbruch, Tufte: Wort und Daten integrieren).
 - `d3.brushX` zur Wahl eines Zeitraums → gilt für die Karte.
 
 **Brushing & Linking**
@@ -175,6 +181,8 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 
 - Statische Website mit HTML, CSS und JavaScript plus **D3.js v7**. Kein Framework und kein Build-Schritt, weil wir den Code erklären können müssen.
 - **Nur eine HTML-Seite** (`public/index.html`), nicht auf mehrere Seiten verteilen. Alle Pflichtinhalte sind Abschnitte dieser Seite; die Navigation oben springt per Anker (`#daten` usw.) zu den Abschnitten.
+- **Reihenfolge der Abschnitte:** Start · Visualisierung · Hintergrund (inkl. Skizze) · Daten · Designentscheidungen · Referenzen · Kontakt. Visualisierung bewusst an zweiter Stelle (Besucher wollen zuerst das Ergebnis sehen, UX).
+- **D3 lokal** in `public/lib/` (nicht über CDN), damit das abgegebene ZIP auch offline läuft.
 - **Website-Ordner ist `public/`.** Aktuell enthält er nur eine Platzhalter-Seite (GitLab-Pages-Beispiel).
 - **Deployment aktuell:** GitHub Actions (`.github/workflows/pages.yml`) deployt `public/` bei jedem Push auf `main` auf GitHub Pages. Workflow nicht ohne Rückfrage ändern.
 - **Abgabe laut Aufgabe:** GitLab Pages auf gitlab.switch.ch. Die Dozierenden legen die Repos an, Muster: `https://gitlab.switch.ch/hslu/edu/bachelor-computer-science/davi/<semester>/g<nr>`. Jeder Push deployt automatisch, die URL steht im Jobs-Log. Eine vorhandene `.gitlab-ci.yml` nicht ohne Rückfrage ändern.
@@ -182,33 +190,59 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 - Lokal mit einem kleinen Webserver testen (z. B. `python3 -m http.server` im Ordner `public/`), weil `d3.csv` und `d3.json` über `file://` nicht funktionieren.
 - Datenaufbereitung als Skript (Python) unter `scripts/`. Es liest die Rohdaten aus `Projekt/Data/` und schreibt kleine CSV- oder JSON-Dateien nach `public/data/`.
 
-**Vorgeschlagene Struktur** (Vorschlag, vor dem Anlegen absprechen):
+**Struktur (entschieden 20.11.2026):**
 
 ```
 public/
-  index.html            einzige Seite, Abschnitte mit Anker-Navigation:
-                          Start · Hintergrund (inkl. Skizze) · Daten · Visualisierung ·
-                          Designentscheidungen (2500–3500 Zeichen) · Referenzen · Kontakt
-  css/style.css
-  js/                   z. B. main.js, map.js, timeline.js
-  data/                 aufbereitete Dateien für D3
-  img/                  Scan der Handskizze
-scripts/                Datenaufbereitung
-Projekt/Data/           Originaldaten, unverändert
+  index.html              einzige Seite mit allen Abschnitten
+  css/style.css           Layout, Farben, Schrift
+  js/
+    main.js               Daten laden, gemeinsamer Zustand, Dropdown, Zurücksetzen
+    data.js               Rechenfunktionen (filtern, summieren, pro 1000 EW, Nachbar-Anteil)
+    map.js                Weltkarte: Projektion, Farbskala, Legende, Tooltip, Klick
+    timeline.js           Zeitachse: Linie, Balken, Brush, Hinweislinie 2000
+  lib/
+    d3.v7.min.js
+    d3-geo-projection.min.js   für Natural Earth 2
+  data/                   von scripts/prepare_data.py erzeugt, nicht von Hand ändern
+    flows.csv             jahr, herkunft, aufnahme, anzahl, nachbar (0/1)
+    population.csv        iso3, jahr, einwohner
+    countries.csv         iso3, iso2, iso_num
+    borders.csv           iso3_a, iso3_b (Nachbarpaare)
+    world-110m.json       Länderformen (TopoJSON)
+  img/skizze.png          Scan der Handskizze aus dem Proposal
+
+scripts/
+  prepare_data.py         Bereinigung + Aufbereitung: Projekt/Data/ → public/data/
+  requirements.txt        Python-Pakete (openpyxl, pycountry)
+  kontrollbericht.txt     Ausgabe des Skripts: Entferntes, nicht Zugeordnetes, nachgerechnete Befunde
+Projekt/Data/             Originaldaten, unverändert
+```
+
+**Gemeinsamer Zustand:** `state = { years: [1962, 2025], origin: null }`. Jede Interaktion ruft `setState(...)` auf, das danach `map.update(state)` und `timeline.update(state)` aufruft.
+
+**Rechnung Karte:** Summe Neuankünfte im Zeitraum (ohne Auswahl: nur aus Nachbarländern; mit Auswahl: nur aus dem gewählten Herkunftsland) ÷ durchschnittliche Bevölkerung im Zeitraum × 1000.
+
+**Datenaufbereitung ausführen** (im Repo-Hauptordner):
+
+```
+pip install -r scripts/requirements.txt
+python3 scripts/prepare_data.py
 ```
 
 ## Offene Punkte
 
 - [ ] Gruppennummer, GitLab-Repo-URL und URL der Website (Switch)
 - [ ] Klären: bleibt GitHub Pages nur zum Testen, Abgabe über GitLab Switch?
-- [ ] Jährliche Weltbank-Bevölkerungsdaten herunterladen (oder interpolieren)
-- [ ] Entscheidungen bestätigen: Nachbarland = gemeinsame Grenze (bisher ja), Start 1962 (bisher ja), wie viel Kontext pro Krise, Umgang mit Kosovo, Bevölkerung für 2025, Umgang mit Erfassungsbrüchen (Filter Kategorien?)
+- [x] Jährliche Weltbank-Bevölkerungsdaten heruntergeladen
+- [x] Entschieden (20.11.2026): Visualisierung an 2. Stelle · Namen deutsch · kein Kategorie-Filter, Hinweislinie 2000 · Kosovo zu Serbien, grau mit Hinweis · D3 lokal · UKN/STA/TIB entfernen
+- [ ] Noch bestätigen: Nachbarland = gemeinsame Grenze (bisher ja), Start 1962 (bisher ja), wie viel Kontext pro Krise
 - [ ] Klären, ob die Nutzung von KI-Tools im Projekt deklariert werden muss
 
 ## Mögliche Reihenfolge (Vorschlag, nur nach Absprache abarbeiten)
 
-1. `public/index.html` mit allen Abschnitten und Anker-Navigation anlegen
-2. Skript für die Datenaufbereitung schreiben, Befunde nachrechnen
+1. Skript für die Datenaufbereitung schreiben, Kontrollbericht gemeinsam prüfen, Befunde nachrechnen
+2. `public/index.html` mit allen Abschnitten und Anker-Navigation anlegen
 3. Weltkarte mit Legende und Tooltip (Startzustand: aus Nachbarländern)
 4. Zeitachse mit Brush, verknüpft mit der Karte
 5. Herkunftsland per Klick/Dropdown, Button «Zurücksetzen»
