@@ -120,10 +120,15 @@ main {
   border-bottom: none;
 }
 
-/* Fliesstext nicht über die ganze Breite: kürzere Zeilen lesen sich besser */
-.section > p,
-.section > ul {
-  max-width: 70ch;
+/* Fliesstext im Blocksatz über die ganze Inhaltsbreite (bündig mit der
+   Navigation). Silbentrennung (hyphens, Sprache aus lang="de") verhindert
+   grosse Lücken zwischen den Wörtern. */
+.section p,
+.section li,
+.terms dd {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 .section-start {
@@ -541,7 +546,6 @@ th {
    Texte und Kontext-Tabelle
    ========================================================================== */
 .howto {
-  max-width: 70ch;
   padding-left: 1.2em;
 }
 
@@ -556,7 +560,6 @@ th {
 
 .terms dd {
   margin: 0.25rem 0 0;
-  max-width: 70ch;
 }
 
 td.number,
