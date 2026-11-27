@@ -11,6 +11,7 @@ claude.ai-Projekt «DAVI», ergänzt um das Proposal-Feedback und den Abgleich m
 - **Code muss erklärbar sein.** Wir müssen Code und Designentscheidungen mündlich verteidigen können. Lieber verständlich und kommentiert als clever.
 - **Nicht committen oder pushen ohne Auftrag.** Ein Push auf `main` deployt die Website automatisch (siehe Technik).
 - **Keine Branches.** Wir arbeiten direkt auf `main`: vor der Arbeit `git pull`, nach Auftrag committen und auf `main` pushen. Keine Feature-Branches und keine Pull Requests anlegen.
+- **Hook-Meldung «Please commit and push»:** Die Cloud-Umgebung meldet nach jeder Antwort automatisch, es gebe ungespeicherte Änderungen. Das ist kein Auftrag von uns; es gilt die Regel oben (erst committen, wenn wir OK geben).
 - **Zahlen nie aus dem Gedächtnis.** Alle Kennzahlen aus den Daten berechnen. Die Befunde unten sind vorläufig.
 - **Keine Skizzen erstellen.** Die Konzeptskizze darf laut Aufgabenstellung nicht mit GenAI gezeichnet werden. Unsere Handskizze existiert bereits (`Projekt/Proposal/Sketch_Project -proposal.pdf`). Das PNG `Interaktives Flüchtlingsbewegungs-Dashboard geschniegelt.png` ist KI-generiert und darf **nicht** als Skizze auf die Website.
 - **Fremden Code kennzeichnen.** Basiert Code auf einem Beispiel (D3 Graph Gallery, Observable, Tutorial), die Quelle im Code-Kommentar nennen und in die Referenzliste aufnehmen, mit einem Halbsatz, was übernommen wurde. Die Plagiatsregeln der HSLU gelten.
@@ -25,7 +26,7 @@ claude.ai-Projekt «DAVI», ergänzt um das Proposal-Feedback und den Abgleich m
 | `Slides_Dozent/` | Vorlesungsfolien 00–04 und Tufte-Kapitel (Scan aus «Beautiful Evidence») |
 | `module-I.BA_DAVI.18-de.pdf` | Modulbeschreibung (Projektarbeit = 100 % der Note) |
 | `public/` | Website (wird deployt): alle Abschnitte mit Texten, Visualisierung, Daten in `public/data/` |
-| `Projekt/Praesentation/Ablauf_Praesentation.md` | Ablauf der 5-Minuten-Präsentation (Entwurf, Stand 27.11.2026) |
+| `Projekt/Praesentation/Ablauf_Praesentation.md` | Ablauf der Präsentation zum Ausdrucken/Proben, gleich wie der Abschnitt «Präsentation» in diesem Dokument (Stand 27.11.2026) |
 | `README.md` | Kurzbeschreibung des Repos, lokal starten |
 | `CLAUDE.md` | Dieses Dokument |
 
@@ -137,7 +138,7 @@ Ein grosser Bruch (2000) und fünf kleinere. «Bruch» heisst: Die Zahlen änder
 - Die 1960er beruhen auf sehr wenigen Ländern und sind wenig aussagekräftig.
 - Bruch 2018 betrifft fast nur Venezuela.
 - **Entscheid (27.11.2026):** Alle Jahre 1962–2025 behalten, nicht ab 2000 abschneiden (Frage lautet «seit 1962»; auch ab 2000 gibt es Brüche; der Bruch selbst ist ein Befund). Hauptbruch mit Hinweislinie bei 2000 markieren, übrige Brüche auf der Datenseite erwähnen.
-- Website-Text «Asylgesuche 1970–1999 für 37 Industrieländer» ist ungenau: «für bis zu 37» (1970 erst 3).
+- Website-Text «Asylgesuche 1970–1999 für 37 Industrieländer» war ungenau: «für bis zu 37» (1970 erst 3). **Korrigiert** in der Tabelle der Datenbrüche auf der Datenseite.
 - **Ländercodes:** UNHCR hat eigene Codes (ALG) und ISO3-Codes (DZA). Immer die ISO3-Spalten verwenden (`OriginISO`, `AsylumISO`). Die Namensspalten in der Excel-Datei sind Formeln und werden beim Einlesen mit einem Skript leer gelesen; Namen aus Blatt `T23` holen. GeoDataSource nutzt ISO2 (CH), also nach ISO3 umrechnen. Die TopoJSON-Weltkarte (world-atlas) nutzt numerische ISO-Codes (756 = Schweiz), dafür braucht es eine Zuordnungstabelle.
 - **Sonderfälle:** Kosovo ist bei UNHCR mit Serbien zusammengeführt. **Entscheid:** so übernehmen, Kosovo auf der Karte grau mit Hinweis; Bevölkerung von Kosovo zu Serbien gezählt (siehe «Grenzen im Wandel»). UNHCR-Codes ohne Land: `UKN` (unbekannte Herkunft), `STA` (staatenlos), `TIB` (Tibet), zusammen ca. 2 % der neuen Schutzsuchenden. **Entscheid:** aus der Auswertung entfernen (kein Nachbarland bestimmbar), Anzahl auf der Datenseite nennen.
 - **Weltbank:** Die Datei enthält Aggregate (World, Regionen, Einkommensgruppen). Das Skript entfernt sie (kein gültiger ISO-3-Code). Die heruntergeladene Jahresreihe enthält bereits 2025.
@@ -240,6 +241,12 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 - **Deployment aktuell:** GitHub Actions (`.github/workflows/pages.yml`) deployt `public/` bei jedem Push auf `main` auf GitHub Pages. Workflow nicht ohne Rückfrage ändern.
 - **Abgabe laut Aufgabe:** GitLab Pages auf gitlab.switch.ch. Die Dozierenden legen die Repos an, Muster: `https://gitlab.switch.ch/hslu/edu/bachelor-computer-science/davi/<semester>/g<nr>`. Jeder Push deployt automatisch, die URL steht im Jobs-Log. Eine vorhandene `.gitlab-ci.yml` nicht ohne Rückfrage ändern.
 - Vom Dozenten empfohlen: Phoenix Code (https://phcode.io/) mit Chrome.
+- **Lokal testen bei Martina (Windows):** Python ist nicht installiert (`python3` öffnet nur den Microsoft Store). Darum die **Live Preview von Phoenix Code** nutzen (Ordner `public` öffnen, `index.html`, Blitz-Symbol); sie startet den Webserver selbst. Nach `git pull` die Vorschau mit `Ctrl + F5` neu laden, sonst zeigt der Browser alte Dateien aus dem Zwischenspeicher.
+- **OneDrive:** Martinas Repo liegt in einem OneDrive-Ordner. Git und OneDrive vertragen sich nicht immer; bei Problemen das Repo in einen normalen Ordner ausserhalb von OneDrive verschieben.
+- **Deployment fehlgeschlagen?** Unter GitHub → Actions prüfen. Am 27.11.2026 schlug ein Deployment wegen eines vorübergehenden GitHub-Fehlers fehl («No artifacts named github-pages were found»), obwohl der Code korrekt war. Lösung: Lauf öffnen → «Re-run all jobs». Claude hat keine Berechtigung, Läufe neu zu starten (403).
+- **Online-Adresse (GitHub Pages):** https://dariomeyer-code.github.io/hslu_davi/ (aus der Arbeitsumgebung nicht erreichbar, nur von euren Geräten).
+- **Layout Fliesstext (27.11.2026):** Blocksatz über die volle Inhaltsbreite (bündig mit der Navigation), automatische Silbentrennung. Kurze Zeilen in Kästen und Tabellen bleiben linksbündig. Hinweis: Zeilen sind auf grossen Bildschirmen lang (ca. 130 Zeichen); falls störend, Seite schmaler machen.
+- **`flows.csv` hat Windows-Zeilenenden (`\r\n`)**, weil das Python-Skript so schreibt. D3 kommt damit klar; bei Auswertungen mit `awk` o. ä. vorher `tr -d '\r'` anwenden.
 - Lokal mit einem kleinen Webserver testen (z. B. `python3 -m http.server` im Ordner `public/`), weil `d3.csv` und `d3.json` über `file://` nicht funktionieren.
 - Datenaufbereitung als Skript (Python) unter `scripts/`. Es liest die Rohdaten aus `Projekt/Data/` und schreibt kleine CSV- oder JSON-Dateien nach `public/data/`.
 
@@ -288,6 +295,100 @@ pip install -r scripts/requirements.txt
 python3 scripts/prepare_data.py
 ```
 
+## Erklärungen für Verständnis und Fragen (aus den Gesprächen, 27.11.2026)
+
+Zahlen aus `public/data/` nachgerechnet (auch nach der Korrektur «Grenzen im Wandel» geprüft: Libanon, Ukraine, Kosovo unverändert). Begriff seit 27.11.2026: **neue Schutzsuchende** (vorher «Neuankünfte»).
+
+**Wie die Karte im Startzustand rechnet (Beispiel Libanon 2013):** Neue Schutzsuchende nur aus Nachbarländern (Syrien 737'970, Israel 0) ÷ Bevölkerung (5'743'436) × 1000 = **128,5 pro 1000**. Die 129 in den Befunden zählen *alle* neuen Schutzsuchenden (740'865, auch aus Irak, Sudan usw.). Bei mehreren Jahren: Anzahl summiert, geteilt durch die *durchschnittliche* Bevölkerung im Zeitraum.
+
+**Wer gezählt wird:** Nur Menschen, die in einem anderen Land Schutz bekommen oder beantragt haben und dort erfasst wurden (anerkannte Flüchtlinge, vorübergehender Schutz wie Status S, Asylgesuche, andere Schutzbedürftige). Nicht gezählt: Migration aus anderen Gründen (Arbeit, Studium, Familie), nicht registrierte Personen, Binnenvertriebene. Die Daten sagen nicht, ob jemand bleibt, weiterzieht oder zurückkehrt; Doppelzählungen bei Weiterreise sind möglich.
+
+**Zwei Arten von Normalisierung:** (1) Bezug auf die Bevölkerung (pro 1000 Einwohner), damit grosse und kleine Länder vergleichbar sind (Folien 04: «Never show absolute values in choropleth maps»). (2) Logarithmische Abbildung auf die Farbe (Folien 01), weil die Werte über fünf Zehnerpotenzen reichen.
+
+**Warum der Fokus auf Nachbarländern:** Die Forschungsfrage vergleicht Nachbarländer mit entfernten Ländern; der Startzustand der Karte zeigt auf Wunsch des Dozenten nur Nachbarländer, alle anderen Ansichten (Karte mit Herkunftsland, Zeitachse grau/blau, Kontext-Tabelle) zeigen auch die übrigen Länder. Bezug Vorlesung: Toblers erstes Gesetz der Geografie. Schwäche: Im Startzustand sieht man nicht, wie viele ein Land *insgesamt* aufgenommen hat (Idee: im Tooltip zusätzlich die Gesamtzahl zeigen, noch nicht umgesetzt).
+
+**Beispiel Ukraine** (Nachbarn laut Grenzdaten: RUS, BLR, POL, SVK, HUN, ROU, MDA):
+- Vor 2014 nur wenige Tausend neue Schutzsuchende pro Jahr, fast alle Asylgesuche in entfernten Ländern (Anteil Nachbarländer ~5 %).
+- 2014: 289'071, davon 95 % in Nachbarländern (fast alle Russland: 271'237; Krim, Donbas).
+- 2022: 5'782'252, davon 46 % in Nachbarländern. Grösste Aufnahmeländer: Russland 1'310'748, Deutschland 1'001'180, Polen 958'302, Tschechien 433'274.
+- 2022–2025 zusammen: 8'578'760, davon 3'552'914 in Nachbarländern = **41 %**.
+- Pro 1000 Einwohner 2022–2025: Moldau 85,9 (Nachbar) · Tschechien 64,5 (**kein** Nachbar, Slowakei dazwischen) · Polen 41,5 · Deutschland 18,5 (absolut am meisten: 1'546'156) · Schweiz 10,7 · Russland 9,2.
+- **Russland als Aufnahmeland trotz Krieg** (Hintergrund, nicht aus unseren Daten): Geografie und besetzte Gebiete im Osten (Weg nach Westen oft versperrt), Sprache und Familie, laut UNO/OSZE/Menschenrechtsorganisationen teils Zwangsumsiedlungen. Die Zahlen meldet die russische Regierung selbst, kaum unabhängig überprüfbar. Ohne Russland wäre der Nachbar-Anteil der Ukraine deutlich tiefer. Idee (noch nicht umgesetzt): Satz zur unterschiedlichen Verlässlichkeit nationaler Meldungen in den Einschränkungen.
+
+**Beispiel Sudan 2023–2025** (Demo 2; Nachbarn laut Grenzdaten: CAF, EGY, ERI, ETH, LBY, SSD, TCD; Zeitraum nach der Teilung 2011, darum keine Grenzänderungen):
+- 2'901'724 neue Schutzsuchende, davon **94 %** in Nachbarländern (2023: 96 %, 2024: 93 %, 2025: 94 %).
+- Pro 1000 Einwohner: Libyen **86** · Tschad **45** · Südsudan **23** · Zentralafrikanische Republik 7,4 · Ägypten 7,1 (die fünf höchsten Werte alle Nachbarländer). Absolut am meisten: Tschad 913'835, Ägypten 821'641, Libyen 635'166.
+- Schweiz: 506 Personen = 0,06 pro 1000.
+- Hypothesen-Check 2023–2025: Teil 1 erfüllt, Teil 2 nicht (Anteil bleibt hoch).
+- Hintergrund (nicht aus unseren Daten): seit April 2023 Krieg zwischen der sudanesischen Armee und der paramilitärischen RSF (Rapid Support Forces); Millionen auf der Flucht, die meisten im eigenen Land (Binnenvertriebene, in unseren Daten nicht enthalten).
+- Achtung: Vor 2011 gehörte der Südsudan zum Sudan (Korrektur «Grenzen im Wandel»), in der Demo darum nur 2023–2025 zeigen.
+
+**Beispiel Kosovo 1998–1999** (geprüft, als Demo verworfen 27.11.2026: zu komplex wegen Grenz- und Namensänderungen; bei UNHCR unter Serbien; Nachbarn laut Grenzdaten: ALB, BGR, BIH, HRV, HUN, MKD, MNE, ROU – Albanien zählt, weil die Grenze über Kosovo verläuft):
+- 1'121'776 neue Schutzsuchende, davon **80 %** in Nachbarländern.
+- Pro 1000 Einwohner: Nordmazedonien **176**, Albanien **147** (Nachbarländer) · Bosnien und Herzegowina 17,6 · Liechtenstein 15,6 · Luxemburg 9,5 · **Schweiz 6,9** (49'309 Personen, Rang 6 von 36).
+- Aussage: Die Schweiz nahm im europäischen Vergleich viele auf, die Nachbarländer pro Einwohner aber 20- bis 25-mal mehr.
+- Auf der Karte: Kosovo selbst grau (kein eigener Datensatz), schraffiert wird Serbien.
+
+**Weitere Fälle mit Schweiz-Bezug (geprüft, nicht für die Präsentation gewählt):** Eritrea 2000–2025: Schweiz 7,7 pro 1000 (61'914, Rang 3 von 116), fast gleichauf mit dem Nachbarland Sudan (8,4); nur 48 % in Nachbarländern. Sri Lanka 1983–2010: Schweiz pro Kopf auf Rang 1 (6,6 pro 1000, 46'709), aber Insel ohne Nachbarländer (0 %).
+
+**Beispiel Syrien** (Anteil in Nachbarländern pro Jahr): 2011 26 % · 2012–2014 90–93 % · 2015–2018 52–82 % · 2019 23 % · 2020–2023 5–7 % · 2024 39 % · 2025 57 %.
+
+**Antwort auf die Forschungsfrage (einfach):** Ja, Nachbarländer nehmen pro Einwohner viel mehr auf (60 % aller neuen Schutzsuchenden; Syrien 2013: 15,4 pro 1000 in Nachbarländern gegenüber 0,03 im Rest der Welt; Libanon 2013: 129 gegenüber Schweiz 2,4). Der scheinbare Rückgang des Anteils (85 % in den 1970ern → 46 % in den 2020ern) ist zu einem guten Teil ein Effekt der Erfassung (Asylgesuche ab 2000 weltweit; ohne Asylgesuche bis in die 2010er 89–96 %). Erst in den 2020er-Jahren fliehen deutlich mehr Menschen weiter weg (Ukraine, Venezuela). → Hypothese nur zur Hälfte bestätigt.
+
+## Präsentation 11. Dezember 2026 (Plan, Stand 27.11.2026)
+
+**Anforderungen:** genau 5 Minuten (nicht mehr), beide gleich viel Redezeit, Folien am 11.12. in ILIAS hochladen, danach 5 Minuten Feedback an andere Gruppen.
+
+**Grundidee:** eine Geschichte statt einer Feature-Liste. Wenige Folien, zwei Live-Demos. **Schwerpunkte:** (1) Begriffe klar erklären, vor allem was «neue Schutzsuchende» in unserem Projekt bedeuten; (2) Herkunft der Daten und ihre Einschränkungen nennen **und auf der Website zeigen**. Publikum sind IT-Studierende aus dem Modul: Normalisierung und Visualisierungsbegriffe sind bekannt, darum **keine Alltagsvergleiche** (Saal, Seiteneingänge gestrichen 27.11.2026), sondern nüchtern mit Bezug zur Vorlesung. Einziges Beispiel bei den Begriffen: Polen/Tschechien (Definition Nachbarland, kommt in der Ukraine-Demo wieder).
+
+**Ablauf (festgelegt 27.11.2026):** 1 Forschungsfrage → 2 Begriffe → 3 Daten (Herkunft, was gezählt wird, Einschränkungen) → 4 Demo 1 Ukraine 2022–2025 → 5 Demo 2 Sudan 2023–2025 → 6 Antwort, Designentscheidungen, Schluss. Kosovo als Demo verworfen (zu komplex wegen Grenz- und Namensänderungen). Die beiden Demos bilden einen Kontrast: **41 % gegenüber 94 %** in Nachbarländern.
+
+| Zeit | Wer | Teil | Inhalt | Medium |
+|---|---|---|---|---|
+| 0:00–0:30 | Martina | **1. Forschungsfrage** | Begrüssung, Titel, Forschungsfrage und Hypothese direkt vorstellen (keine Einstiegsfrage ans Publikum, Entscheid 27.11.2026: zu zufällig, niemand kennt die Antwort). | Folie 1 |
+| 0:30–1:20 | Martina | **2. Begriffe** | siehe Folie 2, Schwerpunkt «neue Schutzsuchende» | Folie 2 |
+| 1:20–2:30 | Martina | **3. Daten** | Folie 3 «Woher die Daten stammen» (Quellen, Aufbereitung), dann Folie 4 «Was die Daten nicht zeigen» (sechs Einschränkungen inkl. Grenzen im Wandel). Auf der Website zeigen: Navigation → «Daten» → Tabelle der Datenbrüche und Tabelle «Grenzen im Wandel»; Hinweislinie 2000 in der Zeitachse. | Folien 3–4 + Website |
+| 2:30–3:20 | Dario | **4. Demo 1: Ukraine 2022–2025** | Folie 5 «Live-Demo» kurz zeigen, Link anklicken oder mit Ctrl+Tab zur Website. *Sprechnotiz Kontext:* «Seit Februar 2022 führt Russland einen Angriffskrieg gegen die Ukraine; die EU und die Schweiz gewähren vorübergehenden Schutz (in der Schweiz Status S).» Dann Kontext-Tabelle → Ukraine «anzeigen». Tooltip Deutschland (absolut am meisten, aber nur 18,5 pro 1000) → Moldau (86) → Tschechien (65, aber **kein** Nachbarland). Zeitachse: 41 % in Nachbarländern. Hypothesen-Check-Kasten kurz zeigen. | Website |
+| 3:20–4:05 | Dario | **5. Demo 2: Sudan 2023–2025** | *Sprechnotiz Kontext:* «Seit April 2023 herrscht im Sudan Krieg zwischen der Armee und der paramilitärischen RSF. Millionen sind auf der Flucht, die meisten im eigenen Land; die zählen wir nicht.» Dann Kontext-Tabelle → Sudan «anzeigen». Tooltip Libyen (86 pro 1000) → Tschad (45, absolut am meisten: über 900'000) → Schweiz (0,06) als Vergleich. Zeitachse: 94 % in Nachbarländern. Hypothesen-Check: Teil 1 erfüllt, Teil 2 nicht (Anteil bleibt hoch). Gegensatz zur Ukraine benennen: 41 % gegenüber 94 %. «Zurücksetzen». | Website |
+| 4:05–5:00 | Dario | **6. Antwort, Design, Schluss** | Antwort auf die Forschungsfrage (siehe «Erklärungen»), Erfassungsbruch 2000 als Teil der Antwort (Rückgang des Anteils zu einem guten Teil Messeffekt). Design in einem Satz (pro 1000 und Log-Stufen, keine zweite y-Achse, keine Animation wegen Change Blindness). Dank. | Folie 6 |
+
+Redezeit: Martina 2:30, Dario 2:30. Designentscheidungen nur kurz; ausführlich stehen sie auf der Website und werden bei Fragen erklärt.
+
+**Folie 2 – Begriffe (je ein Satz):**
+- *Neue Schutzsuchende* (wichtigster Begriff): Menschen, die in einem Jahr in einem Land **neu** als schutzsuchend **erfasst** werden. Nicht gemeint: wie viele dort insgesamt leben (Bestand), ob sie bleiben, weiterziehen oder zurückkehren, Migration aus anderen Gründen. Merksatz: «Wir zählen, wo Menschen zum ersten Mal Schutz suchen, nicht wo sie am Ende bleiben.»
+- *Wer zählt:* anerkannte Flüchtlinge, vorübergehender Schutz (wie Status S), Asylgesuche, andere Schutzbedürftige. Nicht: Arbeit, Studium, Familie, Binnenvertriebene.
+- *Nachbarland:* Land mit gemeinsamer Landgrenze zum Herkunftsland. Beispiel: Polen grenzt an die Ukraine (Nachbarland), Tschechien nicht (Slowakei dazwischen).
+- *Pro 1000 Einwohner:* Normalisierung auf die Bevölkerung des Aufnahmelands (neue Schutzsuchende ÷ Bevölkerung × 1000). Sonst wirken grosse Länder auf der Choroplethenkarte automatisch dunkler; laut Vorlesung keine absoluten Werte auf Choroplethenkarten. Zahlenbeispiele folgen in der Demo.
+- *Anteil in Nachbarländern:* wie viel Prozent der Schutzsuchenden aus einem Land in einem Nachbarland erfasst wurden.
+
+**Folie 3 – Daten: woher, was, Einschränkungen:**
+- *Herkunft:* UNHCR (Schutzsuchende pro Jahr, Herkunfts- und Aufnahmeland, 1962–2025), Weltbank (Bevölkerung), GeoDataSource (gemeinsame Grenzen). Aufbereitet mit einem eigenen Python-Skript.
+- **Erfassungsbrüche:** UNHCR hat die Erfassung mehrmals geändert, am stärksten 2000: Ab dann werden Asylgesuche weltweit erfasst statt nur in bis zu 37 Industrieländern. Das verschiebt den Nachbar-Anteil allein durch die Messung. → Website: Hinweislinie 2000, Tabelle der Datenbrüche, Hinweis im Hypothesen-Check.
+- **Nur Erfasste:** Gezählt wird nur, wer registriert wurde. Weiterreise, Rückkehr und mögliche Doppelzählungen (z. B. erst Polen, dann Deutschland) sind nicht sichtbar.
+- **Zahlen von Regierungen:** Die Länder melden selbst, die Verlässlichkeit ist unterschiedlich (Beispiel Russland).
+- **Strenge Definition «Nachbarland»:** nur gemeinsame Landgrenze; 51 Inselstaaten (z. B. Japan, Australien) können nie Nachbarland sein.
+- **Grenzen im Wandel:** Grenzen und Bevölkerung gelten für heutige Länder, UNHCR erfasst seit 1962 auch Staaten, die sich geteilt haben. Sudan/Südsudan (bis 2010) und Serbien/Kosovo/Montenegro (Bevölkerung) korrigiert, übrige Fälle (z. B. Deutschland vor 1990, Jugoslawien) dokumentiert. → Website: Daten → «Grenzen im Wandel».
+- **Kleinere Lücken:** 2,1 % ohne bestimmbares Land entfernt (unbekannte Herkunft, Staatenlose, Tibet); Kosovo bei Serbien; sehr kleine Länder fehlen auf der Karte (0,24 %), sind in den Berechnungen aber enthalten.
+
+**Folien (erstellt 27.11.2026, 6 Stück):** Foliensatz als Claude-Artifact «Nachbarländer als Hauptaufnahmeländer – Präsentation»: https://claude.ai/artifact/6zxReDj72q26KgffHJxSP5 (privat, für Dario über das Share-Menü freigeben; Download als PowerPoint oder PDF für ILIAS über Share › Export). Sprechnotizen pro Folie ausführlich zur Vorbereitung: Sprechtext mit Zeit, Hintergrundwissen, mögliche Fragen mit Antworten (je max. 4000 Zeichen). Darios Demo-Notizen stehen bei Folie 5 «Live-Demo».
+1. **Titel** (dunkel): Titel, Untertitel, Forschungsfrage, Hypothese, Namen
+2. **Begriffe – «Was wir messen»:** grosser Kasten «Neue Schutzsuchende» mit Merksatz; daneben Wer zählt · Nachbarland (Polen ja, Tschechien nein) · Pro 1000 Einwohner · Anteil in Nachbarländern
+3. **Daten – «Woher die Daten stammen»:** UNHCR, Weltbank, GeoDataSource mit Inhalt; Kasten Aufbereitung (Python-Skript, 103'502 Zeilen, 113,6 Mio., 211 Herkunftsländer)
+4. **Daten – «Was die Daten nicht zeigen»** (auf Wunsch eigene Folie, nicht gekürzt): sechs Kästen: Erfassungsbrüche · Nur Registrierte · Zahlen von Regierungen · Strenge Definition · Grenzen im Wandel · Kleinere Lücken
+5. **Live-Demo:** Link zur Website (klickbar) und die zwei Beispiele Ukraine 2022–2025 und Sudan 2023–2025 mit je einer Zeile Kontext; zeigt, wann die Demo kommt
+6. **Antwort** (dunkel): drei Zahlen: **60 %** · **41 % · 94 %** (Ukraine gegenüber Sudan) · **85 % → 46 %** (ohne Asylgesuche bis in die 2010er 89–96 %); Fazit «Hypothese stimmt zur Hälfte»
+- Farben wie die Website (ColorBrewer Blues, Navy #0B2545), Schrift Verdana (Wunsch 27.11.2026; Systemschrift, kein Download nötig).
+- Folien und Website in zwei Browser-Tabs, Wechsel mit `Ctrl + Tab` üben.
+- Keine Adressen in den Fussnoten (Wunsch 27.11.2026). Der Website-Link steht nur auf Folie 5 «Live-Demo» (GitHub Pages); vor der Präsentation prüfen, ob die GitLab-Switch-Adresse gezeigt werden soll.
+
+**Absicherung:** Backup-Screenshots der Demo-Klickfolge als Ersatzfolien. Website lokal und online offen, Browser im Vollbild, Zoom so, dass Karte und Zeitachse zusammen sichtbar sind. Feste Klickfolge: Navigation «Daten» → Tabelle der Datenbrüche → zurück zur Visualisierung, Hinweislinie 2000 → Ukraine «anzeigen» → Deutschland → Moldau → Tschechien → Zeitachse und Hypothesen-Check → Sudan «anzeigen» → Libyen → Tschad → Schweiz → Zeitachse und Hypothesen-Check → Zurücksetzen.
+
+**Mögliche Fragen vorbereiten:** Warum pro 1000 und Log-Skala? Warum feste Farbklassen? Warum keine zweite y-Achse? Warum gemeinsame Landgrenze (Tschechien)? Was ist der Erfassungsbruch? Wie wurde das Feedback umgesetzt, auch Punkt 3? Warum nimmt Russland Menschen aus der Ukraine auf, wie verlässlich sind die Zahlen? Warum beim Sudan nur ab 2023 bzw. nach 2011 (vorher gehörte der Südsudan zum Sudan)? Warum sind Binnenvertriebene nicht enthalten? Wie geht ihr mit geteilten Staaten um (Sudan/Südsudan korrigiert, Serbien/Kosovo Bevölkerung zusammengezählt, Rest dokumentiert unter «Grenzen im Wandel»)? Wie funktioniert der Hypothesen-Check (5-Prozentpunkte-Regel)? Warum «neue Schutzsuchende» statt «Neuankünfte»?
+
+**Feedback an andere Gruppen (Schema):** eine Stärke · eine Verbesserung entlang der Kriterien (Information Seeking Mantra, Brushing & Linking, Legenden, normalisierte Werte auf Karten, Data-Ink) · eine Frage zu einer Designentscheidung.
+
+**Zeitplan:** bis Mi 2.12. Texte gegenlesen, Folien erstellen · Do 3.12. Zoom-Support: Website und Ablauf dem Dozenten zeigen · bis Di 8.12. Feedback einarbeiten, Backup-Screenshots · Mi 9./Do 10.12. zweimal komplett mit Stoppuhr proben (Ziel 4:45) · Fr 11.12. Präsentation, Folien in ILIAS.
+
 ## Offene Punkte
 
 - [ ] Gruppennummer, GitLab-Repo-URL und URL der Website (Switch)
@@ -296,16 +397,22 @@ python3 scripts/prepare_data.py
 - [x] Entschieden (20.11.2026): Visualisierung an 2. Stelle · Namen deutsch · kein Kategorie-Filter, Hinweislinie 2000 · Kosovo zu Serbien, grau mit Hinweis · D3 lokal · UKN/STA/TIB entfernen
 - [ ] Noch bestätigen: Nachbarland = gemeinsame Grenze (bisher ja), Start 1962 (bisher ja), wie viel Kontext pro Krise
 - [ ] Klären, ob die Nutzung von KI-Tools im Projekt deklariert werden muss. **Vorläufig:** ein Satz zur KI-Nutzung steht in den Referenzen (unter «Verwendeter Code»); bei Bedarf anpassen oder entfernen.
-- [ ] Texte auf der Website gegenlesen und in eigene Worte bringen, besonders den Designtext (muss mündlich verteidigt werden)
+- [ ] Texte auf der Website gegenlesen und in eigene Worte bringen, besonders den Designtext (muss mündlich verteidigt werden). Designtext nach Änderungen neu zählen (2500–3500 Zeichen).
 - [ ] Designtext ergänzen (Zeichenlimit 2500–3500 beachten): Hypothesen-Check unter «Interaction Concept» bzw. «Tasks», Status ohne Rot/Grün unter «Human Perception»
 - [ ] Schwelle 5 Prozentpunkte (`MIN_DROP`) für Teil 2 gemeinsam bestätigen
 - [ ] Allenfalls: Hinweis auf Datenbrüche nur bei Brüchen zeigen, die das gewählte Land betreffen (heute allgemein)
 - [ ] Pages-Deploy: «No artifacts named github-pages» am 27.11.2026 → «Re-run all jobs». Falls wiederholt: Log von `upload-pages-artifact` prüfen; mögliche Ursache Node 20 bei `upload-pages-artifact@v3` (Wechsel auf `@v4`, nur nach Rücksprache)
 - [ ] Beim Committen neue Dateien mit `git add` aufnehmen (`git commit -a` nimmt sie nicht mit; so fehlte am 27.11. `hypothesis.js` und die Seite blieb bei «Daten werden geladen …» stehen)
+- [ ] Referenzen Ipsos 2022 und Gapminder 2023: direkte Links zu den Studien einsetzen und Zahlen prüfen (aktuell nur Startseiten verlinkt, aus der Arbeitsumgebung nicht prüfbar)
+- [ ] Kontakt: E-Mail-Adressen ergänzen, falls gewünscht
+- [x] Präsentation: Folien erstellt (6 Stück, Link im Abschnitt «Präsentation»), ausführliche Sprechnotizen pro Folie
+- [ ] Präsentation: Sprechnotizen in eigene Worte bringen, Kontext-Angaben zu Ukraine und Sudan prüfen (allgemeines Wissen, nicht aus unseren Daten), Foliensatz für Dario freigeben
+- [ ] Zoom-Support am Do 3.12. nutzen (Feedback des Dozenten zu Website und Präsentation)
+- [ ] Ideen, noch nicht entschieden: Gesamtzahl der neuen Schutzsuchenden im Tooltip des Startzustands; Satz zur Verlässlichkeit nationaler Meldungen (z. B. Russland) in den Einschränkungen; Jahre mit sehr wenigen Schutzsuchenden in der Zeitachse heller zeichnen
 
 ## Mögliche Reihenfolge (Vorschlag, nur nach Absprache abarbeiten)
 
-Stand 27.11.2026: Schritte 1–7 erledigt (Prototyp, Kontext-Tabelle, alle Texte als Entwurf, Ablauf der Präsentation), dazu Hypothesen-Check und Dokumentation der Datenbrüche. Offen: Texte gegenlesen, Designtext ergänzen, Präsentationsfolien erstellen, Feinschliff, Abgabe.
+Stand 27.11.2026: Schritte 1–7 erledigt (Prototyp, Kontext-Tabelle, alle Texte als Entwurf), dazu Hypothesen-Check, Dokumentation der Datenbrüche und Blocksatz. Plan für die Präsentation steht (Abschnitt «Präsentation»). Offen: Texte gegenlesen, Designtext ergänzen, Folien erstellen, proben, Feinschliff, Abgabe.
 
 1. Skript für die Datenaufbereitung schreiben, Kontrollbericht gemeinsam prüfen, Befunde nachrechnen
 2. `public/index.html` mit allen Abschnitten und Anker-Navigation anlegen
