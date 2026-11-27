@@ -13,6 +13,26 @@ const STATUS = {
   na:  { label: "– nicht prüfbar", css: "status-na" }
 };
 
+// Datenbrüche (siehe Abschnitt Daten → Einschränkungen). Ein Zeitraum «enthält»
+// einen Bruch, wenn er Jahre vor und ab dem Bruchjahr umfasst.
+const DATA_BREAKS = [
+  { year: 1990, label: "neue Kategorie flüchtlingsähnliche Situation" },
+  { year: 2000, label: "Asylgesuche ab jetzt weltweit erfasst" },
+  { year: 2011, label: "neue Kategorie vorübergehender Schutz" },
+  { year: 2018, label: "neue Kategorie andere Schutzbedürftige" },
+  { year: 2021, label: "neue Kategorie registrierte Asylsuchende" }
+];
+
+// Liste der Brüche im Zeitraum als kurzer Text, oder null ohne Bruch
+function breaksInPeriod([from, to]) {
+  const found = DATA_BREAKS
+    .filter(b => from < b.year && b.year <= to)
+    .map(b => `${b.year} (${b.label})`);
+  // Vor 2000 kamen laufend Länder dazu: betrifft jeden mehrjährigen Zeitraum vor 2000
+  if (from < to && from < 1999) found.unshift("bis 1999 (laufend mehr Länder erfasst)");
+  return found.length > 0 ? found.join(", ") : null;
+}
+
 const period = ([from, to]) => (from === to ? `${from}` : `${from}–${to}`);
 
 // Eine Zeile: Status-Pille, Teilaussage, ein kurzer Satz mit den Zahlen
@@ -48,10 +68,18 @@ export function updateHypothesis(container, data, state) {
         ? ` (Rückgang unter ${Math.round(MIN_DROP * 100)} Prozentpunkten, zählt als gleich geblieben).`
         : ".");
 
+  const breaks = breaksInPeriod(state.years);
+  const note = breaks
+    ? `<p class="check-note"><span aria-hidden="true">⚠</span> <strong>Datenbrüche im Zeitraum:</strong>
+        ${breaks}. Veränderungen können teilweise an der Erfassung liegen.
+        <a href="#einschraenkungen">Mehr dazu</a></p>`
+    : "";
+
   container.innerHTML = `
     <p class="check-title">Hypothese für ${name}, ${period(state.years)}</p>
     <div class="check-rows">
       ${row(part1.status, "Nachbarländer nehmen pro Einwohner am meisten auf", detail1)}
       ${row(part2.status, "Ihr Anteil an den Neuankünften nimmt ab", detail2)}
-    </div>`;
+    </div>
+    ${note}`;
 }

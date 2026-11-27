@@ -115,8 +115,28 @@ Umsetzung: Punkt 1 und 2 werden umgesetzt (Karte startet mit «Neuankünfte aus 
 ### Stolpersteine bei der Aufbereitung
 - **Bevölkerung:** `P_Population.zip` enthält nur die Jahre 1960, 1970 … 2020 und ist für Jahreswerte unbrauchbar. **Gelöst:** Jahresreihe 1960–2025 als `Projekt/Data/WorldBank_Population_SP.POP.TOTL.csv` (siehe Datentabelle).
 - **Kategorien (laut Blatt `Metadata` der UNHCR-Excel):** REF = Flüchtlinge · GRP = Gruppenanerkennung · TMP = vorübergehender Schutz · ROC = flüchtlingsähnliche Situation · **ASY = neue Asylgesuche** · ASR = von UNHCR registrierte Asylsuchende · OIP = andere Schutzbedürftige. Für «Neuankünfte» werden sie summiert.
-- **Erfassungsbrüche:** Asylgesuche (ASY) gibt es 1970–1999 nur für **37 Industrieländer**, ab 2000 für 192 Länder. GRP/TMP ab 2000, OIP ab 2018, ASR ab 2021. Weil diese Industrieländer selten Nachbarn der Herkunftsländer sind, kann der Nachbar-Anteil allein wegen der Erfassung schwanken. **Entscheid:** kein Filter nach Kategorie (alle Kategorien zählen Personen, unsere Frage ist *wo* Menschen ankommen, nicht über welches Verfahren). Stattdessen Hinweislinie bei 2000 auf der Zeitachse und Erklärung auf der Datenseite.
+- **Erfassungsbrüche:** Asylgesuche (ASY) gibt es 1970–1999 nur für **bis zu 37 Industrieländer** (1970: 3), ab 2000 für 192 Länder. GRP ab 2000, TMP ab 2011 (nicht 2000, nachgezählt 27.11.2026), ROC ab 1990, OIP ab 2018, ASR ab 2021. Alle Brüche im Detail: siehe «Datenbrüche» unten. Weil diese Industrieländer selten Nachbarn der Herkunftsländer sind, kann der Nachbar-Anteil allein wegen der Erfassung schwanken. **Entscheid:** kein Filter nach Kategorie (alle Kategorien zählen Personen, unsere Frage ist *wo* Menschen ankommen, nicht über welches Verfahren). Stattdessen Hinweislinie bei 2000 auf der Zeitachse und Erklärung auf der Datenseite.
 - Nachgerechnete Werte zu den Erfassungsbrüchen: siehe «Nachgerechnete Befunde» unten.
+
+### Datenbrüche (nachgezählt in `UNHCR_Flow_Data.xlsx`, Blätter `DATA` und `Metadata`, 27.11.2026)
+
+Ein grosser Bruch (2000) und fünf kleinere. «Bruch» heisst: Die Zahlen ändern sich, weil anders oder mehr erfasst wird, nicht weil sich die Fluchtbewegungen ändern.
+
+| # | Jahr | Was | Grösse | Grund (laut Metadata) |
+|---|---|---|---|---|
+| 1 | 1962–1999 | Schleichende Ausweitung der erfassten Länder | Aufnahmeländer 1962: 4 · 1980: 60 · 1999: 76. Asylgesuche (ASY) 1970: 3 Länder, 1985: 17, 1999: 37 | Flüchtlinge aus dem historischen UNHCR-Archiv (137 Länder), Asylgesuche aus einer Publikation über Industrieländer (bis zu 37 Länder) |
+| 2 | 1990 | ROC (flüchtlingsähnliche Situation) kommt dazu | klein | neue Kategorie; nur echte Neuankünfte, keine Methodenwechsel |
+| 3 | **2000** | **Hauptbruch:** neue Quelle, Asylgesuche weltweit | Aufnahmeländer 76 → 142; ASY 37 → 137 Länder; 2000 sind 54 % der Neuankünfte Asylgesuche | Wechsel auf die jährliche offizielle Statistik (UNHCR-Datacube, 177 Länder für Flüchtlinge, 192 für Asylgesuche). REF wird ab 2000 nicht mehr geführt, sondern in GRP (Gruppenanerkennung) und später TMP aufgeteilt |
+| 4 | 2011 | TMP (vorübergehender Schutz) als eigene Kategorie | gross bei Syrien (6,6 Mio.) und Ukraine (6,2 Mio.) | neue Kategorie; TMP in Russland 2013–2017 ausgeschlossen (sonst doppelt mit Asylstatistik) |
+| 5 | 2018 | OIP (andere Schutzbedürftige) kommt dazu | 2018: 43 % aller Neuankünfte; 98 % davon Venezuela (6,3 von 6,4 Mio.) | neue Kategorie für Menschen ohne formellen Flüchtlingsstatus, v. a. aus Venezuela |
+| 6 | 2021 | ASR (von UNHCR registrierte Asylsuchende) kommt dazu | vernachlässigbar (0,3 von 116 Mio.) | UNHCR erfasst seit 2021 Asylsuchende ohne eigenes Anerkennungsverfahren besser |
+
+**Folgen für die Auswertung**
+- Bruch 2000 verschiebt den Nachbar-Anteil am stärksten: Asylgesuche gehen meist in nicht angrenzende Länder. Ohne Asylgesuche lag der Anteil 1970er–2010er stabil bei rund 90 % (siehe «Nachgerechnete Befunde»).
+- Die 1960er beruhen auf sehr wenigen Ländern und sind wenig aussagekräftig.
+- Bruch 2018 betrifft fast nur Venezuela.
+- **Entscheid (27.11.2026):** Alle Jahre 1962–2025 behalten, nicht ab 2000 abschneiden (Frage lautet «seit 1962»; auch ab 2000 gibt es Brüche; der Bruch selbst ist ein Befund). Hauptbruch mit Hinweislinie bei 2000 markieren, übrige Brüche auf der Datenseite erwähnen.
+- Website-Text «Asylgesuche 1970–1999 für 37 Industrieländer» ist ungenau: «für bis zu 37» (1970 erst 3).
 - **Ländercodes:** UNHCR hat eigene Codes (ALG) und ISO3-Codes (DZA). Immer die ISO3-Spalten verwenden (`OriginISO`, `AsylumISO`). Die Namensspalten in der Excel-Datei sind Formeln und werden beim Einlesen mit einem Skript leer gelesen; Namen aus Blatt `T23` holen. GeoDataSource nutzt ISO2 (CH), also nach ISO3 umrechnen. Die TopoJSON-Weltkarte (world-atlas) nutzt numerische ISO-Codes (756 = Schweiz), dafür braucht es eine Zuordnungstabelle.
 - **Sonderfälle:** Kosovo ist bei UNHCR mit Serbien zusammengeführt. **Entscheid:** so übernehmen, Kosovo auf der Karte grau mit Hinweis. UNHCR-Codes ohne Land: `UKN` (unbekannte Herkunft), `STA` (staatenlos), `TIB` (Tibet), zusammen ca. 2 % der Neuankünfte. **Entscheid:** aus der Auswertung entfernen (kein Nachbarland bestimmbar), Anzahl auf der Datenseite nennen.
 - **Weltbank:** Die Datei enthält Aggregate (World, Regionen, Einkommensgruppen). Das Skript entfernt sie (kein gültiger ISO-3-Code). Die heruntergeladene Jahresreihe enthält bereits 2025.
@@ -175,6 +195,15 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 - **Kontext-Tabelle (umgesetzt):** die 10 Herkunftsländer mit den meisten Neuankünften in einem Jahr (AFG, IRQ, RWA, SRB/Kosovo, SYR, SSD, VEN, MMR, UKR, SDN). Fest in `js/crises.js` stehen nur Land, Zeitraum und Kontext; Neuankünfte und Nachbar-Anteil rechnet der Browser aus den Daten. Button «anzeigen» setzt Herkunftsland und Zeitraum (inkl. Brush).
 - Bewusst **keine Animation**
 - Top-10-Liste entfällt (Feedback 2)
+
+**Hypothesen-Check (umgesetzt 27.11.2026, `js/hypothesis.js`, Rechnung `computeHypothesis` in `data.js`)**
+- Kasten über der Karte. Ohne Herkunftsland nur ein Hinweis; mit Herkunftsland wird für Land und Zeitraum geprüft.
+- Teil 1 «pro Einwohner am meisten»: Neuankünfte in allen Nachbarländern ÷ deren Bevölkerung × 1000 gegenüber übriger Welt. Höher = erfüllt.
+- Teil 2 «Anteil nimmt ab»: Zeitraum in zwei Hälften; erfüllt, wenn der Nachbar-Anteil in der zweiten Hälfte mindestens 5 Prozentpunkte tiefer ist (`MIN_DROP`).
+- «nicht prüfbar»: Land ohne Landgrenze, keine Neuankünfte, Zeitraum nur 1 Jahr.
+- Der statische Ergebnis-Kasten im Abschnitt Hintergrund wurde wieder entfernt.
+- Hinweis auf Datenbrüche (umgesetzt 27.11.2026): enthält der Zeitraum einen Bruch (1990, 2000, 2011, 2018, 2021; ein Zeitraum enthält ihn, wenn er Jahre davor und ab dem Bruchjahr umfasst) oder ist er mehrjährig vor 1999, zeigt der Kasten eine Zeile «Datenbrüche im Zeitraum: …» mit Link auf «Einschränkungen». Liste `DATA_BREAKS` in `hypothesis.js`. Der Hinweis ist allgemein und prüft nicht, ob der Bruch das gewählte Land betrifft.
+- Datenseite, Einschränkungen (`#einschraenkungen`): Tabelle aller Datenbrüche (Jahr, Änderung, Wirkung).
 
 **Zurückgestellt (Feedback 3, allenfalls später prüfen)**
 - Idee: Streudiagramm, ein Punkt pro Herkunftsland. x = alle Neuankünfte aus diesem Land (Log-Skala), y = Anteil davon in Nachbarländern. Auswahl per Klick oder 2D-Brush, verknüpft mit Karte und Zeitachse; nur Herkunftsländer ab einer Mindestzahl Neuankünfte.

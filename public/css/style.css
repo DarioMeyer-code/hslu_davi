@@ -661,3 +661,21 @@ th.number {
     grid-template-columns: 1fr;
   }
 }
+
+/* Hinweis auf Datenbrüche im Hypothesen-Check: eine dezente Zeile */
+.hypothesis-check .check-note {
+  margin: 0.6rem 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Tabelle der Datenbrüche: Jahr schmal, kein Blocksatz */
+.breaks td:first-child {
+  white-space: nowrap;
+}
+
+.section .breaks td {
+  text-align: left;
+}
