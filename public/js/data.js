@@ -5,7 +5,7 @@
 
 // Alle aufbereiteten Dateien laden (erzeugt von scripts/prepare_data.py).
 export async function loadData() {
-  const [flows, population, countries, borders, world] = await Promise.all([
+  const [flows, population, countries, borders, bordersHistory, world] = await Promise.all([
     d3.csv("data/flows.csv", d => ({
       jahr: +d.jahr,
       herkunft: d.herkunft,
@@ -16,6 +16,8 @@ export async function loadData() {
     d3.csv("data/population.csv", d => ({ iso3: d.iso3, jahr: +d.jahr, einwohner: +d.einwohner })),
     d3.csv("data/countries.csv"),
     d3.csv("data/borders.csv"),
+    // Frühere Nachbarschaften (Grenzen im Wandel), z. B. Sudan–Uganda bis 2010
+    d3.csv("data/borders_history.csv", d => ({ a: d.iso3_a, b: d.iso3_b, until: +d.bis_jahr })),
     d3.json("data/world-110m.json")
   ]);
 
@@ -46,8 +48,30 @@ export async function loadData() {
 
   return {
     flows, populationByKey, populationCountries, iso3ByNum, iso2ByIso3, world,
-    asylumCountries, originCountries, neighboursOf
+    asylumCountries, originCountries, neighboursOf, bordersHistory
   };
+}
+
+// Nachbarn eines Landes in einem bestimmten Jahr: heutige Nachbarn plus
+// frühere Nachbarschaften, die in diesem Jahr noch galten (Grenzen im Wandel).
+// Dieselbe Regel nutzt scripts/prepare_data.py für die Spalte «nachbar».
+export function neighboursInYear(data, iso3, year) {
+  const result = new Set(data.neighboursOf.get(iso3) || []);
+  for (const { a, b, until } of data.bordersHistory) {
+    if (year > until) continue;
+    if (a === iso3) result.add(b);
+    if (b === iso3) result.add(a);
+  }
+  return result;
+}
+
+// Alle Länder, die im Zeitraum [von, bis] mindestens ein Jahr lang Nachbar waren
+export function neighboursInPeriod(data, iso3, [from, to]) {
+  const result = new Set();
+  for (let year = from; year <= to; year++) {
+    for (const n of neighboursInYear(data, iso3, year)) result.add(n);
+  }
+  return result;
 }
 
 // Durchschnittliche Bevölkerung eines Landes im Zeitraum [von, bis].
@@ -137,7 +161,7 @@ export const MIN_DROP = 0.05;
 export function computeHypothesis(data, state) {
   const origin = state.origin;
   const [from, to] = state.years;
-  const neighbours = data.neighboursOf.get(origin) || new Set();
+  const neighbours = neighboursInPeriod(data, origin, state.years);
 
   // Neue Schutzsuchende aus dem Herkunftsland zählen: in Nachbarländern / anderswo,
   // und für Teil 2 getrennt nach erster und zweiter Hälfte des Zeitraums
@@ -161,15 +185,23 @@ export function computeHypothesis(data, state) {
   } else if (inNeighbours + elsewhere === 0) {
     part1 = { status: "na", reason: "keine neuen Schutzsuchenden im gewählten Zeitraum" };
   } else {
+    // Bevölkerung pro Jahr summieren, weil sich die Nachbarn ändern können
+    // (Grenzen im Wandel); danach durch die Anzahl Jahre teilen = Durchschnitt.
     let popNeighbours = 0;
     let popRest = 0;
-    for (const iso3 of data.populationCountries) {
-      if (iso3 === origin) continue;                 // das Herkunftsland selbst zählt nicht
-      const population = averagePopulation(data, iso3, state.years);
-      if (!population) continue;
-      if (neighbours.has(iso3)) popNeighbours += population;
-      else popRest += population;
+    for (let year = from; year <= to; year++) {
+      const neighboursThisYear = neighboursInYear(data, origin, year);
+      for (const iso3 of data.populationCountries) {
+        if (iso3 === origin) continue;               // das Herkunftsland selbst zählt nicht
+        const population = data.populationByKey.get(`${iso3}-${year}`);
+        if (!population) continue;
+        if (neighboursThisYear.has(iso3)) popNeighbours += population;
+        else popRest += population;
+      }
     }
+    const years = to - from + 1;
+    popNeighbours /= years;
+    popRest /= years;
     const rateNeighbours = inNeighbours / popNeighbours * 1000;
     const rateRest = elsewhere / popRest * 1000;
     part1 = { status: rateNeighbours > rateRest ? "yes" : "no", rateNeighbours, rateRest };

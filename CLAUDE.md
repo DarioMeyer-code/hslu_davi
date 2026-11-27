@@ -139,21 +139,37 @@ Ein grosser Bruch (2000) und fünf kleinere. «Bruch» heisst: Die Zahlen änder
 - **Entscheid (27.11.2026):** Alle Jahre 1962–2025 behalten, nicht ab 2000 abschneiden (Frage lautet «seit 1962»; auch ab 2000 gibt es Brüche; der Bruch selbst ist ein Befund). Hauptbruch mit Hinweislinie bei 2000 markieren, übrige Brüche auf der Datenseite erwähnen.
 - Website-Text «Asylgesuche 1970–1999 für 37 Industrieländer» ist ungenau: «für bis zu 37» (1970 erst 3).
 - **Ländercodes:** UNHCR hat eigene Codes (ALG) und ISO3-Codes (DZA). Immer die ISO3-Spalten verwenden (`OriginISO`, `AsylumISO`). Die Namensspalten in der Excel-Datei sind Formeln und werden beim Einlesen mit einem Skript leer gelesen; Namen aus Blatt `T23` holen. GeoDataSource nutzt ISO2 (CH), also nach ISO3 umrechnen. Die TopoJSON-Weltkarte (world-atlas) nutzt numerische ISO-Codes (756 = Schweiz), dafür braucht es eine Zuordnungstabelle.
-- **Sonderfälle:** Kosovo ist bei UNHCR mit Serbien zusammengeführt. **Entscheid:** so übernehmen, Kosovo auf der Karte grau mit Hinweis. UNHCR-Codes ohne Land: `UKN` (unbekannte Herkunft), `STA` (staatenlos), `TIB` (Tibet), zusammen ca. 2 % der neuen Schutzsuchenden. **Entscheid:** aus der Auswertung entfernen (kein Nachbarland bestimmbar), Anzahl auf der Datenseite nennen.
+- **Sonderfälle:** Kosovo ist bei UNHCR mit Serbien zusammengeführt. **Entscheid:** so übernehmen, Kosovo auf der Karte grau mit Hinweis; Bevölkerung von Kosovo zu Serbien gezählt (siehe «Grenzen im Wandel»). UNHCR-Codes ohne Land: `UKN` (unbekannte Herkunft), `STA` (staatenlos), `TIB` (Tibet), zusammen ca. 2 % der neuen Schutzsuchenden. **Entscheid:** aus der Auswertung entfernen (kein Nachbarland bestimmbar), Anzahl auf der Datenseite nennen.
 - **Weltbank:** Die Datei enthält Aggregate (World, Regionen, Einkommensgruppen). Das Skript entfernt sie (kein gültiger ISO-3-Code). Die heruntergeladene Jahresreihe enthält bereits 2025.
 - **Zahlenformat:** In der Excel-Ansicht stehen Schweizer Tausendertrennzeichen (20’000). Beim Einlesen per Skript kommen echte Zahlen an.
 - **Datenmenge:** Nach dem Zusammenzählen der Kategorien bleiben 103'502 Zeilen (Jahr × Herkunft × Aufnahme), als `flows.csv` ca. 2 MB. Das ist für den Browser in Ordnung (GitHub Pages liefert komprimiert aus). **Entscheid:** eine einzige Datei, Filtern und Summieren im Browser (`data.js`), statt vieler vorgerechneter Teildateien – einfacher zu erklären.
 - **Neu aufbauen:** Die ersten Auswertungen liefen in einer claude.ai-Sandbox. Diese CSV-Dateien existieren nicht mehr. Die Aufbereitung muss als Skript im Repo neu gebaut werden. Laut Aufgabe wäre auch Tableau Prep erlaubt.
 
-### Nachgerechnete Befunde (`scripts/prepare_data.py`, 20.11.2026, Details in `scripts/kontrollbericht.txt`)
+### Grenzen im Wandel (geprüft und umgesetzt 27.11.2026)
+
+Grenzen (GeoDataSource) und Bevölkerung (Weltbank) gelten für **heutige** Länder; UNHCR erfasst seit 1962 auch Staaten, die sich geteilt oder vereinigt haben. Auf der Website als Tabelle unter Daten → «Grenzen im Wandel» (`#grenzen-im-wandel`).
+
+| Fall | Problem | Umgang |
+|---|---|---|
+| **Sudan / Südsudan** | Bis 2010 gehört der Südsudan zu Sudan (UNHCR-Code SDN). Uganda, Kenia, Kongo (DR) grenzen nur an den heutigen Südsudan → zählten fälschlich als «nicht Nachbarland». Weltbank-Bevölkerung SDN ohne Südsudan. | **Korrigiert:** `HISTORICAL_BORDERS` in `prepare_data.py`: bis und mit 2010 erbt SDN die Nachbarn von SSD (COD, KEN, UGA) → `public/data/borders_history.csv` (iso3_a, iso3_b, bis_jahr), Browser nutzt dieselbe Regel (`neighboursInYear`, `neighboursInPeriod` in `data.js`; Kartenumrandung, Tooltip «ja, bis 2010», Hypothesen-Check). Betrifft 902'223 Personen (beide Richtungen: UGA 552'378, COD 204'347, KEN 145'498). Bevölkerung SDN + SSD bis 2010 (`POPULATION_MERGES`). |
+| **Serbien / Kosovo / Montenegro** | UNHCR-Code SRB = «Serbia and Kosovo: S/RES/1244 (1999)», bis 2005 auch Montenegro (MNE erst ab 2006). Weltbank führt Kosovo (XKX) und Montenegro separat → pro 1000 EW ca. 25 % zu hoch. | **Korrigiert:** Bevölkerung SRB + XKX (alle Jahre) + MNE (bis 2005). Grenze Albanien–Kosovo zählt als Grenze zu Serbien (GeoDataSource). |
+| Jugoslawien (vor ca. 1990) | SRB steht vermutlich für ganz Jugoslawien (HRV/MKD ab 1990, BIH 1991, SVN 1992). Österreich/Italien grenzten an Jugoslawien. | Dokumentiert (wenige Tausend Personen, v. a. Asylgesuche). |
+| Deutschland (bis 1990) | UNHCR-DEU vor 1990 = Westdeutschland; Weltbank-DEU = vereinigtes Deutschland (1970: 78 statt ca. 61 Mio.) → pro 1000 EW ca. 20 % zu tief. POL→DEU vor 1990 (116'422) zählt als Nachbar, obwohl nur die DDR an Polen grenzte. | Dokumentiert (keine Weltbank-Reihe für Westdeutschland). |
+| Tschechoslowakei (bis 1992), Äthiopien/Eritrea (bis 1993), Indonesien/Osttimor (bis 2002) | Codes umfassen das spätere Land | Dokumentiert, gering. Herkunft Eritrea führt UNHCR schon ab 1977 separat. |
+| Ehemalige Sowjetunion | UNHCR ordnet Herkunft schon vor 1991 den heutigen Staaten zu (z. B. ARM ab 1964, RUS ab 1966); Aufnahmeländer erst ab 1992 | Kein Problem |
+| Gebiete ohne Staat | Kosovo, Somaliland, Nordzypern ohne Kartencode; Hongkong/Macau (grenzen an CHN) nicht auf der Karte; Palästina und Westsahara als Herkunft mit Grenzen | Grau bzw. dokumentiert; UKN/STA/TIB entfernt |
+
+**Wirkung der Korrektur auf die Befunde:** Anteil Nachbarländer alle Jahre 59 % → 60 %; 1960er 64 % → 82 % (erster sudanesischer Bürgerkrieg: Flucht aus dem heutigen Südsudan nach Uganda/Kongo); 1970er 84 → 85 %; 1980er 81 → 83 %; 1990er 67 → 69 %; 2000er 50 → 52 %; 2010er/2020er unverändert. Ohne Asylgesuche 1970er–2010er neu 89–96 % (vorher 88–93 %).
+
+### Nachgerechnete Befunde (`scripts/prepare_data.py`, Stand 27.11.2026 nach Korrektur «Grenzen im Wandel», Details in `scripts/kontrollbericht.txt`)
 - Bereinigt: 103'502 Zeilen, 113,6 Mio. neue Schutzsuchende, 211 Herkunfts- und 189 Aufnahmeländer. Entfernt 2,5 Mio. (2,1 %): UKN 2,26 Mio., STA 0,20 Mio., TIB 11'000.
-- Über alle Jahre landen **59 %** der neuen Schutzsuchenden in Nachbarländern.
-- Anteil Nachbarländer nach Jahrzehnt, alle Kategorien / ohne Asylgesuche (Anteil Asylgesuche): 1960er 64 %/64 % (0 %) · 1970er 84 %/88 % (5 %) · 1980er 81 %/91 % (12 %) · 1990er 67 %/93 % (29 %) · 2000er 50 %/91 % (62 %) · 2010er 60 %/89 % (42 %) · 2020er 46 %/63 % (44 %). **Der sinkende Anteil hängt stark mit dem wachsenden Gewicht der Asylgesuche zusammen** (Erfassungsbruch, siehe oben). Wichtig für die Interpretation der Hypothese.
+- Über alle Jahre landen **60 %** der neuen Schutzsuchenden in Nachbarländern (vor der Korrektur «Grenzen im Wandel»: 59 %).
+- Anteil Nachbarländer nach Jahrzehnt, alle Kategorien / ohne Asylgesuche (Anteil Asylgesuche): 1960er 82 %/82 % (0 %) · 1970er 85 %/89 % (5 %) · 1980er 83 %/93 % (12 %) · 1990er 69 %/96 % (29 %) · 2000er 52 %/94 % (62 %) · 2010er 60 %/89 % (42 %) · 2020er 46 %/63 % (44 %). **Der sinkende Anteil hängt stark mit dem wachsenden Gewicht der Asylgesuche zusammen** (Erfassungsbruch, siehe oben). Wichtig für die Interpretation der Hypothese.
 - Libanon 2013: 740'865 neue Schutzsuchende, **129 pro 1000** Einwohner. Zum Vergleich 2013: Schweiz 2,4, Deutschland 1,3.
 - Nordmazedonien 1999: 355'000 neue Schutzsuchende, **176 pro 1000**.
 - Syrien 2013: in den Nachbarländern (IRQ, ISR, JOR, LBN, TUR) **15,4 pro 1000**, im Rest der Welt 0,03.
 - Ukraine und Venezuela: nur **44 %** in Nachbarländern (alle Jahre), die Mehrheit ging in nicht angrenzende Länder.
-- Teil 1 der Hypothese über alle Fluchtbewegungen (ad hoc gerechnet 27.11.2026, **nicht** im Skript/Kontrollbericht): Pro Herkunftsland und Jahr mit ≥ 10'000 neuen Schutzsuchenden (und mindestens einem Nachbarland) neue Schutzsuchende in Nachbarländern ÷ deren Bevölkerung gegenüber übriger Welt. Nachbarländer höher in 70 % der Fälle (857 von 1218), gewichtet nach Personen **90 %**. Vor Verwendung in Präsentation oder Website ins Skript übernehmen.
+- Teil 1 der Hypothese über alle Fluchtbewegungen (ad hoc gerechnet 27.11.2026, **nicht** im Skript/Kontrollbericht): Pro Herkunftsland und Jahr mit ≥ 10'000 neuen Schutzsuchenden (und mindestens einem Nachbarland) neue Schutzsuchende in Nachbarländern ÷ deren Bevölkerung gegenüber übriger Welt. Nachbarländer höher in 71 % der Fälle (859 von 1218), gewichtet nach Personen **90 %** (nachgerechnet nach Korrektur «Grenzen im Wandel»). Vor Verwendung in Präsentation oder Website ins Skript übernehmen.
 - Datenlücken für die Karte: 28 kleine Aufnahmeländer fehlen im Massstab 1:110 Mio. (0,24 % der neuen Schutzsuchenden, v. a. Hongkong, Malta, Singapur). Bevölkerung fehlt nur für Französisch-Guayana und Anguilla (2'127 Personen). Auf der Karte ohne Code: Nordzypern, Somaliland, Kosovo (grau).
 - 51 Länder in den Daten haben keine Landgrenze (Inseln wie Japan, Australien, Kuba): Sie können nie «Nachbarland» sein. Auf der Datenseite erwähnen.
 - Der Wertebereich pro 1000 Einwohner ist riesig. Deshalb eine Log-Skala, Grenzen aus den Daten bestimmen.
@@ -249,7 +265,8 @@ public/
     flows.csv             jahr, herkunft, aufnahme, anzahl, nachbar (0/1)
     population.csv        iso3, jahr, einwohner
     countries.csv         iso3, iso2, iso_num
-    borders.csv           iso3_a, iso3_b (Nachbarpaare)
+    borders.csv           iso3_a, iso3_b (Nachbarpaare, heutige Grenzen)
+    borders_history.csv   iso3_a, iso3_b, bis_jahr (frühere Nachbarn, Grenzen im Wandel)
     world-110m.json       Länderformen (TopoJSON)
   img/skizze.png          Scan der Handskizze aus dem Proposal
 

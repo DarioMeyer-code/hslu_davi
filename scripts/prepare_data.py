@@ -78,8 +78,28 @@ with open(BORDERS_FILE, encoding="utf-8") as f:
             unmatched_borders.add((a2, b2))
 
 
-def is_neighbour(origin, asylum):
-    return (origin, asylum) in neighbours
+# Grenzen im Wandel: Die Grenzen oben gelten heute. Bis 2010 gehörte der
+# heutige Südsudan zu Sudan, und UNHCR zählt Menschen von dort bis 2010 als
+# «Sudan». Damals grenzte Sudan deshalb auch an Uganda, Kenia und Kongo (DR).
+# Regel: Bis zum angegebenen Jahr erbt das Land die Nachbarn des Gebiets.
+HISTORICAL_BORDERS = [
+    # (Land, damals enthaltenes Gebiet, gilt bis und mit Jahr)
+    ("SDN", "SSD", 2010),
+]
+historical_neighbours = {}   # (iso3_a, iso3_b) -> letztes Jahr, in dem sie Nachbarn waren
+for country, part, until in HISTORICAL_BORDERS:
+    for a, b in neighbours:
+        if a == part and b != country and (country, b) not in neighbours:
+            historical_neighbours[(country, b)] = until
+            historical_neighbours[(b, country)] = until
+
+
+def is_neighbour(origin, asylum, year):
+    """Nachbarn heute oder (bei Grenzen im Wandel) im betreffenden Jahr."""
+    if (origin, asylum) in neighbours:
+        return True
+    until = historical_neighbours.get((origin, asylum))
+    return until is not None and year <= until
 
 
 # ---------------------------------------------------------------------------
@@ -128,7 +148,7 @@ for r in rows:
 
     group = "asyl" if r[col["PT"]] in ("ASY", "ASR") else "schutz"
     decade = year // 10 * 10
-    asylum_check[(decade, group, int((origin, asylum) in neighbours))] += count
+    asylum_check[(decade, group, int(is_neighbour(origin, asylum, year)))] += count
 
 clean_total = sum(flows.values())
 
@@ -137,16 +157,36 @@ clean_total = sum(flows.values())
 # ---------------------------------------------------------------------------
 # Die Datei enthält auch Aggregate wie «World» (WLD) oder «Euro area» (EMU).
 # Diese haben keinen gültigen ISO-3-Code und fallen so automatisch weg.
-population = {}                   # (iso3, jahr) -> Einwohner
-aggregates = set()
+raw_population = {}               # alle Codes, auch Kosovo (XKX, kein ISO-Code)
 with open(POPULATION_FILE, encoding="utf-8") as f:
     for row in csv.DictReader(f):
         code, year = row["Country Code"], int(row["Year"])
-        if code not in valid_iso3:
-            aggregates.add(code)
-            continue
         if FIRST_YEAR <= year <= LAST_YEAR and row["Value"]:
-            population[(code, year)] = float(row["Value"])
+            raw_population[(code, year)] = float(row["Value"])
+
+# Gebiete zusammenzählen, damit die Bevölkerung dasselbe Gebiet meint wie UNHCR
+# (Grenzen im Wandel, siehe Website):
+# - Serbien: UNHCR zählt Kosovo dazu (Weltbank: XKX), bis 2005 auch Montenegro.
+# - Sudan: bis 2010 inklusive des heutigen Südsudans.
+# Das hinzugezählte Gebiet fällt in diesen Jahren als eigenes Land weg.
+POPULATION_MERGES = [
+    # (Land, hinzugezähltes Gebiet, bis und mit Jahr)
+    ("SRB", "XKX", LAST_YEAR),
+    ("SRB", "MNE", 2005),
+    ("SDN", "SSD", 2010),
+]
+for country, part, until in POPULATION_MERGES:
+    for year in range(FIRST_YEAR, until + 1):
+        if (country, year) in raw_population and (part, year) in raw_population:
+            raw_population[(country, year)] += raw_population.pop((part, year))
+
+population = {}                   # (iso3, jahr) -> Einwohner
+aggregates = set()
+for (code, year), value in raw_population.items():
+    if code not in valid_iso3:
+        aggregates.add(code)
+        continue
+    population[(code, year)] = value
 
 # ---------------------------------------------------------------------------
 # 5. Weltkarte: welche Kartenländer gehören zu welchem ISO-3-Code?
@@ -174,7 +214,7 @@ with open(OUT / "flows.csv", "w", newline="", encoding="utf-8") as f:
     w.writerow(["jahr", "herkunft", "aufnahme", "anzahl", "nachbar"])
     for (year, origin, asylum), count in sorted(flows.items()):
         if count > 0:
-            w.writerow([year, origin, asylum, count, int(is_neighbour(origin, asylum))])
+            w.writerow([year, origin, asylum, count, int(is_neighbour(origin, asylum, year))])
 
 with open(OUT / "population.csv", "w", newline="", encoding="utf-8") as f:
     w = csv.writer(f)
@@ -195,6 +235,15 @@ with open(OUT / "borders.csv", "w", newline="", encoding="utf-8") as f:
     for a, b in sorted(neighbours):
         if a < b:  # jedes Paar nur einmal speichern
             w.writerow([a, b])
+
+# Frühere Nachbarschaften (Grenzen im Wandel), damit der Browser dieselbe
+# Regel anwenden kann (Umrandung der Nachbarländer, Hypothesen-Check)
+with open(OUT / "borders_history.csv", "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow(["iso3_a", "iso3_b", "bis_jahr"])
+    for (a, b), until in sorted(historical_neighbours.items()):
+        if a < b:
+            w.writerow([a, b, until])
 
 shutil.copy(MAP_FILE, OUT / "world-110m.json")
 
@@ -228,10 +277,20 @@ iso3_in_borders = {a for a, _ in neighbours}
 no_border = sorted(countries_in_flows - iso3_in_borders)
 report(f"   Länder in den Fluchtdaten ohne Landgrenze (Inseln usw.): {len(no_border)}")
 report(f"   {', '.join(no_border)}")
+report("   Grenzen im Wandel (frühere Nachbarn, zählen bis und mit Jahr):")
+for (a, b), until in sorted(historical_neighbours.items()):
+    if a < b:
+        persons = sum(c for (y, o, x), c in flows.items()
+                      if y <= until and {o, x} == {a, b})
+        report(f"   {a}–{b} bis {until}: {fmt(persons)} Personen zählen dadurch als Nachbarland")
 
 report("\n5. Bevölkerung")
 report(f"   Länder: {len({c for c, _ in population})}, Jahre {FIRST_YEAR}–{LAST_YEAR}")
 report(f"   entfernte Aggregate/ungültige Codes: {len(aggregates)}")
+report("   Zusammengezählt (Grenzen im Wandel): "
+       + "; ".join(f"{c} + {p} bis {u}" for c, p, u in POPULATION_MERGES))
+for code, year in [("SRB", 2013), ("SRB", 1999), ("SDN", 2010)]:
+    report(f"   {code} {year}: {fmt(population[(code, year)])} Einwohner")
 missing_pop = defaultdict(int)
 for (year, origin, asylum), count in flows.items():
     if (asylum, year) not in population:
@@ -260,7 +319,7 @@ report("\n7. Nachgerechnete Befunde")
 
 def share_neighbours(filter_fn):
     total = sum(c for k, c in flows.items() if filter_fn(*k))
-    nb = sum(c for k, c in flows.items() if filter_fn(*k) and is_neighbour(k[1], k[2]))
+    nb = sum(c for k, c in flows.items() if filter_fn(*k) and is_neighbour(k[1], k[2], k[0]))
     return nb / total if total else float("nan")
 
 

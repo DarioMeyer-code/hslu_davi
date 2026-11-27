@@ -20,10 +20,18 @@ KONTROLLBERICHT Datenaufbereitung
    Nachbarpaare: 321, nicht zuordenbar: keine
    Länder in den Fluchtdaten ohne Landgrenze (Inseln usw.): 51
    ABW, AIA, ATG, AUS, BES, BHR, BHS, BMU, BRB, COK, COM, CPV, CUB, CUW, CYM, CYP, DMA, FJI, FSM, GLP, GRD, ISL, JAM, JPN, KIR, KNA, LCA, LKA, MDG, MDV, MHL, MLT, MUS, NIU, NRU, NZL, PHL, PLW, PRI, SGP, SLB, STP, SYC, TCA, TON, TTO, TUV, VCT, VGB, VUT, WSM
+   Grenzen im Wandel (frühere Nachbarn, zählen bis und mit Jahr):
+   COD–SDN bis 2010: 204'347 Personen zählen dadurch als Nachbarland
+   KEN–SDN bis 2010: 145'498 Personen zählen dadurch als Nachbarland
+   SDN–UGA bis 2010: 552'378 Personen zählen dadurch als Nachbarland
 
 5. Bevölkerung
    Länder: 215, Jahre 1962–2025
-   entfernte Aggregate/ungültige Codes: 49
+   entfernte Aggregate/ungültige Codes: 48
+   Zusammengezählt (Grenzen im Wandel): SRB + XKX bis 2025; SRB + MNE bis 2005; SDN + SSD bis 2010
+   SRB 2013: 8'984'672 Einwohner
+   SRB 1999: 10'017'926 Einwohner
+   SDN 2010: 45'160'352 Einwohner
    Neue Schutzsuchende in Aufnahmeländern ohne Bevölkerungszahl: 2'127 (0.00%)
    GUF: 2'090
    AIA: 37
@@ -43,22 +51,22 @@ KONTROLLBERICHT Datenaufbereitung
    BHR: 1'301
 
 7. Nachgerechnete Befunde
-   Anteil Nachbarländer, alle Jahre: 59%
-   1960er: 64%
-   1970er: 84%
-   1980er: 81%
-   1990er: 67%
-   2000er: 50%
+   Anteil Nachbarländer, alle Jahre: 60%
+   1960er: 82%
+   1970er: 85%
+   1980er: 83%
+   1990er: 69%
+   2000er: 52%
    2010er: 60%
    2020er: 46%
 
    Anteil Nachbarländer nach Jahrzehnt: alle Kategorien / ohne Asylgesuche (ASY, ASR)
    und Anteil der Asylgesuche an allen neuen Schutzsuchenden (Erfassungsbruch, siehe Datenseite)
-   1960er: 64% / 64%   (Asylgesuche 0%)
-   1970er: 84% / 88%   (Asylgesuche 5%)
-   1980er: 81% / 91%   (Asylgesuche 12%)
-   1990er: 67% / 93%   (Asylgesuche 29%)
-   2000er: 50% / 91%   (Asylgesuche 62%)
+   1960er: 82% / 82%   (Asylgesuche 0%)
+   1970er: 85% / 89%   (Asylgesuche 5%)
+   1980er: 83% / 93%   (Asylgesuche 12%)
+   1990er: 69% / 96%   (Asylgesuche 29%)
+   2000er: 52% / 94%   (Asylgesuche 62%)
    2010er: 60% / 89%   (Asylgesuche 42%)
    2020er: 46% / 63%   (Asylgesuche 44%)
 

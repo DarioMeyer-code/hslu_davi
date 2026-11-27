@@ -6,6 +6,7 @@
 // Herkunftslands per Klick.
 // ==========================================================================
 import { formatCount, formatRate, formatPercent, countryName } from "./format.js";
+import { neighboursInPeriod, neighboursInYear } from "./data.js";
 
 const WIDTH = 960;
 const HEIGHT = 470;
@@ -108,7 +109,8 @@ export function createMap(container, legendContainer, data, onCountryClick) {
       .classed("clickable", feature => data.originCountries.includes(data.iso3ByNum.get(feature.id)));
 
     // Auswahl-Ebene neu zeichnen
-    const neighbours = state.origin ? data.neighboursOf.get(state.origin) || new Set() : new Set();
+    // Nachbarn im gewählten Zeitraum, inkl. früherer Grenzen (z. B. Sudan–Uganda bis 2010)
+    const neighbours = state.origin ? neighboursInPeriod(data, state.origin, state.years) : new Set();
     selectionLayer.selectAll("path.neighbour-outline")
       .data(countries.filter(f => neighbours.has(data.iso3ByNum.get(f.id))), f => f.id)
       .join("path")
@@ -189,9 +191,14 @@ function showTooltip(tooltip, container, event, feature, values, state, data) {
   }
 
   if (state.origin && iso3 !== state.origin) {
-    const isNeighbour = (data.neighboursOf.get(state.origin) || new Set()).has(iso3);
+    const isNeighbour = neighboursInPeriod(data, state.origin, state.years).has(iso3);
+    // Frühere Nachbarschaft (Grenzen im Wandel): heute kein Nachbar, damals schon
+    const formerOnly = isNeighbour && !neighboursInYear(data, state.origin, 9999).has(iso3);
+    const until = formerOnly
+      ? data.bordersHistory.find(d => (d.a === iso3 && d.b === state.origin) || (d.b === iso3 && d.a === state.origin)).until
+      : null;
     tooltip.append("div").attr("class", "tooltip-muted")
-      .text(`Nachbarland von ${originName}: ${isNeighbour ? "ja" : "nein"}`);
+      .text(`Nachbarland von ${originName}: ${isNeighbour ? (formerOnly ? `ja, bis ${until}` : "ja") : "nein"}`);
   }
 
   // Tooltip neben den Mauszeiger setzen, innerhalb der Karte halten

@@ -240,7 +240,8 @@
         vorübergehender Schutz, flüchtlingsähnliche Situation, neue Asylgesuche, von UNHCR
         registrierte Asylsuchende, andere Schutzbedürftige) pro Jahr, Herkunfts- und
         Aufnahmeland zusammen. Danach rechnet es die Ländercodes der drei Quellen ineinander
-        um und markiert jede Strecke als Nachbarland ja oder nein. Entfernt wurden Einträge
+        um und markiert jede Strecke als Nachbarland ja oder nein (bei geteilten Staaten mit den
+        damaligen Grenzen, siehe «Grenzen im Wandel»). Entfernt wurden Einträge
         ohne bestimmbares Land: unbekannte Herkunft, Staatenlose und Tibet, zusammen rund
         2,5 Millionen Personen oder 2,1 % aller neuen Schutzsuchenden. Übrig bleiben 103'502 Zeilen mit
         113,6 Millionen neuen Schutzsuchenden. Die Website rechnet daraus im Browser alle Werte für den
@@ -301,14 +302,66 @@
         </li>
         <li>
           <strong>Kosovo</strong> ist bei UNHCR Serbien zugeordnet und erscheint auf der Karte
-          grau. Kleine Länder wie Malta oder Singapur fehlen auf der Weltkarte (zusammen 0,24 %
-          der neuen Schutzsuchenden), sind in den Berechnungen aber enthalten.
+          grau (siehe «Grenzen im Wandel»). Kleine Länder wie Malta oder Singapur fehlen auf der
+          Weltkarte (zusammen 0,24 % der neuen Schutzsuchenden), sind in den Berechnungen aber
+          enthalten.
         </li>
         <li>
           Die Daten zeigen, wo Menschen ankommen, aber nicht, ob sie später weiterziehen
           oder zurückkehren. Fluchtursachen sind nicht enthalten.
         </li>
       </ul>
+
+      <h3 id="grenzen-im-wandel">Grenzen im Wandel</h3>
+      <p>
+        Nachbarländer und Bevölkerung beziehen sich auf die heutigen Länder. UNHCR erfasst
+        aber seit 1962 auch Staaten, die sich inzwischen geteilt oder vereinigt haben. Wo das
+        die Werte deutlich verfälscht, haben wir es korrigiert, sonst nur dokumentiert.
+      </p>
+      <div class="table-wrap">
+        <table class="breaks">
+          <thead>
+            <tr><th>Land</th><th>Was nicht passt</th><th>Umgang</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sudan / Südsudan</td>
+              <td>Bis 2010 gehört der heutige Südsudan zu Sudan. Damals grenzte Sudan auch an Uganda, Kenia und Kongo (DR).</td>
+              <td><strong>Korrigiert:</strong> Bis 2010 zählen diese drei Länder als Nachbarn von Sudan (rund 900'000 Personen); Bevölkerung von Sudan inklusive Südsudan.</td>
+            </tr>
+            <tr>
+              <td>Serbien / Kosovo / Montenegro</td>
+              <td>UNHCR zählt Kosovo zu Serbien, bis 2005 auch Montenegro. Die Weltbank führt beide separat.</td>
+              <td><strong>Korrigiert:</strong> Bevölkerung zusammengezählt. Die Grenze Albanien–Kosovo zählt als Grenze zu Serbien. Kosovo ist auf der Karte grau.</td>
+            </tr>
+            <tr>
+              <td>Jugoslawien (bis 1991)</td>
+              <td>Vor 1991 steht «Serbien» vermutlich für ganz Jugoslawien. Österreich und Italien grenzten damals an Jugoslawien, heute nicht an Serbien.</td>
+              <td>Dokumentiert, wenige Tausend Personen.</td>
+            </tr>
+            <tr>
+              <td>Deutschland (bis 1990)</td>
+              <td>«Deutschland» ist bei UNHCR bis 1990 Westdeutschland, die Weltbank-Bevölkerung gilt für das heutige Deutschland. Polen grenzte nur an die DDR.</td>
+              <td>Dokumentiert: Werte pro 1000 Einwohner rund 20 % zu tief; 116'000 Personen aus Polen zählen als Nachbarland. Für Westdeutschland gibt es keine eigene Bevölkerungsreihe.</td>
+            </tr>
+            <tr>
+              <td>Tschechoslowakei,<br>Äthiopien / Eritrea,<br>Indonesien / Osttimor</td>
+              <td>Vor der Teilung (1993 bzw. 2002) umfassen die Codes auch das spätere Land.</td>
+              <td>Dokumentiert, geringe Wirkung.</td>
+            </tr>
+            <tr>
+              <td>Ehemalige Sowjetunion</td>
+              <td>UNHCR ordnet die Herkunft schon vor 1991 den heutigen Staaten zu.</td>
+              <td>Kein Problem.</td>
+            </tr>
+            <tr>
+              <td>Gebiete ohne eigenen Staat</td>
+              <td>Kosovo, Somaliland und Nordzypern haben auf der Karte keinen Code. Hongkong und Macau fehlen auf der Karte. Unbekannte Herkunft, Staatenlose und Tibet haben kein Land.</td>
+              <td>Grau auf der Karte bzw. entfernt (2,1 %, siehe «Aufbereitung»).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <!-- 5. Designentscheidungen (2500–3500 Zeichen inkl. Leerzeichen) -->
@@ -376,10 +429,10 @@
 
       <h3>Erkenntnisse aus unseren Daten</h3>
       <ul>
-        <li>Über alle Jahre kamen 59 % der neuen Schutzsuchenden in Nachbarländern an.</li>
+        <li>Über alle Jahre kamen 60 % der neuen Schutzsuchenden in Nachbarländern an.</li>
         <li>
-          Der Anteil sank von 84 % (1970er) auf 46 % (2020er). Ohne neue Asylgesuche lag er
-          von den 1970er- bis in die 2010er-Jahre aber bei 88–93 %. Der Rückgang hängt also
+          Der Anteil sank von 85 % (1970er) auf 46 % (2020er). Ohne neue Asylgesuche lag er
+          von den 1970er- bis in die 2010er-Jahre aber bei 89–96 %. Der Rückgang hängt also
           stark mit dem wachsenden Gewicht der Asylgesuche zusammen, auch wegen des
           Erfassungsbruchs um 2000. Erst in den 2020er-Jahren sinkt der Anteil auch ohne
           Asylgesuche deutlich (63 %).
