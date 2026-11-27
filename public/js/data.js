@@ -66,8 +66,8 @@ export function averagePopulation(data, iso3, [from, to]) {
 }
 
 // Werte für die Weltkarte, pro Aufnahmeland.
-// Ohne Auswahl (state.origin === null): nur Neuankünfte aus Nachbarländern.
-// Mit Auswahl: nur Neuankünfte aus dem gewählten Herkunftsland (ab Schritt 5).
+// Ohne Auswahl (state.origin === null): nur neue Schutzsuchende aus Nachbarländern.
+// Mit Auswahl: nur neue Schutzsuchende aus dem gewählten Herkunftsland (ab Schritt 5).
 // Rückgabe: Map ISO-3 -> { arrivals, perThousand, topOrigins }
 export function computeMapValues(data, state) {
   const [from, to] = state.years;
@@ -105,7 +105,7 @@ export function computeMapValues(data, state) {
 
 // Werte für die Zeitachse, pro Jahr über den ganzen Zeitraum 1962–2025.
 // Ohne Auswahl: alle Herkunftsländer. Mit Auswahl: nur das gewählte Land.
-// Rückgabe: Array von { year, total, neighbours, share } (share = null ohne Neuankünfte)
+// Rückgabe: Array von { year, total, neighbours, share } (share = null ohne neue Schutzsuchende)
 export function computeTimeline(data, state, [from, to] = [1962, 2025]) {
   const total = new Map();
   const neighbours = new Map();
@@ -125,8 +125,8 @@ export function computeTimeline(data, state, [from, to] = [1962, 2025]) {
 
 // Hypothesen-Check für ein gewähltes Herkunftsland und den gewählten Zeitraum.
 // Teil 1: Nehmen die Nachbarländer pro Einwohner mehr auf als die übrige Welt?
-//   Neuankünfte in allen Nachbarländern ÷ deren Bevölkerung, verglichen mit
-//   Neuankünften in allen anderen Ländern ÷ deren Bevölkerung (je × 1000).
+//   neue Schutzsuchende in allen Nachbarländern ÷ deren Bevölkerung, verglichen mit
+//   neuen Schutzsuchenden in allen anderen Ländern ÷ deren Bevölkerung (je × 1000).
 // Teil 2: Sinkt der Anteil der Nachbarländer im Zeitraum?
 //   Der Zeitraum wird in zwei Hälften geteilt. «Sinkt» heisst: in der zweiten
 //   Hälfte mindestens 5 Prozentpunkte tiefer. Kleinere Schwankungen zählen
@@ -139,7 +139,7 @@ export function computeHypothesis(data, state) {
   const [from, to] = state.years;
   const neighbours = data.neighboursOf.get(origin) || new Set();
 
-  // Neuankünfte aus dem Herkunftsland zählen: in Nachbarländern / anderswo,
+  // Neue Schutzsuchende aus dem Herkunftsland zählen: in Nachbarländern / anderswo,
   // und für Teil 2 getrennt nach erster und zweiter Hälfte des Zeitraums
   const mid = Math.floor((from + to) / 2);
   let inNeighbours = 0;
@@ -159,7 +159,7 @@ export function computeHypothesis(data, state) {
   if (neighbours.size === 0) {
     part1 = { status: "na", reason: "hat keine Landgrenze, also keine Nachbarländer" };
   } else if (inNeighbours + elsewhere === 0) {
-    part1 = { status: "na", reason: "keine Neuankünfte im gewählten Zeitraum" };
+    part1 = { status: "na", reason: "keine neuen Schutzsuchenden im gewählten Zeitraum" };
   } else {
     let popNeighbours = 0;
     let popRest = 0;
@@ -182,7 +182,7 @@ export function computeHypothesis(data, state) {
   } else if (from === to) {
     part2 = { status: "na", reason: "Zeitraum zu kurz (mindestens 2 Jahre wählen)" };
   } else if (halves[0].total === 0 || halves[1].total === 0) {
-    part2 = { status: "na", reason: "nicht in beiden Hälften des Zeitraums Neuankünfte" };
+    part2 = { status: "na", reason: "nicht in beiden Hälften des Zeitraums neue Schutzsuchende" };
   } else {
     const shareBefore = halves[0].neighbours / halves[0].total;
     const shareAfter = halves[1].neighbours / halves[1].total;

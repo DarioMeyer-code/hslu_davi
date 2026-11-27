@@ -1,7 +1,7 @@
 // ==========================================================================
 // crises.js – Kontext-Tabelle zu grossen Fluchtbewegungen
 // Fest eingetragen sind nur Land, Zeitraum und ein kurzer Kontext.
-// Ausgewählt wurden die zehn Herkunftsländer mit den höchsten Neuankünften
+// Ausgewählt wurden die zehn Herkunftsländer mit den meisten neuen Schutzsuchenden
 // in einem einzelnen Jahr (laut flows.csv). Die Zahlen in der Tabelle werden
 // beim Laden aus den Daten berechnet.
 // ==========================================================================
@@ -20,7 +20,7 @@ export const CRISES = [
   { origin: "SDN", years: [2023, 2025], context: "Krieg im Sudan" }
 ];
 
-// Summe der Neuankünfte aus einem Herkunftsland im Zeitraum, davon in Nachbarländern
+// Summe der neuen Schutzsuchenden aus einem Herkunftsland im Zeitraum, davon in Nachbarländern
 function summarize(data, origin, [from, to]) {
   let total = 0;
   let neighbours = 0;

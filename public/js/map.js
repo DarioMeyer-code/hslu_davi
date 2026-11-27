@@ -42,7 +42,7 @@ export function createMap(container, legendContainer, data, onCountryClick) {
   const svg = d3.select(container).append("svg")
     .attr("viewBox", `0 0 ${WIDTH} ${HEIGHT}`)
     .attr("role", "img")
-    .attr("aria-label", "Weltkarte: Neuankünfte von Geflüchteten pro 1000 Einwohner");
+    .attr("aria-label", "Weltkarte: Neue Schutzsuchende pro 1000 Einwohner");
 
   // Schraffur für das gewählte Herkunftsland (Textur statt zusätzlicher Farbe)
   svg.append("defs").append("pattern")
@@ -173,11 +173,11 @@ function showTooltip(tooltip, container, event, feature, values, state, data) {
       : "Keine Daten";
     tooltip.append("div").attr("class", "tooltip-muted").text(note);
   } else if (entry.arrivals === 0) {
-    tooltip.append("div").text(`Keine Neuankünfte ${source}, ${period}`);
+    tooltip.append("div").text(`Keine neuen Schutzsuchenden ${source}, ${period}`);
   } else {
     tooltip.append("div").attr("class", "tooltip-value")
       .text(`${formatRate(entry.perThousand)} pro 1000 Einwohner`);
-    tooltip.append("div").text(`${formatCount(entry.arrivals)} Neuankünfte ${source}, ${period}`);
+    tooltip.append("div").text(`${formatCount(entry.arrivals)} neue Schutzsuchende ${source}, ${period}`);
     if (!state.origin) {
       // nur Herkunftsländer ab 1 %, sonst stünde dort «0 %»
       const top = entry.topOrigins

@@ -24,7 +24,7 @@ KONTROLLBERICHT Datenaufbereitung
 5. Bevölkerung
    Länder: 215, Jahre 1962–2025
    entfernte Aggregate/ungültige Codes: 49
-   Neuankünfte in Aufnahmeländern ohne Bevölkerungszahl: 2'127 (0.00%)
+   Neue Schutzsuchende in Aufnahmeländern ohne Bevölkerungszahl: 2'127 (0.00%)
    GUF: 2'090
    AIA: 37
 
@@ -53,7 +53,7 @@ KONTROLLBERICHT Datenaufbereitung
    2020er: 46%
 
    Anteil Nachbarländer nach Jahrzehnt: alle Kategorien / ohne Asylgesuche (ASY, ASR)
-   und Anteil der Asylgesuche an allen Neuankünften (Erfassungsbruch, siehe Datenseite)
+   und Anteil der Asylgesuche an allen neuen Schutzsuchenden (Erfassungsbruch, siehe Datenseite)
    1960er: 64% / 64%   (Asylgesuche 0%)
    1970er: 84% / 88%   (Asylgesuche 5%)
    1980er: 81% / 91%   (Asylgesuche 12%)
@@ -62,10 +62,10 @@ KONTROLLBERICHT Datenaufbereitung
    2010er: 60% / 89%   (Asylgesuche 42%)
    2020er: 46% / 63%   (Asylgesuche 44%)
 
-   LBN 2013: 740'865 Neuankünfte, 129.0 pro 1000 Einwohner
-   CHE 2013: 19'031 Neuankünfte, 2.4 pro 1000 Einwohner
-   DEU 2013: 107'113 Neuankünfte, 1.3 pro 1000 Einwohner
-   MKD 1999: 355'000 Neuankünfte, 176.0 pro 1000 Einwohner
+   LBN 2013: 740'865 neue Schutzsuchende, 129.0 pro 1000 Einwohner
+   CHE 2013: 19'031 neue Schutzsuchende, 2.4 pro 1000 Einwohner
+   DEU 2013: 107'113 neue Schutzsuchende, 1.3 pro 1000 Einwohner
+   MKD 1999: 355'000 neue Schutzsuchende, 176.0 pro 1000 Einwohner
    SYR 2013 in Nachbarländern (IRQ, ISR, JOR, LBN, TUR): 15.4 pro 1000; Rest der Welt: 0.03 pro 1000
    UKR: Anteil Nachbarländer alle Jahre 44%, ab 2015 42%
    VEN: Anteil Nachbarländer alle Jahre 44%, ab 2015 45%

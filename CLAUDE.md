@@ -73,17 +73,17 @@ Ausserdem: (Farb-)Legenden nicht vergessen.
 
 ## Unser Projekt
 
-**Titel:** Nachbarländer als Hauptaufnahmeländer? Neuankünfte von Geflüchteten 1962–2025
+**Titel:** Nachbarländer als Hauptaufnahmeländer? Neue Schutzsuchende 1962–2025
 
 **Forschungsfrage:** Nehmen Nachbarländer bei grossen Fluchtbewegungen im Verhältnis zu ihrer Bevölkerung mehr Geflüchtete auf als weiter entfernte Länder, und wie hat sich das seit 1962 verändert?
 
-**Hypothese:** Nachbarländer nehmen pro Einwohner am meisten auf. Ihr Anteil an den Neuankünften nimmt über die Jahrzehnte aber ab, es fliehen also mehr Menschen weiter weg.
+**Hypothese:** Nachbarländer nehmen pro Einwohner am meisten auf. Ihr Anteil an den neuen Schutzsuchenden nimmt über die Jahrzehnte aber ab, es fliehen also mehr Menschen weiter weg.
 
 **Begriffe**
-- *Neuankünfte:* Menschen, die in einem Jahr neu in einem Land ankommen (Flow), nicht alle, die dort leben (Bestand). Die oft zitierten «2 von 3 Geflüchteten leben in einem Nachbarland» (UNHCR Global Trends) beziehen sich auf den Bestand. Nicht verwechseln.
+- *Neue Schutzsuchende* (bis 27.11.2026 «Neuankünfte»; umbenannt, weil «Neuankünfte» nach allen Ankommenden inkl. Migration klingt): Menschen, die in einem Jahr in einem Land neu als Schutzsuchende erfasst werden (alle sieben UNHCR-Kategorien, Asylgesuche unabhängig vom Entscheid; gezählt im Jahr der Erfassung, nicht der Einreise). Keine Migration aus anderen Gründen, keine Binnenvertriebenen, nicht alle, die dort leben (Bestand). Code-Variablen heissen weiterhin `arrivals`. Die oft zitierten «2 von 3 Geflüchteten leben in einem Nachbarland» (UNHCR Global Trends) beziehen sich auf den Bestand. Nicht verwechseln.
 - *Nachbarland:* Aufnahmeland mit gemeinsamer Landgrenze zum Herkunftsland (laut GeoDataSource). Bhutan → Nepal zählt damit nicht als Nachbar, obwohl die Länder nah beieinander liegen. Das ist bewusst so und muss auf der Website begründet werden.
-- *Pro 1000 Einwohner:* Neuankünfte ÷ Bevölkerung des Aufnahmelands × 1000. Absolute Zahlen würden grosse Länder immer stärker belastet aussehen lassen.
-- *Anteil in Nachbarländern* (Herkunftsland H, Zeitraum T): Neuankünfte aus H in Nachbarländern von H ÷ alle Neuankünfte aus H.
+- *Pro 1000 Einwohner:* Neue Schutzsuchende ÷ Bevölkerung des Aufnahmelands × 1000. Absolute Zahlen würden grosse Länder immer stärker belastet aussehen lassen.
+- *Anteil in Nachbarländern* (Herkunftsland H, Zeitraum T): Neue Schutzsuchende aus H in Nachbarländern von H ÷ alle neuen Schutzsuchenden aus H.
 
 **Zielgruppe:** interessierte Laien, die Nachrichten über Flucht verfolgen. Nebenzielgruppe: Studierende, Lehrpersonen, Journalisten, eventuell Politik und Hilfswerke.
 
@@ -95,13 +95,13 @@ Ausserdem: (Farb-)Legenden nicht vergessen.
 2. **Top-10-Liste wegnehmen.**
 3. **Verhalten der Herkunftsländer miteinander vergleichbar machen.**
 
-Umsetzung: Punkt 1 und 2 werden umgesetzt (Karte startet mit «Neuankünfte aus Nachbarländern», Top 10 entfällt). **Punkt 3 lassen wir vorerst weg** und prüfen ihn allenfalls später nochmals (Idee dafür siehe «Zurückgestellt» im Visualisierungskonzept).
+Umsetzung: Punkt 1 und 2 werden umgesetzt (Karte startet mit «Neue Schutzsuchende aus Nachbarländern», Top 10 entfällt). **Punkt 3 lassen wir vorerst weg** und prüfen ihn allenfalls später nochmals (Idee dafür siehe «Zurückgestellt» im Visualisierungskonzept).
 
 ## Daten
 
 | Datensatz | Inhalt | Fundort | Lizenz |
 |---|---|---|---|
-| UNHCR Forced Displacement Flows | Neuankünfte pro Jahr × Herkunftsland × Aufnahmeland × Kategorie, 1962–2025. Im Repo: `Projekt/Data/UNHCR_Flow_Data.xlsx`, Blatt `DATA`, 108'879 Zeilen, Stand 11.6.2026 | UNHCR Refugee Data Finder; auch R-Paket `refugees`: https://github.com/PopulationStatistics/refugees | CC BY 4.0 |
+| UNHCR Forced Displacement Flows | Neue Schutzsuchende pro Jahr × Herkunftsland × Aufnahmeland × Kategorie, 1962–2025. Im Repo: `Projekt/Data/UNHCR_Flow_Data.xlsx`, Blatt `DATA`, 108'879 Zeilen, Stand 11.6.2026 | UNHCR Refugee Data Finder; auch R-Paket `refugees`: https://github.com/PopulationStatistics/refugees | CC BY 4.0 |
 | World Bank «Population, total» (`SP.POP.TOTL`) | Bevölkerung pro Land und Jahr, 1960–2025. Im Repo: `Projekt/Data/WorldBank_Population_SP.POP.TOTL.csv` | https://data.worldbank.org/indicator/SP.POP.TOTL. Heruntergeladen über die Kopie https://github.com/datasets/population (Weltbank-Website war aus der Arbeitsumgebung nicht erreichbar); mit der Weltbank-Datei im Repo abgeglichen: 770 Werte, keine Abweichung über 1 %. Auf der Website die Weltbank zitieren. | CC BY 4.0 |
 | GeoDataSource Country Borders | Länderpaare mit gemeinsamer Grenze (ISO-2), im Repo `Projekt/Data/GEODATASOURCE-COUNTRY-BORDERS.CSV` | https://github.com/geodatasource/country-borders | CC BY-SA 4.0 |
 | Weltkarte | Länderpolygone als TopoJSON (177 Länder, Massstab 1:110 Mio.). Im Repo: `Projekt/Data/countries-110m.json` | npm-Paket `world-atlas` 2.0.2 (Mike Bostock), basiert auf Natural Earth | ISC / Public Domain |
@@ -115,7 +115,7 @@ Umsetzung: Punkt 1 und 2 werden umgesetzt (Karte startet mit «Neuankünfte aus 
 
 ### Stolpersteine bei der Aufbereitung
 - **Bevölkerung:** `P_Population.zip` enthält nur die Jahre 1960, 1970 … 2020 und ist für Jahreswerte unbrauchbar. **Gelöst:** Jahresreihe 1960–2025 als `Projekt/Data/WorldBank_Population_SP.POP.TOTL.csv` (siehe Datentabelle).
-- **Kategorien (laut Blatt `Metadata` der UNHCR-Excel):** REF = Flüchtlinge · GRP = Gruppenanerkennung · TMP = vorübergehender Schutz · ROC = flüchtlingsähnliche Situation · **ASY = neue Asylgesuche** · ASR = von UNHCR registrierte Asylsuchende · OIP = andere Schutzbedürftige. Für «Neuankünfte» werden sie summiert.
+- **Kategorien (laut Blatt `Metadata` der UNHCR-Excel):** REF = Flüchtlinge · GRP = Gruppenanerkennung · TMP = vorübergehender Schutz · ROC = flüchtlingsähnliche Situation · **ASY = neue Asylgesuche** · ASR = von UNHCR registrierte Asylsuchende · OIP = andere Schutzbedürftige. Für «Neue Schutzsuchende» werden sie summiert.
 - **Erfassungsbrüche:** Asylgesuche (ASY) gibt es 1970–1999 nur für **bis zu 37 Industrieländer** (1970: 3), ab 2000 für 192 Länder. GRP ab 2000, TMP ab 2011 (nicht 2000, nachgezählt 27.11.2026), ROC ab 1990, OIP ab 2018, ASR ab 2021. Alle Brüche im Detail: siehe «Datenbrüche» unten. Weil diese Industrieländer selten Nachbarn der Herkunftsländer sind, kann der Nachbar-Anteil allein wegen der Erfassung schwanken. **Entscheid:** kein Filter nach Kategorie (alle Kategorien zählen Personen, unsere Frage ist *wo* Menschen ankommen, nicht über welches Verfahren). Stattdessen Hinweislinie bei 2000 auf der Zeitachse und Erklärung auf der Datenseite.
 - Nachgerechnete Werte zu den Erfassungsbrüchen: siehe «Nachgerechnete Befunde» unten.
 
@@ -126,10 +126,10 @@ Ein grosser Bruch (2000) und fünf kleinere. «Bruch» heisst: Die Zahlen änder
 | # | Jahr | Was | Grösse | Grund (laut Metadata) |
 |---|---|---|---|---|
 | 1 | 1962–1999 | Schleichende Ausweitung der erfassten Länder | Aufnahmeländer 1962: 4 · 1980: 60 · 1999: 76. Asylgesuche (ASY) 1970: 3 Länder, 1985: 17, 1999: 37 | Flüchtlinge aus dem historischen UNHCR-Archiv (137 Länder), Asylgesuche aus einer Publikation über Industrieländer (bis zu 37 Länder) |
-| 2 | 1990 | ROC (flüchtlingsähnliche Situation) kommt dazu | klein | neue Kategorie; nur echte Neuankünfte, keine Methodenwechsel |
-| 3 | **2000** | **Hauptbruch:** neue Quelle, Asylgesuche weltweit | Aufnahmeländer 76 → 142; ASY 37 → 137 Länder; 2000 sind 54 % der Neuankünfte Asylgesuche | Wechsel auf die jährliche offizielle Statistik (UNHCR-Datacube, 177 Länder für Flüchtlinge, 192 für Asylgesuche). REF wird ab 2000 nicht mehr geführt, sondern in GRP (Gruppenanerkennung) und später TMP aufgeteilt |
+| 2 | 1990 | ROC (flüchtlingsähnliche Situation) kommt dazu | klein | neue Kategorie; nur echte neue Schutzsuchende, keine Methodenwechsel |
+| 3 | **2000** | **Hauptbruch:** neue Quelle, Asylgesuche weltweit | Aufnahmeländer 76 → 142; ASY 37 → 137 Länder; 2000 sind 54 % der neuen Schutzsuchenden Asylgesuche | Wechsel auf die jährliche offizielle Statistik (UNHCR-Datacube, 177 Länder für Flüchtlinge, 192 für Asylgesuche). REF wird ab 2000 nicht mehr geführt, sondern in GRP (Gruppenanerkennung) und später TMP aufgeteilt |
 | 4 | 2011 | TMP (vorübergehender Schutz) als eigene Kategorie | gross bei Syrien (6,6 Mio.) und Ukraine (6,2 Mio.) | neue Kategorie; TMP in Russland 2013–2017 ausgeschlossen (sonst doppelt mit Asylstatistik) |
-| 5 | 2018 | OIP (andere Schutzbedürftige) kommt dazu | 2018: 43 % aller Neuankünfte; 98 % davon Venezuela (6,3 von 6,4 Mio.) | neue Kategorie für Menschen ohne formellen Flüchtlingsstatus, v. a. aus Venezuela |
+| 5 | 2018 | OIP (andere Schutzbedürftige) kommt dazu | 2018: 43 % aller neuen Schutzsuchenden; 98 % davon Venezuela (6,3 von 6,4 Mio.) | neue Kategorie für Menschen ohne formellen Flüchtlingsstatus, v. a. aus Venezuela |
 | 6 | 2021 | ASR (von UNHCR registrierte Asylsuchende) kommt dazu | vernachlässigbar (0,3 von 116 Mio.) | UNHCR erfasst seit 2021 Asylsuchende ohne eigenes Anerkennungsverfahren besser |
 
 **Folgen für die Auswertung**
@@ -139,22 +139,22 @@ Ein grosser Bruch (2000) und fünf kleinere. «Bruch» heisst: Die Zahlen änder
 - **Entscheid (27.11.2026):** Alle Jahre 1962–2025 behalten, nicht ab 2000 abschneiden (Frage lautet «seit 1962»; auch ab 2000 gibt es Brüche; der Bruch selbst ist ein Befund). Hauptbruch mit Hinweislinie bei 2000 markieren, übrige Brüche auf der Datenseite erwähnen.
 - Website-Text «Asylgesuche 1970–1999 für 37 Industrieländer» ist ungenau: «für bis zu 37» (1970 erst 3).
 - **Ländercodes:** UNHCR hat eigene Codes (ALG) und ISO3-Codes (DZA). Immer die ISO3-Spalten verwenden (`OriginISO`, `AsylumISO`). Die Namensspalten in der Excel-Datei sind Formeln und werden beim Einlesen mit einem Skript leer gelesen; Namen aus Blatt `T23` holen. GeoDataSource nutzt ISO2 (CH), also nach ISO3 umrechnen. Die TopoJSON-Weltkarte (world-atlas) nutzt numerische ISO-Codes (756 = Schweiz), dafür braucht es eine Zuordnungstabelle.
-- **Sonderfälle:** Kosovo ist bei UNHCR mit Serbien zusammengeführt. **Entscheid:** so übernehmen, Kosovo auf der Karte grau mit Hinweis. UNHCR-Codes ohne Land: `UKN` (unbekannte Herkunft), `STA` (staatenlos), `TIB` (Tibet), zusammen ca. 2 % der Neuankünfte. **Entscheid:** aus der Auswertung entfernen (kein Nachbarland bestimmbar), Anzahl auf der Datenseite nennen.
+- **Sonderfälle:** Kosovo ist bei UNHCR mit Serbien zusammengeführt. **Entscheid:** so übernehmen, Kosovo auf der Karte grau mit Hinweis. UNHCR-Codes ohne Land: `UKN` (unbekannte Herkunft), `STA` (staatenlos), `TIB` (Tibet), zusammen ca. 2 % der neuen Schutzsuchenden. **Entscheid:** aus der Auswertung entfernen (kein Nachbarland bestimmbar), Anzahl auf der Datenseite nennen.
 - **Weltbank:** Die Datei enthält Aggregate (World, Regionen, Einkommensgruppen). Das Skript entfernt sie (kein gültiger ISO-3-Code). Die heruntergeladene Jahresreihe enthält bereits 2025.
 - **Zahlenformat:** In der Excel-Ansicht stehen Schweizer Tausendertrennzeichen (20’000). Beim Einlesen per Skript kommen echte Zahlen an.
 - **Datenmenge:** Nach dem Zusammenzählen der Kategorien bleiben 103'502 Zeilen (Jahr × Herkunft × Aufnahme), als `flows.csv` ca. 2 MB. Das ist für den Browser in Ordnung (GitHub Pages liefert komprimiert aus). **Entscheid:** eine einzige Datei, Filtern und Summieren im Browser (`data.js`), statt vieler vorgerechneter Teildateien – einfacher zu erklären.
 - **Neu aufbauen:** Die ersten Auswertungen liefen in einer claude.ai-Sandbox. Diese CSV-Dateien existieren nicht mehr. Die Aufbereitung muss als Skript im Repo neu gebaut werden. Laut Aufgabe wäre auch Tableau Prep erlaubt.
 
 ### Nachgerechnete Befunde (`scripts/prepare_data.py`, 20.11.2026, Details in `scripts/kontrollbericht.txt`)
-- Bereinigt: 103'502 Zeilen, 113,6 Mio. Neuankünfte, 211 Herkunfts- und 189 Aufnahmeländer. Entfernt 2,5 Mio. (2,1 %): UKN 2,26 Mio., STA 0,20 Mio., TIB 11'000.
-- Über alle Jahre landen **59 %** der Neuankünfte in Nachbarländern.
+- Bereinigt: 103'502 Zeilen, 113,6 Mio. neue Schutzsuchende, 211 Herkunfts- und 189 Aufnahmeländer. Entfernt 2,5 Mio. (2,1 %): UKN 2,26 Mio., STA 0,20 Mio., TIB 11'000.
+- Über alle Jahre landen **59 %** der neuen Schutzsuchenden in Nachbarländern.
 - Anteil Nachbarländer nach Jahrzehnt, alle Kategorien / ohne Asylgesuche (Anteil Asylgesuche): 1960er 64 %/64 % (0 %) · 1970er 84 %/88 % (5 %) · 1980er 81 %/91 % (12 %) · 1990er 67 %/93 % (29 %) · 2000er 50 %/91 % (62 %) · 2010er 60 %/89 % (42 %) · 2020er 46 %/63 % (44 %). **Der sinkende Anteil hängt stark mit dem wachsenden Gewicht der Asylgesuche zusammen** (Erfassungsbruch, siehe oben). Wichtig für die Interpretation der Hypothese.
-- Libanon 2013: 740'865 Neuankünfte, **129 pro 1000** Einwohner. Zum Vergleich 2013: Schweiz 2,4, Deutschland 1,3.
-- Nordmazedonien 1999: 355'000 Neuankünfte, **176 pro 1000**.
+- Libanon 2013: 740'865 neue Schutzsuchende, **129 pro 1000** Einwohner. Zum Vergleich 2013: Schweiz 2,4, Deutschland 1,3.
+- Nordmazedonien 1999: 355'000 neue Schutzsuchende, **176 pro 1000**.
 - Syrien 2013: in den Nachbarländern (IRQ, ISR, JOR, LBN, TUR) **15,4 pro 1000**, im Rest der Welt 0,03.
 - Ukraine und Venezuela: nur **44 %** in Nachbarländern (alle Jahre), die Mehrheit ging in nicht angrenzende Länder.
-- Teil 1 der Hypothese über alle Fluchtbewegungen (ad hoc gerechnet 27.11.2026, **nicht** im Skript/Kontrollbericht): Pro Herkunftsland und Jahr mit ≥ 10'000 Neuankünften (und mindestens einem Nachbarland) Neuankünfte in Nachbarländern ÷ deren Bevölkerung gegenüber übriger Welt. Nachbarländer höher in 70 % der Fälle (857 von 1218), gewichtet nach Personen **90 %**. Vor Verwendung in Präsentation oder Website ins Skript übernehmen.
-- Datenlücken für die Karte: 28 kleine Aufnahmeländer fehlen im Massstab 1:110 Mio. (0,24 % der Neuankünfte, v. a. Hongkong, Malta, Singapur). Bevölkerung fehlt nur für Französisch-Guayana und Anguilla (2'127 Personen). Auf der Karte ohne Code: Nordzypern, Somaliland, Kosovo (grau).
+- Teil 1 der Hypothese über alle Fluchtbewegungen (ad hoc gerechnet 27.11.2026, **nicht** im Skript/Kontrollbericht): Pro Herkunftsland und Jahr mit ≥ 10'000 neuen Schutzsuchenden (und mindestens einem Nachbarland) neue Schutzsuchende in Nachbarländern ÷ deren Bevölkerung gegenüber übriger Welt. Nachbarländer höher in 70 % der Fälle (857 von 1218), gewichtet nach Personen **90 %**. Vor Verwendung in Präsentation oder Website ins Skript übernehmen.
+- Datenlücken für die Karte: 28 kleine Aufnahmeländer fehlen im Massstab 1:110 Mio. (0,24 % der neuen Schutzsuchenden, v. a. Hongkong, Malta, Singapur). Bevölkerung fehlt nur für Französisch-Guayana und Anguilla (2'127 Personen). Auf der Karte ohne Code: Nordzypern, Somaliland, Kosovo (grau).
 - 51 Länder in den Daten haben keine Landgrenze (Inseln wie Japan, Australien, Kuba): Sie können nie «Nachbarland» sein. Auf der Datenseite erwähnen.
 - Der Wertebereich pro 1000 Einwohner ist riesig. Deshalb eine Log-Skala, Grenzen aus den Daten bestimmen.
 
@@ -172,15 +172,15 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 
 **Ansicht 1 – Weltkarte (Overview)**
 - Choropleth, Natural Earth 2, ein Farbton von hell nach dunkel (ColorBrewer Blues). **Umgesetzt (Schritt 3):** feste logarithmische Klassen in Zehnerschritten (< 0.01 · 0.01–0.1 · 0.1–1 · 1–10 · 10–100 · ≥ 100, `d3.scaleThreshold`), damit eine Farbe bei jedem Zeitraum dasselbe bedeutet. Wert 0 = sehr helles Grau, keine Daten = mittleres Grau. Antarktis weggelassen. Küstenlinien fein grau, Ländergrenzen weiss.
-- **Startzustand (nichts ausgewählt, Feedback 1):** pro Aufnahmeland die Neuankünfte **aus Nachbarländern** pro 1000 Einwohner, summiert über den gewählten Zeitraum.
-- **Herkunftsland gewählt:** Neuankünfte aus diesem Land pro 1000 Einwohner. Herkunftsland eigene Markierung (z. B. Schraffur), Nachbarländer dick umrandet.
+- **Startzustand (nichts ausgewählt, Feedback 1):** pro Aufnahmeland die neuen Schutzsuchenden **aus Nachbarländern** pro 1000 Einwohner, summiert über den gewählten Zeitraum.
+- **Herkunftsland gewählt:** neue Schutzsuchende aus diesem Land pro 1000 Einwohner. Herkunftsland eigene Markierung (z. B. Schraffur), Nachbarländer dick umrandet.
 - Klick auf ein Land: als Herkunftsland wählen bzw. abwählen. Zusätzlich Auswahl per Dropdown.
 - Ländernamen auf **Deutsch** (Browser-Funktion `Intl.DisplayNames` mit ISO-2-Code, keine zusätzlichen Daten nötig).
-- Tooltip (Details on Demand): Ländername, Neuankünfte absolut und pro 1000 Einwohner, Nachbar ja/nein, wichtigste Herkunftsländer, eventuell ein Satz Kontext zur Krise.
+- Tooltip (Details on Demand): Ländername, neue Schutzsuchende absolut und pro 1000 Einwohner, Nachbar ja/nein, wichtigste Herkunftsländer, eventuell ein Satz Kontext zur Krise.
 
 **Ansicht 2 – Zeitachse (Zoom & Filter)**
-- Linie: Anteil der Neuankünfte in Nachbarländern pro Jahr, y-Achse 0–100 %. Ist ein Herkunftsland gewählt, zeigt die Linie nur dieses Land.
-- **Umgesetzt (Schritt 4):** Absolute Neuankünfte nicht als Balken hinter der Linie (das bräuchte eine zweite y-Achse), sondern als **eigenes Panel darunter mit gemeinsamer x-Achse**: gestapelte Balken «in Nachbarländern» (Blau) und «in anderen Ländern» (Grau). Begründung: keine doppelte y-Achse (zwei Skalen in einer Grafik sind schwer vergleichbar).
+- Linie: Anteil der neuen Schutzsuchenden in Nachbarländern pro Jahr, y-Achse 0–100 %. Ist ein Herkunftsland gewählt, zeigt die Linie nur dieses Land.
+- **Umgesetzt (Schritt 4):** Absolute Zahl neuer Schutzsuchender nicht als Balken hinter der Linie (das bräuchte eine zweite y-Achse), sondern als **eigenes Panel darunter mit gemeinsamer x-Achse**: gestapelte Balken «in Nachbarländern» (Blau) und «in anderen Ländern» (Grau). Begründung: keine doppelte y-Achse (zwei Skalen in einer Grafik sind schwer vergleichbar).
 - Hover mit Fadenkreuz und Tooltip (Jahr, Anteil, Anzahl). Brush rastet auf ganze Jahre ein, die Karte folgt schon während dem Ziehen; Klick ausserhalb der Auswahl = ganzer Zeitraum.
 - Dünne senkrechte Hinweislinie bei 2000: «ab 2000: Asylgesuche weltweit erfasst» (Erfassungsbruch, Tufte: Wort und Daten integrieren).
 - `d3.brushX` zur Wahl eines Zeitraums → gilt für die Karte.
@@ -194,15 +194,15 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 **Weitere Elemente**
 - Farblegende mit Log-Abstufungen und Symbol für die Nachbar-Umrandung
 - Quellenangabe direkt unter der Visualisierung (Tufte)
-- **Kontext-Tabelle (umgesetzt):** die 10 Herkunftsländer mit den meisten Neuankünften in einem Jahr (AFG, IRQ, RWA, SRB/Kosovo, SYR, SSD, VEN, MMR, UKR, SDN). Fest in `js/crises.js` stehen nur Land, Zeitraum und Kontext; Neuankünfte und Nachbar-Anteil rechnet der Browser aus den Daten. Button «anzeigen» setzt Herkunftsland und Zeitraum (inkl. Brush).
+- **Kontext-Tabelle (umgesetzt):** die 10 Herkunftsländer mit den meisten neuen Schutzsuchenden in einem Jahr (AFG, IRQ, RWA, SRB/Kosovo, SYR, SSD, VEN, MMR, UKR, SDN). Fest in `js/crises.js` stehen nur Land, Zeitraum und Kontext; neue Schutzsuchende und Nachbar-Anteil rechnet der Browser aus den Daten. Button «anzeigen» setzt Herkunftsland und Zeitraum (inkl. Brush).
 - Bewusst **keine Animation**
 - Top-10-Liste entfällt (Feedback 2)
 
 **Hypothesen-Check (umgesetzt 27.11.2026, `js/hypothesis.js`, Rechnung `computeHypothesis` in `data.js`)**
 - Kasten über der Karte. Ohne Herkunftsland nur ein Hinweis; mit Herkunftsland wird für Land und Zeitraum geprüft.
-- Teil 1 «pro Einwohner am meisten»: Neuankünfte in allen Nachbarländern ÷ deren Bevölkerung × 1000 gegenüber übriger Welt. Höher = erfüllt.
+- Teil 1 «pro Einwohner am meisten»: Neue Schutzsuchende in allen Nachbarländern ÷ deren Bevölkerung × 1000 gegenüber übriger Welt. Höher = erfüllt.
 - Teil 2 «Anteil nimmt ab»: Zeitraum in zwei Hälften; erfüllt, wenn der Nachbar-Anteil in der zweiten Hälfte mindestens 5 Prozentpunkte tiefer ist (`MIN_DROP`).
-- «nicht prüfbar»: Land ohne Landgrenze, keine Neuankünfte, Zeitraum nur 1 Jahr.
+- «nicht prüfbar»: Land ohne Landgrenze, keine neuen Schutzsuchenden, Zeitraum nur 1 Jahr.
 - Der statische Ergebnis-Kasten im Abschnitt Hintergrund wurde wieder entfernt.
 - Hinweis auf Datenbrüche (umgesetzt 27.11.2026): enthält der Zeitraum einen Bruch (1990, 2000, 2011, 2018, 2021; ein Zeitraum enthält ihn, wenn er Jahre davor und ab dem Bruchjahr umfasst) oder ist er mehrjährig vor 1999, zeigt der Kasten eine Zeile «Datenbrüche im Zeitraum: …» mit Link auf «Einschränkungen». Liste `DATA_BREAKS` in `hypothesis.js`. Der Hinweis ist allgemein und prüft nicht, ob der Bruch das gewählte Land betrifft.
 - Status-Pillen **ohne Rot/Grün** (Farbsehschwäche): «✓ erfüllt» dunkel gefüllt, «✗ nicht erfüllt» weiss mit dunklem Rand, «– nicht prüfbar» gestrichelt grau. Unterscheidung über Füllung, Symbol und Wort; Blau bleibt für «Nachbarländer» reserviert.
@@ -211,7 +211,7 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 - Beispiele (geprüft 27.11.2026): Syrien 2011–2025 beide Teile erfüllt (Teil 2: 81 % → 22 %); Venezuela 2011–2025 Teil 1 erfüllt, Teil 2 nicht (46 % → 44 %); Japan nicht prüfbar (keine Landgrenze); Syrien 1962–2025 Teil 2 nicht erfüllt (vor 1994 kaum erfasst).
 
 **Zurückgestellt (Feedback 3, allenfalls später prüfen)**
-- Idee: Streudiagramm, ein Punkt pro Herkunftsland. x = alle Neuankünfte aus diesem Land (Log-Skala), y = Anteil davon in Nachbarländern. Auswahl per Klick oder 2D-Brush, verknüpft mit Karte und Zeitachse; nur Herkunftsländer ab einer Mindestzahl Neuankünfte.
+- Idee: Streudiagramm, ein Punkt pro Herkunftsland. x = alle neuen Schutzsuchenden aus diesem Land (Log-Skala), y = Anteil davon in Nachbarländern. Auswahl per Klick oder 2D-Brush, verknüpft mit Karte und Zeitachse; nur Herkunftsländer ab einer Mindestzahl neuer Schutzsuchender.
 - Wird erst umgesetzt, wenn wir das gemeinsam entscheiden.
 
 ## Technik
@@ -262,7 +262,7 @@ Projekt/Data/             Originaldaten, unverändert
 
 **Gemeinsamer Zustand:** `state = { years: [1962, 2025], origin: null }`. Jede Interaktion ruft `setState(...)` auf, das danach `map.update(state)`, `timeline.update(state)` und `updateHypothesis(...)` aufruft.
 
-**Rechnung Karte:** Summe Neuankünfte im Zeitraum (ohne Auswahl: nur aus Nachbarländern; mit Auswahl: nur aus dem gewählten Herkunftsland) ÷ durchschnittliche Bevölkerung im Zeitraum × 1000.
+**Rechnung Karte:** Summe der neuen Schutzsuchenden im Zeitraum (ohne Auswahl: nur aus Nachbarländern; mit Auswahl: nur aus dem gewählten Herkunftsland) ÷ durchschnittliche Bevölkerung im Zeitraum × 1000.
 
 **Datenaufbereitung ausführen** (im Repo-Hauptordner):
 

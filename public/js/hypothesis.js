@@ -79,7 +79,7 @@ export function updateHypothesis(container, data, state) {
     <p class="check-title">Hypothese für ${name}, ${period(state.years)}</p>
     <div class="check-rows">
       ${row(part1.status, "Nachbarländer nehmen pro Einwohner am meisten auf", detail1)}
-      ${row(part2.status, "Ihr Anteil an den Neuankünften nimmt ab", detail2)}
+      ${row(part2.status, "Ihr Anteil an den neuen Schutzsuchenden nimmt ab", detail2)}
     </div>
     ${note}`;
 }

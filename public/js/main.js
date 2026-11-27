@@ -39,11 +39,11 @@ function render() {
 
   const name = state.origin ? countryName(data, state.origin) : null;
   document.getElementById("map-title").textContent = name
-    ? `Neuankünfte aus ${name} pro 1000 Einwohner`
-    : "Neuankünfte aus Nachbarländern pro 1000 Einwohner";
+    ? `Neue Schutzsuchende aus ${name} pro 1000 Einwohner`
+    : "Neue Schutzsuchende aus Nachbarländern pro 1000 Einwohner";
   document.getElementById("timeline-title").textContent = name
-    ? `Anteil der Neuankünfte aus ${name}, die in Nachbarländern ankamen`
-    : "Anteil der Neuankünfte in Nachbarländern pro Jahr";
+    ? `Anteil der neuen Schutzsuchenden aus ${name}, die in Nachbarländern ankamen`
+    : "Anteil der neuen Schutzsuchenden in Nachbarländern pro Jahr";
 }
 
 // Dropdown mit allen Herkunftsländern füllen, alphabetisch nach deutschem Namen

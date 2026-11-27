@@ -1,8 +1,8 @@
 // ==========================================================================
 // timeline.js – Zeitachse mit Brush
 // Zwei Panels mit gemeinsamer x-Achse (statt einer Grafik mit zwei y-Achsen):
-//   oben:  Anteil der Neuankünfte in Nachbarländern (Linie, 0–100 %)
-//   unten: absolute Neuankünfte, aufgeteilt nach Nachbarland ja/nein (Balken)
+//   oben:  Anteil der neuen Schutzsuchenden in Nachbarländern (Linie, 0–100 %)
+//   unten: absolute Zahl neuer Schutzsuchender, aufgeteilt nach Nachbarland ja/nein (Balken)
 // Mit dem Brush (Maus ziehen) wird ein Zeitraum gewählt; die Karte folgt.
 // Brush-Grundlage nach der D3-Dokumentation zu d3.brushX
 // (https://d3js.org/d3-brush) und dem Beispiel «Brush snapping»
@@ -42,7 +42,7 @@ export function createTimeline(container, legendContainer, onYearsChange) {
   const svg = d3.select(container).append("svg")
     .attr("viewBox", `0 0 ${WIDTH} ${HEIGHT}`)
     .attr("role", "img")
-    .attr("aria-label", "Zeitachse: Anteil der Neuankünfte in Nachbarländern und absolute Neuankünfte pro Jahr");
+    .attr("aria-label", "Zeitachse: Anteil der neuen Schutzsuchenden in Nachbarländern und absolute Zahl neuer Schutzsuchender pro Jahr");
 
   const root = svg.append("g").attr("transform", `translate(${MARGIN.left},${MARGIN.top})`);
   const linePanel = root.append("g");
@@ -58,7 +58,7 @@ export function createTimeline(container, legendContainer, onYearsChange) {
 
   // Beschriftung des unteren Panels (das obere ist durch den Titel beschriftet)
   barPanel.append("text").attr("class", "panel-label")
-    .attr("x", 0).attr("y", -10).text("Neuankünfte pro Jahr (absolut)");
+    .attr("x", 0).attr("y", -10).text("Neue Schutzsuchende pro Jahr (absolut)");
 
   barPanel.append("g")
     .attr("class", "axis axis-x")
@@ -136,8 +136,8 @@ export function createTimeline(container, legendContainer, onYearsChange) {
     tooltip.html("");
     tooltip.append("div").attr("class", "tooltip-title").text(d.year);
     tooltip.append("div").attr("class", "tooltip-value")
-      .text(d.share === null ? "Keine Neuankünfte" : `${formatPercent(d.share)} in Nachbarländern`);
-    tooltip.append("div").text(`${formatCount(d.neighbours)} von ${formatCount(d.total)} Neuankünften`);
+      .text(d.share === null ? "Keine neuen Schutzsuchenden" : `${formatPercent(d.share)} in Nachbarländern`);
+    tooltip.append("div").text(`${formatCount(d.neighbours)} von ${formatCount(d.total)} neuen Schutzsuchenden`);
 
     const box = container.getBoundingClientRect();
     const px = event.clientX - box.left;
@@ -185,7 +185,7 @@ export function createTimeline(container, legendContainer, onYearsChange) {
           .attr("y", yCount(d.total)).attr("height", yCount(d.neighbours) - yCount(d.total));
       });
 
-    // Oberes Panel: Linie; Jahre ohne Neuankünfte bleiben eine Lücke
+    // Oberes Panel: Linie; Jahre ohne neue Schutzsuchende bleiben eine Lücke
     const line = d3.line()
       .defined(d => d.share !== null)
       .x(d => x(d.year))
@@ -216,8 +216,8 @@ function drawLegend(legendContainer) {
   legend.html("");
   const items = [
     ["line", COLOR_LINE, "Anteil in Nachbarländern (oben)"],
-    ["rect", COLOR_NEIGHBOURS, "Neuankünfte in Nachbarländern (unten)"],
-    ["rect", COLOR_OTHERS, "Neuankünfte in anderen Ländern (unten)"]
+    ["rect", COLOR_NEIGHBOURS, "Neue Schutzsuchende in Nachbarländern (unten)"],
+    ["rect", COLOR_OTHERS, "Neue Schutzsuchende in anderen Ländern (unten)"]
   ];
   for (const [kind, color, label] of items) {
     const item = legend.append("div").attr("class", "legend-item legend-item-inline");

@@ -100,7 +100,7 @@ raw_rows = 0
 raw_total = 0
 removed = defaultdict(int)        # Code ohne gültiges Land -> Personen
 category_total = defaultdict(int)
-# Nur für den Kontrollbericht: Neuankünfte pro Jahrzehnt, getrennt nach
+# Nur für den Kontrollbericht: Neue Schutzsuchende pro Jahrzehnt, getrennt nach
 # Asylgesuchen (ASY, ASR) und allen übrigen Kategorien (Gruppenschutz).
 asylum_check = defaultdict(int)   # (jahrzehnt, "asyl"/"schutz", nachbar 0/1) -> Personen
 
@@ -237,7 +237,7 @@ for (year, origin, asylum), count in flows.items():
     if (asylum, year) not in population:
         missing_pop[asylum] += count
 missing_total = sum(missing_pop.values())
-report(f"   Neuankünfte in Aufnahmeländern ohne Bevölkerungszahl: {fmt(missing_total)} "
+report(f"   Neue Schutzsuchende in Aufnahmeländern ohne Bevölkerungszahl: {fmt(missing_total)} "
        f"({missing_total / clean_total:.2%})")
 for code, persons in sorted(missing_pop.items(), key=lambda x: -x[1])[:10]:
     report(f"   {code}: {fmt(persons)}")
@@ -278,7 +278,7 @@ def per_1000(asylum, year, origin_filter=lambda o: True):
 
 
 report("\n   Anteil Nachbarländer nach Jahrzehnt: alle Kategorien / ohne Asylgesuche (ASY, ASR)")
-report("   und Anteil der Asylgesuche an allen Neuankünften (Erfassungsbruch, siehe Datenseite)")
+report("   und Anteil der Asylgesuche an allen neuen Schutzsuchenden (Erfassungsbruch, siehe Datenseite)")
 for decade in range(1960, 2030, 10):
     g = {(grp, nb): asylum_check[(decade, grp, nb)] for grp in ("asyl", "schutz") for nb in (0, 1)}
     total = sum(g.values())
@@ -289,9 +289,9 @@ report()
 
 for code, year in [("LBN", 2013), ("CHE", 2013), ("DEU", 2013), ("MKD", 1999)]:
     arrivals, rate = per_1000(code, year)
-    report(f"   {code} {year}: {fmt(arrivals)} Neuankünfte, {rate:.1f} pro 1000 Einwohner")
+    report(f"   {code} {year}: {fmt(arrivals)} neue Schutzsuchende, {rate:.1f} pro 1000 Einwohner")
 
-# Syrien 2013: Neuankünfte pro 1000 Einwohner in Nachbarländern vs. Rest der Welt
+# Syrien 2013: Neue Schutzsuchende pro 1000 Einwohner in Nachbarländern vs. Rest der Welt
 year = 2013
 syr_nb = [a for (o, a) in neighbours if o == "SYR"]
 arr_nb = sum(c for (y, o, a), c in flows.items() if y == year and o == "SYR" and a in syr_nb)

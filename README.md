@@ -3,7 +3,7 @@
 Projektarbeit im Modul I.DAVI (Data Visualization), HSLU, Herbstsemester 2026.
 Dario Meyer und Martina Gander.
 
-Interaktive D3.js-Visualisierung der Neuankünfte von Geflüchteten 1962–2025 (UNHCR):
+Interaktive D3.js-Visualisierung zu neuen Schutzsuchenden 1962–2025 (UNHCR):
 Nehmen Nachbarländer im Verhältnis zu ihrer Bevölkerung mehr Geflüchtete auf als weiter
 entfernte Länder, und wie hat sich das seit 1962 verändert?
 

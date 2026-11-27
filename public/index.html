@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nachbarländer als Hauptaufnahmeländer?</title>
-  <meta name="description" content="Interaktive Visualisierung: Nehmen Nachbarländer im Verhältnis zu ihrer Bevölkerung mehr Geflüchtete auf als weiter entfernte Länder? Neuankünfte 1962–2025.">
+  <meta name="description" content="Interaktive Visualisierung: Nehmen Nachbarländer im Verhältnis zu ihrer Bevölkerung mehr Geflüchtete auf als weiter entfernte Länder? Neue Schutzsuchende 1962–2025.">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -30,7 +30,7 @@
     <section id="start" class="section section-start">
       <p class="eyebrow">Projekt I.DAVI · HSLU · 2026</p>
       <h1>Nachbarländer als Hauptaufnahmeländer?</h1>
-      <p class="subtitle">Neuankünfte von Geflüchteten 1962–2025</p>
+      <p class="subtitle">Neue Schutzsuchende 1962–2025</p>
       <p class="lead">
         Nehmen Nachbarländer bei grossen Fluchtbewegungen im Verhältnis zu ihrer
         Bevölkerung mehr Geflüchtete auf als weiter entfernte Länder, und wie hat
@@ -60,7 +60,7 @@
       <div class="controls">
         <label for="origin-select">Herkunftsland</label>
         <select id="origin-select" disabled>
-          <option value="">Alle (Neuankünfte aus Nachbarländern)</option>
+          <option value="">Alle (neue Schutzsuchende aus Nachbarländern)</option>
         </select>
         <span class="period">Zeitraum: <strong id="period-label">1962–2025</strong></span>
         <button id="reset-button" type="button" disabled>Zurücksetzen</button>
@@ -71,8 +71,8 @@
 
       <!-- Ansicht 1: Weltkarte (gezeichnet von js/map.js) -->
       <figure class="view">
-        <figcaption class="view-title" id="map-title">Neuankünfte aus Nachbarländern pro 1000 Einwohner</figcaption>
-        <p class="view-subtitle">Summe der Neuankünfte im gewählten Zeitraum ÷ durchschnittliche Bevölkerung des Aufnahmelands × 1000. Klick auf ein Land wählt es als Herkunftsland.</p>
+        <figcaption class="view-title" id="map-title">Neue Schutzsuchende aus Nachbarländern pro 1000 Einwohner</figcaption>
+        <p class="view-subtitle">Summe der neuen Schutzsuchenden im gewählten Zeitraum ÷ durchschnittliche Bevölkerung des Aufnahmelands × 1000. Klick auf ein Land wählt es als Herkunftsland.</p>
         <div id="map" class="chart chart-map">
           <p class="loading">Daten werden geladen …</p>
         </div>
@@ -81,7 +81,7 @@
 
       <!-- Ansicht 2: Zeitachse mit Brush (gezeichnet von js/timeline.js) -->
       <figure class="view">
-        <figcaption class="view-title" id="timeline-title">Anteil der Neuankünfte in Nachbarländern pro Jahr</figcaption>
+        <figcaption class="view-title" id="timeline-title">Anteil der neuen Schutzsuchenden in Nachbarländern pro Jahr</figcaption>
         <p class="view-subtitle">Mit der Maus einen Zeitraum aufziehen, um die Karte darauf zu filtern. Klick ausserhalb der Auswahl = ganzer Zeitraum.</p>
         <div id="timeline" class="chart chart-timeline"></div>
         <div id="timeline-legend" class="legend" aria-label="Legende der Zeitachse"></div>
@@ -95,7 +95,7 @@
 
       <h3>Kontext zu grossen Fluchtbewegungen</h3>
       <p>
-        Die zehn Herkunftsländer mit den meisten Neuankünften in einem einzelnen Jahr.
+        Die zehn Herkunftsländer mit den meisten neuen Schutzsuchenden in einem einzelnen Jahr.
         «anzeigen» stellt Land und Zeitraum in Karte und Zeitachse ein.
       </p>
       <div class="table-wrap">
@@ -105,7 +105,7 @@
               <th>Herkunftsland</th>
               <th>Zeitraum</th>
               <th>Kontext</th>
-              <th class="number">Neuankünfte</th>
+              <th class="number">Neue Schutzsuchende</th>
               <th class="number">davon in Nachbarländern</th>
               <th><span class="visually-hidden">Aktion</span></th>
             </tr>
@@ -130,17 +130,20 @@
       <h3>Hypothese</h3>
       <p>
         Nachbarländer nehmen pro Einwohner am meisten auf. Ihr Anteil an den
-        Neuankünften nimmt über die Jahrzehnte aber ab, es fliehen also mehr
+        neuen Schutzsuchenden nimmt über die Jahrzehnte aber ab, es fliehen also mehr
         Menschen weiter weg.
       </p>
 
       <h3>Begriffe</h3>
       <dl class="terms">
-        <dt>Neuankünfte</dt>
+        <dt>Neue Schutzsuchende</dt>
         <dd>
-          Menschen, die in einem Jahr neu in einem Land ankommen (Flow). Nicht gemeint sind
-          alle Geflüchteten, die dort leben (Bestand). Die Aussage «zwei Drittel leben in
-          einem Nachbarland» bezieht sich auf den Bestand, unsere Zahlen auf die Neuankünfte.
+          Menschen, die in einem Jahr in einem Land neu als Schutzsuchende erfasst werden
+          (Flow): neu anerkannte Flüchtlinge, Personen mit vorübergehendem Schutz, neue
+          Asylgesuche und weitere Schutzbedürftige. Nicht gemeint sind Migration aus anderen
+          Gründen und alle Geflüchteten, die schon länger dort leben (Bestand). Die Aussage
+          «zwei Drittel leben in einem Nachbarland» bezieht sich auf den Bestand, unsere Zahlen
+          auf die neuen Schutzsuchenden.
         </dd>
         <dt>Nachbarland</dt>
         <dd>
@@ -150,7 +153,7 @@
         </dd>
         <dt>Pro 1000 Einwohner</dt>
         <dd>
-          Neuankünfte geteilt durch die Bevölkerung des Aufnahmelands, mal 1000. Absolute
+          Neue Schutzsuchende geteilt durch die Bevölkerung des Aufnahmelands, mal 1000. Absolute
           Zahlen würden grosse Länder immer stärker betroffen aussehen lassen.
         </dd>
       </dl>
@@ -195,7 +198,7 @@
             <tr>
               <td><a href="https://www.unhcr.org/refugee-statistics/">Forced Displacement Flows</a></td>
               <td>UNHCR, Flüchtlingshilfswerk der UNO (Genf)</td>
-              <td>Neuankünfte pro Jahr, Herkunfts- und Aufnahmeland und Kategorie, 1962–2025; 108'879 Zeilen; Stand 11.6.2026</td>
+              <td>Neue Schutzsuchende pro Jahr, Herkunfts- und Aufnahmeland und Kategorie, 1962–2025; 108'879 Zeilen; Stand 11.6.2026</td>
               <td>CC BY 4.0</td>
             </tr>
             <tr>
@@ -239,8 +242,8 @@
         Aufnahmeland zusammen. Danach rechnet es die Ländercodes der drei Quellen ineinander
         um und markiert jede Strecke als Nachbarland ja oder nein. Entfernt wurden Einträge
         ohne bestimmbares Land: unbekannte Herkunft, Staatenlose und Tibet, zusammen rund
-        2,5 Millionen Personen oder 2,1 % aller Neuankünfte. Übrig bleiben 103'502 Zeilen mit
-        113,6 Millionen Neuankünften. Die Website rechnet daraus im Browser alle Werte für den
+        2,5 Millionen Personen oder 2,1 % aller neuen Schutzsuchenden. Übrig bleiben 103'502 Zeilen mit
+        113,6 Millionen neuen Schutzsuchenden. Die Website rechnet daraus im Browser alle Werte für den
         gewählten Zeitraum und das gewählte Herkunftsland.
       </p>
 
@@ -299,7 +302,7 @@
         <li>
           <strong>Kosovo</strong> ist bei UNHCR Serbien zugeordnet und erscheint auf der Karte
           grau. Kleine Länder wie Malta oder Singapur fehlen auf der Weltkarte (zusammen 0,24 %
-          der Neuankünfte), sind in den Berechnungen aber enthalten.
+          der neuen Schutzsuchenden), sind in den Berechnungen aber enthalten.
         </li>
         <li>
           Die Daten zeigen, wo Menschen ankommen, aber nicht, ob sie später weiterziehen
@@ -373,7 +376,7 @@
 
       <h3>Erkenntnisse aus unseren Daten</h3>
       <ul>
-        <li>Über alle Jahre kamen 59 % der Neuankünfte in Nachbarländern an.</li>
+        <li>Über alle Jahre kamen 59 % der neuen Schutzsuchenden in Nachbarländern an.</li>
         <li>
           Der Anteil sank von 84 % (1970er) auf 46 % (2020er). Ohne neue Asylgesuche lag er
           von den 1970er- bis in die 2010er-Jahre aber bei 88–93 %. Der Rückgang hängt also
@@ -391,7 +394,7 @@
           im Rest der Welt 0,03.
         </li>
         <li>
-          Ukraine und Venezuela sind Ausnahmen: Nur 44 % der Neuankünfte gingen in
+          Ukraine und Venezuela sind Ausnahmen: Nur 44 % der neuen Schutzsuchenden gingen in
           Nachbarländer.
         </li>
       </ul>
@@ -405,7 +408,7 @@
         </li>
         <li>
           UNHCR: <a href="https://www.unhcr.org/refugee-statistics/">Refugee Data Finder</a>.
-          Quelle unserer Daten zu den Neuankünften, mit Erläuterungen zur Methodik.
+          Quelle unserer Daten zu den neuen Schutzsuchenden, mit Erläuterungen zur Methodik.
         </li>
         <li>
           Ipsos (2022): Umfrage zum Weltflüchtlingstag in 28 Ländern, <a href="https://www.ipsos.com/">ipsos.com</a>.
