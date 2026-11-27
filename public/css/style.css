@@ -603,66 +603,61 @@ th.number {
 }
 
 /* ==========================================================================
-   Hypothese mit Ergebnis (Abschnitt Hintergrund)
+   Hypothesen-Check über der Karte (js/hypothesis.js)
    Status mit Symbol und Wort, damit er nicht nur über die Farbe lesbar ist.
    ========================================================================== */
-.hypothesis {
+.hypothesis-check {
+  margin: 0 0 1.5rem;
+  padding: 0.75rem 1rem;
   background: var(--surface);
   border-left: 4px solid var(--accent);
   border-radius: 4px;
-  padding: 1rem 1.25rem;
-  margin: 0.5rem 0 1.5rem;
+  font-size: 0.95rem;
 }
 
-.hypothesis-text {
-  margin: 0 0 1rem;
-  font-style: italic;
+/* Kein Blocksatz in den kurzen Zeilen des Kastens */
+.section .hypothesis-check p {
+  text-align: left;
 }
 
-.hypothesis-checks {
-  list-style: none;
+.hypothesis-check .check-title {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.hypothesis-check .check-hint {
   margin: 0;
-  padding: 0;
+  color: var(--text-muted);
 }
 
-.hypothesis-checks li {
+.check-rows {
   display: grid;
-  grid-template-columns: 11rem 1fr;
-  gap: 0.75rem;
-  align-items: start;
-  padding: 0.6rem 0;
-  border-top: 1px solid var(--border);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1.5rem;
+}
+
+.check-row p {
+  margin: 0.25rem 0 0;
+  color: var(--text-muted);
+  line-height: 1.45;
 }
 
 .status {
   display: inline-block;
-  padding: 0.1rem 0.6rem;
+  padding: 0.05rem 0.55rem;
+  margin-right: 0.4rem;
   border-radius: 999px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   white-space: nowrap;
-  justify-self: start;   /* Pille nur so breit wie der Text */
 }
 
-.status-yes {
-  background: #e3f1e6;
-  color: #1e6b34;
-}
+.status-yes  { background: #e3f1e6; color: #1e6b34; }
+.status-no   { background: #fbe4e4; color: #a12626; }
+.status-na   { background: #e8ebee; color: var(--text-muted); }
 
-.status-partly {
-  background: #fdf0d9;
-  color: #8a5a00;
-}
-
-.hypothesis-verdict {
-  margin: 0.5rem 0 0;
-  padding-top: 0.6rem;
-  border-top: 1px solid var(--border);
-}
-
-@media (max-width: 600px) {
-  .hypothesis-checks li {
+@media (max-width: 700px) {
+  .check-rows {
     grid-template-columns: 1fr;
-    gap: 0.3rem;
   }
 }

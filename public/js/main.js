@@ -6,6 +6,7 @@ import { createMap } from "./map.js";
 import { createTimeline } from "./timeline.js";
 import { countryName } from "./format.js";
 import { renderCrisesTable } from "./crises.js";
+import { updateHypothesis } from "./hypothesis.js";
 
 // Gemeinsamer Zustand aller Ansichten (Brushing & Linking):
 // Zeitraum und gewähltes Herkunftsland (null = keins gewählt).
@@ -29,6 +30,7 @@ function setState(changes) {
 function render() {
   map.update(state, computeMapValues(data, state));
   timeline.update(state, computeTimeline(data, state));
+  updateHypothesis(document.getElementById("hypothesis-check"), data, state);
 
   // Bedienleiste und Titel an den Zustand anpassen
   const [from, to] = state.years;
