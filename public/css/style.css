@@ -652,9 +652,11 @@ th.number {
   white-space: nowrap;
 }
 
-.status-yes  { background: #e3f1e6; color: #1e6b34; }
-.status-no   { background: #fbe4e4; color: #a12626; }
-.status-na   { background: #e8ebee; color: var(--text-muted); }
+/* Kein Rot/Grün (Farbsehschwäche): Status über Füllung, Symbol und Wort,
+   nicht über den Farbton. Ausserdem bleibt Blau für «Nachbarländer» reserviert. */
+.status-yes  { background: var(--text); color: #ffffff; border: 1px solid var(--text); }
+.status-no   { background: #ffffff; color: var(--text); border: 1px solid var(--text); }
+.status-na   { background: transparent; color: var(--text-muted); border: 1px dashed var(--text-muted); }
 
 @media (max-width: 700px) {
   .check-rows {
