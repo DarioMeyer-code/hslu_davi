@@ -1,6 +1,6 @@
 # CLAUDE.md – DAVI-Projekt «Nachbarländer als Hauptaufnahmeländer?»
 
-Kontext für Claude Code. Stand: 20. November 2026. Zusammengefasst aus den bisherigen Chats im
+Kontext für Claude Code. Stand: 27. November 2026. Zusammengefasst aus den bisherigen Chats im
 claude.ai-Projekt «DAVI», ergänzt um das Proposal-Feedback und den Abgleich mit den Dateien im Repo.
 
 ## Wie wir zusammenarbeiten (wichtig)
@@ -25,7 +25,8 @@ claude.ai-Projekt «DAVI», ergänzt um das Proposal-Feedback und den Abgleich m
 | `Slides_Dozent/` | Vorlesungsfolien 00–04 und Tufte-Kapitel (Scan aus «Beautiful Evidence») |
 | `module-I.BA_DAVI.18-de.pdf` | Modulbeschreibung (Projektarbeit = 100 % der Note) |
 | `public/` | Website (wird deployt): alle Abschnitte mit Texten, Visualisierung, Daten in `public/data/` |
-| `Projekt/Praesentation/Ablauf_Praesentation.md` | Ablauf der 5-Minuten-Präsentation (Entwurf) |
+| `Projekt/Praesentation/Ablauf_Praesentation.md` | Ablauf der 5-Minuten-Präsentation (Entwurf, Stand 27.11.2026) |
+| `README.md` | Kurzbeschreibung des Repos, lokal starten |
 | `CLAUDE.md` | Dieses Dokument |
 
 ## Modul und Aufgabe
@@ -152,6 +153,7 @@ Ein grosser Bruch (2000) und fünf kleinere. «Bruch» heisst: Die Zahlen änder
 - Nordmazedonien 1999: 355'000 Neuankünfte, **176 pro 1000**.
 - Syrien 2013: in den Nachbarländern (IRQ, ISR, JOR, LBN, TUR) **15,4 pro 1000**, im Rest der Welt 0,03.
 - Ukraine und Venezuela: nur **44 %** in Nachbarländern (alle Jahre), die Mehrheit ging in nicht angrenzende Länder.
+- Teil 1 der Hypothese über alle Fluchtbewegungen (ad hoc gerechnet 27.11.2026, **nicht** im Skript/Kontrollbericht): Pro Herkunftsland und Jahr mit ≥ 10'000 Neuankünften (und mindestens einem Nachbarland) Neuankünfte in Nachbarländern ÷ deren Bevölkerung gegenüber übriger Welt. Nachbarländer höher in 70 % der Fälle (857 von 1218), gewichtet nach Personen **90 %**. Vor Verwendung in Präsentation oder Website ins Skript übernehmen.
 - Datenlücken für die Karte: 28 kleine Aufnahmeländer fehlen im Massstab 1:110 Mio. (0,24 % der Neuankünfte, v. a. Hongkong, Malta, Singapur). Bevölkerung fehlt nur für Französisch-Guayana und Anguilla (2'127 Personen). Auf der Karte ohne Code: Nordzypern, Somaliland, Kosovo (grau).
 - 51 Länder in den Daten haben keine Landgrenze (Inseln wie Japan, Australien, Kuba): Sie können nie «Nachbarland» sein. Auf der Datenseite erwähnen.
 - Der Wertebereich pro 1000 Einwohner ist riesig. Deshalb eine Log-Skala, Grenzen aus den Daten bestimmen.
@@ -203,7 +205,10 @@ Zwei Ansichten auf **einer** Seite mit einem gemeinsamen Zustand: **Zeitraum** u
 - «nicht prüfbar»: Land ohne Landgrenze, keine Neuankünfte, Zeitraum nur 1 Jahr.
 - Der statische Ergebnis-Kasten im Abschnitt Hintergrund wurde wieder entfernt.
 - Hinweis auf Datenbrüche (umgesetzt 27.11.2026): enthält der Zeitraum einen Bruch (1990, 2000, 2011, 2018, 2021; ein Zeitraum enthält ihn, wenn er Jahre davor und ab dem Bruchjahr umfasst) oder ist er mehrjährig vor 1999, zeigt der Kasten eine Zeile «Datenbrüche im Zeitraum: …» mit Link auf «Einschränkungen». Liste `DATA_BREAKS` in `hypothesis.js`. Der Hinweis ist allgemein und prüft nicht, ob der Bruch das gewählte Land betrifft.
+- Status-Pillen **ohne Rot/Grün** (Farbsehschwäche): «✓ erfüllt» dunkel gefüllt, «✗ nicht erfüllt» weiss mit dunklem Rand, «– nicht prüfbar» gestrichelt grau. Unterscheidung über Füllung, Symbol und Wort; Blau bleibt für «Nachbarländer» reserviert.
 - Datenseite, Einschränkungen (`#einschraenkungen`): Tabelle aller Datenbrüche (Jahr, Änderung, Wirkung).
+- Leseanleitung über der Visualisierung hat einen Punkt «Hypothese prüfen».
+- Beispiele (geprüft 27.11.2026): Syrien 2011–2025 beide Teile erfüllt (Teil 2: 81 % → 22 %); Venezuela 2011–2025 Teil 1 erfüllt, Teil 2 nicht (46 % → 44 %); Japan nicht prüfbar (keine Landgrenze); Syrien 1962–2025 Teil 2 nicht erfüllt (vor 1994 kaum erfasst).
 
 **Zurückgestellt (Feedback 3, allenfalls später prüfen)**
 - Idee: Streudiagramm, ein Punkt pro Herkunftsland. x = alle Neuankünfte aus diesem Land (Log-Skala), y = Anteil davon in Nachbarländern. Auswahl per Klick oder 2D-Brush, verknüpft mit Karte und Zeitachse; nur Herkunftsländer ab einer Mindestzahl Neuankünfte.
@@ -235,6 +240,7 @@ public/
     format.js             Zahlenformat (Schweiz) und deutsche Ländernamen
     timeline.js           Zeitachse: Linie, Balken, Brush, Hinweislinie 2000
     crises.js             Kontext-Tabelle zu den 10 grössten Fluchtbewegungen
+    hypothesis.js         Hypothesen-Check über der Karte, Hinweis auf Datenbrüche
   lib/
     d3.v7.min.js          D3 v7.9.0
     d3-geo-projection.min.js   für Natural Earth 2 (v4.0.0)
@@ -254,7 +260,7 @@ scripts/
 Projekt/Data/             Originaldaten, unverändert
 ```
 
-**Gemeinsamer Zustand:** `state = { years: [1962, 2025], origin: null }`. Jede Interaktion ruft `setState(...)` auf, das danach `map.update(state)` und `timeline.update(state)` aufruft.
+**Gemeinsamer Zustand:** `state = { years: [1962, 2025], origin: null }`. Jede Interaktion ruft `setState(...)` auf, das danach `map.update(state)`, `timeline.update(state)` und `updateHypothesis(...)` aufruft.
 
 **Rechnung Karte:** Summe Neuankünfte im Zeitraum (ohne Auswahl: nur aus Nachbarländern; mit Auswahl: nur aus dem gewählten Herkunftsland) ÷ durchschnittliche Bevölkerung im Zeitraum × 1000.
 
@@ -274,10 +280,15 @@ python3 scripts/prepare_data.py
 - [ ] Noch bestätigen: Nachbarland = gemeinsame Grenze (bisher ja), Start 1962 (bisher ja), wie viel Kontext pro Krise
 - [ ] Klären, ob die Nutzung von KI-Tools im Projekt deklariert werden muss. **Vorläufig:** ein Satz zur KI-Nutzung steht in den Referenzen (unter «Verwendeter Code»); bei Bedarf anpassen oder entfernen.
 - [ ] Texte auf der Website gegenlesen und in eigene Worte bringen, besonders den Designtext (muss mündlich verteidigt werden)
+- [ ] Designtext ergänzen (Zeichenlimit 2500–3500 beachten): Hypothesen-Check unter «Interaction Concept» bzw. «Tasks», Status ohne Rot/Grün unter «Human Perception»
+- [ ] Schwelle 5 Prozentpunkte (`MIN_DROP`) für Teil 2 gemeinsam bestätigen
+- [ ] Allenfalls: Hinweis auf Datenbrüche nur bei Brüchen zeigen, die das gewählte Land betreffen (heute allgemein)
+- [ ] Pages-Deploy: «No artifacts named github-pages» am 27.11.2026 → «Re-run all jobs». Falls wiederholt: Log von `upload-pages-artifact` prüfen; mögliche Ursache Node 20 bei `upload-pages-artifact@v3` (Wechsel auf `@v4`, nur nach Rücksprache)
+- [ ] Beim Committen neue Dateien mit `git add` aufnehmen (`git commit -a` nimmt sie nicht mit; so fehlte am 27.11. `hypothesis.js` und die Seite blieb bei «Daten werden geladen …» stehen)
 
 ## Mögliche Reihenfolge (Vorschlag, nur nach Absprache abarbeiten)
 
-Stand 20.11.2026: Schritte 1–7 erledigt (Prototyp, Kontext-Tabelle, alle Texte als Entwurf, Ablauf der Präsentation). Offen: Texte gegenlesen, Präsentationsfolien erstellen, Feinschliff, Abgabe.
+Stand 27.11.2026: Schritte 1–7 erledigt (Prototyp, Kontext-Tabelle, alle Texte als Entwurf, Ablauf der Präsentation), dazu Hypothesen-Check und Dokumentation der Datenbrüche. Offen: Texte gegenlesen, Designtext ergänzen, Präsentationsfolien erstellen, Feinschliff, Abgabe.
 
 1. Skript für die Datenaufbereitung schreiben, Kontrollbericht gemeinsam prüfen, Befunde nachrechnen
 2. `public/index.html` mit allen Abschnitten und Anker-Navigation anlegen
