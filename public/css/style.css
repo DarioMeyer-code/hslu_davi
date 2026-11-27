@@ -601,3 +601,68 @@ th.number {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* ==========================================================================
+   Hypothese mit Ergebnis (Abschnitt Hintergrund)
+   Status mit Symbol und Wort, damit er nicht nur über die Farbe lesbar ist.
+   ========================================================================== */
+.hypothesis {
+  background: var(--surface);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.hypothesis-text {
+  margin: 0 0 1rem;
+  font-style: italic;
+}
+
+.hypothesis-checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hypothesis-checks li {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.status {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  justify-self: start;   /* Pille nur so breit wie der Text */
+}
+
+.status-yes {
+  background: #e3f1e6;
+  color: #1e6b34;
+}
+
+.status-partly {
+  background: #fdf0d9;
+  color: #8a5a00;
+}
+
+.hypothesis-verdict {
+  margin: 0.5rem 0 0;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+  .hypothesis-checks li {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+}
